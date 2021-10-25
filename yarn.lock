@@ -1897,16 +1897,7 @@
     "hoist-non-react-statics" "^3.3.0"
     "redux" "^4.0.0"
 
-"@types/react@*":
-  "integrity" "sha512-3Dt/A8gd3TCXi2aRe84y7cK1K8G+N9CZRDG8kDGguOKa0kf/ZkSwTmVIDPsm/KbQOVMaDJXwhBtuOXxqwdpWVg=="
-  "resolved" "https://registry.npmjs.org/@types/react/-/react-17.0.30.tgz"
-  "version" "17.0.30"
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    "csstype" "^3.0.2"
-
-"@types/react@^16.7.20":
+"@types/react@*", "@types/react@^16.7.20":
   "integrity" "sha512-pMLc/7+7SEdQa9A+hN9ujI8blkjFqYAZVqh3iNXqdZ0cQ8TIR502HMkNJniaOGv9SAgc47jxVKoiBJ7c0AakvQ=="
   "resolved" "https://registry.npmjs.org/@types/react/-/react-16.14.17.tgz"
   "version" "16.14.17"

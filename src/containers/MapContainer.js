@@ -1,71 +1,37 @@
-import React, { Component} from 'react'
+import React, { Component } from 'react'
 import GoogleMapReact from 'google-map-react'
-
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
+import { connect } from 'react-redux'
+import { getReports } from '../actions/reports'
+// this needs to account for the user changing their location
+const Marker = ({ text }) => <div className="pin">{text}</div>
 
 class MapContainer extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            center: {
-                lat: '',
-                lng: '',
-            }
-        }
-    }
-  
-    defaultProps = {
-        center: {
-          lat: 10.99835602,
-          lng: 77.01502627
-        },
-        zoom: 11,
-        isMarkerShown: true,
-      };
 
-   componentDidMount(){
-        navigator.geolocation.getCurrentPosition(position =>  {
-            console.log(position.coords.latitude)
-            console.log(position.coords.longitude)
-            // return position
-            // return {lat: position.coords.latitude, lng: position.coords.longitude }
-            this.setState({
-                center: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-                }
-            })
-        })
-        // debugger
+    componentDidMount(){
+        this.props.getReports()
     }
-    
-    
-    // componentDidMount(){
-    //    this.getCurrentLocation()
-    // }
-
     
     render(){
-        // debugger
+
         return(
-            <div style={{ height: '100vh', width: '100%', zIndex:8}}>
-                <GoogleMapReact 
-                bootstrapURLKeys={{ key: ''}}
-                defaultCenter={this.defaultProps.center}
-                center={this.state.center}
-                defaultZoom={15}
-                >
-                <AnyReactComponent
-          lat={this.state.center.lat}
-          lng={this.state.center.lng}
-          text="My Marker"
-          
-        />
-                </GoogleMapReact>
+            <div style={{ height: '100vh', width: '100%', zIndex:0}}>
+                {this.props.state.reports.loading === false ? 
+                    <GoogleMapReact
+                    bootstrapURLKeys={{ key: '' }}
+                    center={this.props.state.mapCoordinates.center}
+                    defaultZoom={14}>
+                    <Marker center={this.props.state.mapCoordinates} text="You are Here!"/>
+                    {this.props.state.reports.reports.map((report) => <Marker key={report.id} lat={report.attributes.lat} lng={report.attributes.lng} text={report.attributes.name} />)}
+                    </GoogleMapReact>
+                : <h2> Loading ...</h2>
+                }
             </div>
         )
     }
 }
 
-export default React.memo(MapContainer)
+const mapStateToProps = (state) => ({
+    state
+})
+
+export default connect(mapStateToProps, { getReports })(MapContainer)
