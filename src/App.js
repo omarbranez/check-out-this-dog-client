@@ -8,6 +8,7 @@ import { setCenter } from './actions/map'
 import React, { Component } from 'react'
 import HomeContainer from './containers/HomeContainer'
 import ReportsContainer from './containers/ReportsContainer';
+import ReportForm from './components/report/reportForm'
 import MapContainer from './containers/MapContainer'
 import Navbar from './components/navbar'
 import Login from './components/auth/login'
@@ -28,6 +29,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={HomeContainer}/>
             <Route exact path='/map' component={MapContainer}/>
+            <Route exact path="/reports" component={ReportsContainer}/>
+            <Route exact path="/reports/new" component={ReportForm}/>
             <Route exact path='/login' component={Login}/>
             <Route exact path='/signup' component={Signup}/>
           </Switch>
