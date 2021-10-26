@@ -1,13 +1,14 @@
-const dogReducer = (state = {breeds: [], loading: false }, action) => {
+const breedReducer = (state = {breeds: [], loading: false }, action) => {
     switch(action.type){
-        // debugger
         case "LOADING_BREEDS":
+            // debugger
             return {
                 ...state,
                 breeds: [...state.breeds],
                 loading: true,
             }
         case "SHOW_BREEDS":
+            // debugger
             return {
                 ...state, 
                 breeds: action.payload.data,
@@ -19,4 +20,4 @@ const dogReducer = (state = {breeds: [], loading: false }, action) => {
 
 }
 
-export default dogReducer
+export default breedReducer

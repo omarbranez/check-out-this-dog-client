@@ -1,6 +1,7 @@
 const BREEDS_URL = 'http://localhost:3000/dogs'
 
 export const getBreeds = () => {
+    // debugger
     return dispatch => {
         dispatch({type: "LOADING_BREEDS"})
         fetch(BREEDS_URL, {
