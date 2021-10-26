@@ -15,13 +15,13 @@ class MapContainer extends Component {
 
         return(
             <div style={{ height: '100vh', width: '100%', zIndex:0}}>
-                {this.props.state.reports.loading === false ? 
+                {this.props.reports.loading === false ? 
                     <GoogleMapReact
                     bootstrapURLKeys={{ key: '' }}
-                    center={this.props.state.mapCoordinates.center}
+                    center={this.props.mapCoordinates.center}
                     defaultZoom={14}>
-                    <Marker center={this.props.state.mapCoordinates} text="You are Here!"/>
-                    {this.props.state.reports.reports.map((report) => <Marker key={report.id} lat={report.attributes.lat} lng={report.attributes.lng} text={report.attributes.name} />)}
+                    <Marker center={this.props.mapCoordinates.center} text="You are Here!"/>
+                    {this.props.reports.reports.map((report) => <Marker key={report.attributes.id} lat={report.attributes.lat} lng={report.attributes.lng} text={report.attributes.name} />)}
                     </GoogleMapReact>
                 : <h2> Loading ...</h2>
                 }
@@ -31,7 +31,8 @@ class MapContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    state
+    reports: state.reports,
+    mapCoordinates: state.mapCoordinates,
 })
 
 export default connect(mapStateToProps, { getReports })(MapContainer)

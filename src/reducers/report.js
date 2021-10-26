@@ -1,8 +1,10 @@
-const nullReport = {
+const nullReportForm = {
     userId: '',
     dogId: '',
     name: '',
+    breed: '', 
     color: '',
+    gender: '',
     lat: '',
     lng: '',
     age: '',
@@ -10,7 +12,13 @@ const nullReport = {
     photo: ''
 }
 
-const reportReducer = (state = {reports: [], loading: false }, action) => {
+const initialState = {
+    reports: [],
+    reportForm: nullReportForm,
+    loading: false,
+}
+
+const reportReducer = (state=initialState, action) => {
     switch(action.type){
         // debugger
         case "LOADING_REPORTS":
@@ -25,6 +33,13 @@ const reportReducer = (state = {reports: [], loading: false }, action) => {
                 reports: action.payload.data,
                 loading: false,
             }
+        case "REPORT_FORM_CHANGE":
+            // debugger
+            return { ...state, reportForm: {
+                ...state.reportForm,
+                [action.payload.name]: action.payload.value
+            }
+        }
         default: 
             return {...state}
     }
