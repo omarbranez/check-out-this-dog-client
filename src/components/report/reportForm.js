@@ -1,16 +1,15 @@
-// import React, { Component } from 'react'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Select from 'react-select'
 import { connect, useDispatch } from 'react-redux'
 import { createReport, reportFormChange, reportFormSelectChange } from '../../actions/reports'
 import { getBreeds } from '../../actions/breeds'
 import {colors} from '../../colors'
 
+
 const ReportForm = (props) => {
 
-    const { age, breed, color, dogId, features, gender, lat, lng, name, photo, userId } = props.form
+    const { age, breed, color, dogId, features, demeanor, gender, lat, lng, name, photo, userId } = props.form
     const dispatch = useDispatch()
-
     useEffect(() => {
         dispatch(getBreeds())
     }, [dispatch])
@@ -19,24 +18,36 @@ const ReportForm = (props) => {
         e.preventDefault()
         props.createReport({...e.target.form})
     }
-    
-    // const reportFrmSelectChange = (option) => {
-    //     console.log(option.attribute)
-    //     // console.log(option.id)
-    // }
+    function triggerInput(input, enteredValue) { // should be a blog post
+        const lastValue = input.value;
+        input.value = enteredValue;
+        const event = new Event("input", { bubbles: true });
+        const tracker = input._valueTracker;
+        if (tracker) {
+            tracker.setValue(lastValue);
+        }
+        input.dispatchEvent(event);
+    }
+
+    const handleClick = () => {
+        const latField = document.getElementById("lat-field")
+        const lngField = document.getElementById("lng-field")
+        triggerInput(latField, props.mapCoordinates.lat)
+        triggerInput(lngField, props.mapCoordinates.lng)
+    }
     console.log(props)
-        // console.log(props.breeds)
-    // const { breeds } = props.breeds
-        // console.log({breeds})
+
     const breeds = props.breeds.breeds.map(breed => ({value: breed.id, label: breed.attributes.breed, attribute: "breed"}))
-    // console.log(breeds)
+
     return (
         <div>
             <h1>Report a new dog sighting!</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Location</label><br />
-                    <input type="text" name="coordinates" onChange={props.reportFormChange} placeholer="Location" />
+                    <input id="lat-field" disabled type="text" name="lat" onChange={props.reportFormChange} value={lat}/>
+                    <input id="lng-field" disabled type="text" name="lng" onChange={props.reportFormChange} value={lng}/>
+                    <input type="button" onClick={handleClick} value="Set Location"/>
                 </div>
                 <br />
                 <div>
@@ -61,7 +72,7 @@ const ReportForm = (props) => {
                 <br />
                 <div>
                     <label>Dog's Gender</label><br />
-                    <select name="gender" selected={ gender} onChange={props.reportFormChange}>
+                    <select name="gender" selected={gender} onChange={props.reportFormChange}>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Unknown">Unknown</option>
@@ -70,17 +81,17 @@ const ReportForm = (props) => {
                 <br />
                 <div>
                     <label>Dog's Features</label><br />
-                    <textarea name="features" onChange={props.reportFormChange} />
+                    <textarea name="features" onChange={props.reportFormChange} value={features}/>
                 </div>
                 <br />
                 <div>
                     <label>Dog's Demeanor</label><br />
-                    <textarea name="demeanor" onChange={props.reportFormChange} />
+                    <textarea name="demeanor" onChange={props.reportFormChange} value={demeanor}/>
                 </div>
                 <br />
                 <div>
                     <label>Upload Photo</label><br />
-                    <input type="file" accept="image/*" multiple={false} onChange={props.reportFormChange} />
+                    <input type="file" accept="image/*" multiple={false} onChange={props.reportFormChange} value={photo}/>
                 </div>
                 <br />
                 <div>
@@ -96,6 +107,7 @@ const mapStateToProps = (state) => ({
     breeds: state.breeds,
     loading: state.breeds.loading,
     form: state.reports.reportForm,
+    mapCoordinates: state.mapCoordinates.center
 })
 
 export default connect(mapStateToProps, { createReport, getBreeds, reportFormChange, reportFormSelectChange })(ReportForm)

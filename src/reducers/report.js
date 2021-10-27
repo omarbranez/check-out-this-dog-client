@@ -1,13 +1,13 @@
 const nullReportForm = {
-    userId: '',
-    dogId: '',
+    userId: null,
+    dogId: null,
     name: '',
     breed: '', 
     color: '',
     gender: '',
-    lat: '',
-    lng: '',
-    age: '',
+    lat: null,
+    lng: null,
+    age: null,
     features: '',
     photo: ''
 }
