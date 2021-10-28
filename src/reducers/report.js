@@ -1,15 +1,16 @@
 const nullReportForm = {
-    userId: null,
-    dogId: null,
+    id: null,
+    user_id: null,
+    dog_id: null,
     name: '',
-    breed: '', 
+    // breed: '', 
     color: '',
     gender: '',
     lat: null,
     lng: null,
     age: null,
     features: '',
-    photo: ''
+    photo: null,
 }
 
 const initialState = {
@@ -28,9 +29,10 @@ const reportReducer = (state=initialState, action) => {
                 loading: true,
             }
         case "ADD_REPORTS":
+            // debugger
             return {
                 ...state, 
-                reports: action.payload.data,
+                reports: action.payload,
                 loading: false,
             }
         case "REPORT_FORM_CHANGE":

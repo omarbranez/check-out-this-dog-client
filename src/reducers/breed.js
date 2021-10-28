@@ -11,7 +11,7 @@ const breedReducer = (state = {breeds: [], loading: false }, action) => {
             // debugger
             return {
                 ...state, 
-                breeds: action.payload.data,
+                breeds: action.payload,
                 loading: false,
             }
         default: 
