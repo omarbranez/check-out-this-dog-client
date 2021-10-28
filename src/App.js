@@ -11,9 +11,9 @@ import ReportsContainer from './containers/ReportsContainer';
 import ReportForm from './components/report/reportForm'
 import MapContainer from './containers/MapContainer'
 import Navbar from './components/navbar'
-import Login from './components/auth/login'
-import Signup from './components/auth/signup'
-
+import LoginForm from './components/auth/loginForm'
+import SignupForm from './components/auth/signupForm'
+console.log(process.env.REACT_APP_B_API_KEY)
 
 // function App() {
 class App extends Component {
@@ -31,8 +31,8 @@ class App extends Component {
             <Route exact path='/map' component={MapContainer}/>
             <Route exact path="/reports" component={ReportsContainer}/>
             <Route exact path="/reports/new" component={ReportForm}/>
-            <Route exact path='/login' component={Login}/>
-            <Route exact path='/signup' component={Signup}/>
+            <Route exact path='/login' component={LoginForm}/>
+            <Route exact path='/signup' component={SignupForm}/>
           </Switch>
     </div>
     );

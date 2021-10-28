@@ -17,7 +17,7 @@ class MapContainer extends Component {
             <div style={{ height: '100vh', width: '100%', zIndex:0}}>
                 {this.props.loading === false ? 
                     <GoogleMapReact
-                    bootstrapURLKeys={{ key: 'AIzaSyBIqbnSFr2DkosUBTtWqVmQThyfrDbu1MY' }}
+                    bootstrapURLKeys={{ key: process.env.REACT_APP_B_API_KEY}}
                     center={this.props.mapCoordinates.center}
                     defaultZoom={14}>
                     <Marker center={this.props.mapCoordinates.center} text="You are Here!"/>
