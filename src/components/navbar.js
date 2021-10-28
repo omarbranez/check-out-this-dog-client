@@ -12,6 +12,7 @@ class Navbar extends Component {
                 < NavLink to="/login"> Log In  </NavLink>
                 < NavLink to="/signup">Sign Up  </NavLink>
                 < NavLink to="/breeds">What are dogs, even?  </NavLink>
+                < NavLink to="/logout">Log Out  </NavLink>
             </div>
         )
     }
