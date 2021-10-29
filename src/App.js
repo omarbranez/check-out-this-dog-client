@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import './marker.css'
 import { Route, Switch, Redirect } from 'react-router-dom'
@@ -7,7 +6,9 @@ import { getReports } from './actions/reports'
 import { setCenter } from './actions/map'
 import { autoLoginUser, logoutUser } from './actions/user';
 import React, { Component } from 'react'
+import PrivateRoute from './containers/PrivateRoute'
 import HomeContainer from './containers/HomeContainer'
+import ProfileContainer from './containers/ProfileContainer';
 import ReportsContainer from './containers/ReportsContainer';
 import ReportForm from './components/report/reportForm'
 import MapContainer from './containers/MapContainer'
@@ -33,9 +34,11 @@ class App extends Component {
           <Navbar />
           <Switch>
             <Route exact path="/" component={HomeContainer}/>
+            <PrivateRoute exact path='/profile/:id' component={ProfileContainer}/>
             <Route exact path='/map' component={MapContainer}/>
             <Route exact path="/reports" component={ReportsContainer}/>
-            <Route exact path="/reports/new" component={ReportForm}/>
+            {/* <Route exact path="/reports/new" component={ReportForm}/> */}
+            <PrivateRoute exact path='/reports/new' component={ReportForm} />
             <Route exact path='/login' component={LoginForm}/>
             <Route exact path='/signup' component={SignupForm}/>
             <Route exact path='/logout' render={this.logout}/>

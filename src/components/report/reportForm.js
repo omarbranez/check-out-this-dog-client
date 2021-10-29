@@ -9,7 +9,7 @@ import {colors} from '../../colors'
 
 const ReportForm = (props) => {
     const history = useHistory()
-    const { age, color, dogId, features, demeanor, gender, lat, lng, name, photo } = props.form
+    const { age, color, dogId, features, demeanor, gender, lat, lng, name } = props.form
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getBreeds())
@@ -18,7 +18,7 @@ const ReportForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         // console.log(props.form)
-        props.createReport({...props.form, user_id: '1', dog_id: dogId})
+        props.createReport({...props.form, user_id: props.user.id, dog_id: dogId})
         history.push("/map")
 
     }
@@ -114,7 +114,8 @@ const mapStateToProps = (state) => ({
     breeds: state.breeds.breeds,
     loading: state.breeds.loading,
     form: state.reports.reportForm,
-    mapCoordinates: state.mapCoordinates.center
+    mapCoordinates: state.mapCoordinates.center,
+    user: state.user
 })
 
 export default connect(mapStateToProps, { createReport, getBreeds, reportFormChange, reportFormSelectChange, reportFormImageChange })(withRouter(ReportForm))

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import { connect } from 'react-redux'
-import { withRouter, useHistory } from 'react-router'
+import { withRouter, useHistory } from 'react-router-dom'
 import { handleLoginFormChange, loginUser} from '../../actions/user'
-
+import { isUserLoggedIn } from '../../util/auth'
 const LoginForm = (props) => {
     const history = useHistory()
     const { form, handleLoginFormChange, loginUser } = props
@@ -11,7 +11,7 @@ const LoginForm = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        password === passwordConfirmation ? loginUser({username: username, password: password}) : alert("Passwords do not match")
+        password === passwordConfirmation ? loginUser({username: username, password: password}, history) : alert("Passwords do not match")
     }
 
     return (

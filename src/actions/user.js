@@ -5,7 +5,7 @@ export const handleLoginFormChange = (e) => ({
     payload: {name: e.target.name, value: e.target.value}
 })
 
-export const createUser = (formData) => {
+export const createUser = (formData, history) => {
     return dispatch => {
         fetch(BASE_URL + "/users", {
             method: 'POST',
@@ -16,16 +16,20 @@ export const createUser = (formData) => {
         })
         .then(res => res.json())
         .then(res => {
-            localStorage.token = res.token
-            dispatch({
-                type: "SET_USER",
-                payload: {user: res.user}
-            })
-        })
+            if (res.error) {
+                alert(res.error)
+            } else {
+                localStorage.token = res.token
+                dispatch({
+                    type: "SET_USER",
+                    payload: {user: res.user}
+                })
+                history.push('/profile')
+        }})
     }
 }
 
-export const loginUser = (formData) => {
+export const loginUser = (formData, history) => {
     return dispatch => {
         fetch(BASE_URL + "/login", {
             method: 'POST',
@@ -36,12 +40,16 @@ export const loginUser = (formData) => {
         })
         .then(res => res.json())
         .then(res => {
-            localStorage.token = res.token
-            dispatch({
-                type: "SET_USER",
-                payload: {user: res.user}
-            })
-        })
+            if (res.error) {
+                alert(res.error)
+            } else {
+                localStorage.token = res.token
+                dispatch({
+                    type: "SET_USER",
+                    payload: {user: res.user}
+                })
+                history.push('/map')
+        }})
     }
 }
 
