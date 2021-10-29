@@ -9,7 +9,7 @@ const Map = (props) => {
             <GoogleMapReact
                 bootstrapURLKeys={{ key: `${process.env.REACT_APP_B_API_KEY}`}}
                 center={[lat, lng]}
-                zoom={13}>
+                zoom={15}>
                 <Marker lat={lat} lng={lng}/>
             </GoogleMapReact>
         </div>

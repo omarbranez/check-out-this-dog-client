@@ -6,10 +6,10 @@ const ProfileContainer = (props) => {
 
     return(
         <div>
-            <h1>Welcome Back, {props.user}</h1>
+            <h1>Welcome Back, {props.user.username}</h1>
             <h2>You have made {props.reports.length} reports</h2>
             <div>
-                {props.reports.map((report) => <Report key={report.id} {...report}/>)}
+                {props.reports.map((report) => <Report key={report.id} {...report} user={props.user}/>)}
             </div>
         </div>
     )
@@ -18,6 +18,6 @@ const ProfileContainer = (props) => {
 
 const mapStateToProps = (state) => ({
     reports: state.reports.reports.filter((report) => report.user_id === state.user.id ),
-    user: state.user.username
+    user: state.user
 })
 export default connect(mapStateToProps)(ProfileContainer)
