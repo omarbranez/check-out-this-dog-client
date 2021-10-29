@@ -11,6 +11,7 @@ const nullReportForm = {
     age: null,
     features: '',
     photo: null,
+    created: '',
 }
 
 const initialState = {

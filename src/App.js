@@ -11,6 +11,7 @@ import HomeContainer from './containers/HomeContainer'
 import ProfileContainer from './containers/ProfileContainer';
 import ReportsContainer from './containers/ReportsContainer';
 import ReportForm from './components/report/reportForm'
+import BreedsContainer from './containers/BreedsContainer';
 import MapContainer from './containers/MapContainer'
 import Navbar from './components/navbar'
 import LoginForm from './components/auth/loginForm'
@@ -34,11 +35,12 @@ class App extends Component {
           <Navbar />
           <Switch>
             <Route exact path="/" component={HomeContainer}/>
-            <PrivateRoute exact path='/profile/:id' component={ProfileContainer}/>
+            <PrivateRoute exact path='/profile/:username' component={ProfileContainer}/>
             <Route exact path='/map' component={MapContainer}/>
             <Route exact path="/reports" component={ReportsContainer}/>
             {/* <Route exact path="/reports/new" component={ReportForm}/> */}
             <PrivateRoute exact path='/reports/new' component={ReportForm} />
+            <Route exact path='/breeds' component={BreedsContainer}/>
             <Route exact path='/login' component={LoginForm}/>
             <Route exact path='/signup' component={SignupForm}/>
             <Route exact path='/logout' render={this.logout}/>

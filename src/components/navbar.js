@@ -12,6 +12,7 @@ class Navbar extends Component {
                 {isUserLoggedIn() ? < NavLink to={"/profile/"+`${username}`}>{username}'s Profile  </NavLink> : null}
                 {isUserLoggedIn() ? < NavLink to="/reports/new">New Report  </NavLink> : null}
                 < NavLink to="/map">Map  </NavLink>
+                < NavLink to="/reports">News Feed   </NavLink>
                 {isUserLoggedIn() ? null : < NavLink to="/login"> Log In  </NavLink>}
                 {isUserLoggedIn() ? null : < NavLink to="/signup">Sign Up  </NavLink>}
                 < NavLink to="/breeds">What are dogs, even?  </NavLink>
