@@ -1,30 +1,51 @@
-import React, { Component} from 'react'
-import { connect } from 'react-redux'
+// import React, { Component} from 'react'
+import React, { useState, useEffect } from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import { getReports } from '../actions/reports'
 // import { getBreeds } from '../actions/breeds'
 import ReportForm from '../components/report/reportForm'
 import Report from '../components/report/report'
+import { DataGrid, GridToolbarFilterButton} from '@mui/x-data-grid'
 
-class ReportsContainer extends Component {
+const ReportsContainer = (props) => {
+    const dispatch = useDispatch()
 
-    componentWillMount(){
-        this.props.getReports()
-        // this.props.getBreeds()
-    }
-    
-    render(){
-        return(
-            <div>
-                <h2>IS THERE A DOG NEAR YOU? IS IT AMAZING? SHARE IT WITH US!</h2>
-                <Link to="/reports/new" />
-                <h2>News Feed</h2>
-                {this.props.reports.map((report) => <Report key={report.id} {...report} user={this.props.user}/>)}
-                {/* <MapContainer reports={this.state}/> */}
-            </div>
-        )
-    }
- }
+    const [ sortDate, setSortDate ] = useState([{field: 'date', sort: 'desc'}])
+
+    const [ like, setLike ] = useState(false)
+
+    const columns = [
+        { field: 'date', headerName: 'Date Reported', width: 200, filterable: false },
+        { field: 'time', headerName: 'Time Reported', width: 200, filterable: false},
+        { field: 'name', headerName: 'Dog Name', width: 150, filterable: false },
+        { field: 'breed', headerName: 'Dog Breed', width: 200 },
+        { field: 'created', type: 'dateTime', width: 200, filterable: false},
+    ]
+
+    useEffect(() => {
+        dispatch(getReports())
+    }, [dispatch])
+
+    return (
+        <div>
+            <h2>IS THERE A DOG NEAR YOU? IS IT AMAZING? SHARE IT WITH US!</h2>
+            <Link to="/reports/new" >New Dog Report</Link>
+            <h2>News Feed</h2>
+            {!(props.reports.loading) ? <DataGrid 
+                components={{ Toolbar: GridToolbarFilterButton, }}
+                sortingOrder={['desc', 'asc']}
+                sortModel={sortDate}
+                // filterModel={filteredData}
+                rows={props.reports.map((report) => ({id: report.id, date: report.date_created, time: report.time_created, name: report.name, breed: report.breed, created: report.created,}))}
+                columns={columns}
+                onSortModelChange={(report) => setSortDate(report)}
+                // onFilterModelChange={(report) => setFilteredData(report)}
+            /> : <h2>Loading</h2>}
+            {/* {!(props.reports.loading) ? props.reports.map((report) => <Report key={report.id} {...report} user={props.user}/>) : <h3>Loading Reports</h3> } */}
+        </div>
+    )
+}
 
 
 const mapStateToProps = (state) => ({
