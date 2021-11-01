@@ -6,7 +6,7 @@ const Filters = (props) => {
         <form>
             <label>
                 Sort: 
-                <input name="checkbox"
+                <input name="checkbox"></input>
             </label>
         </form>
     )

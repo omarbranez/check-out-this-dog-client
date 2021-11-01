@@ -1,13 +1,18 @@
 const initialState = {
     center: {
-        lat: 10.99835602,
-        lng: 77.01502627,
+        lat: null,
+        lng: null,
     },
     zoom: '14',
 }
 
-const MapReducer = (state=initialState, action) => {
+const mapReducer = (state=initialState, action) => {
     switch(action.type){
+        case "LOADING_MAP":
+            return {
+                ...state,
+                loading: true,
+            }
         case "SET_CENTER":
             // debugger
             console.log(action.payload)
@@ -16,11 +21,12 @@ const MapReducer = (state=initialState, action) => {
                 center: {
                     lat: action.payload.center.lat,
                     lng: action.payload.center.lng,
-                }
+                },
+                loading: false
             }
         default:
             return {...state}
     }
 }
 
-export default MapReducer
+export default mapReducer
