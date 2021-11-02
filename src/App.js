@@ -1,4 +1,4 @@
-import './App.css';
+// import './App.css';
 import './marker.css'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'

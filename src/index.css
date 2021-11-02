@@ -84,3 +84,9 @@ hr {
   }
 
 }
+
+.reportButton{
+  /* display: flex;
+  justify-content: flex-end; */
+  height: 20vh;
+}

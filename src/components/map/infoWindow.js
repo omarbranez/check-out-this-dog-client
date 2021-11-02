@@ -1,7 +1,7 @@
-import React from 'react'
+// import React from 'react'
 
 const InfoWindow = (props) => {
-    console.log(props)
+    // console.log(props)
     const infoWindowStyle = {
         position: 'relative',
         bottom: 150,
