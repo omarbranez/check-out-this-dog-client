@@ -40,6 +40,7 @@ export const createReport = (reportData) => {
     fData.append('age', reportData.age)
     fData.append('features', reportData.features)
     fData.append('photo', reportData.photo)
+    fData.append('show', false)
 
     // debugger
     return dispatch => {
@@ -54,5 +55,11 @@ export const createReport = (reportData) => {
         }))
     }
 }
+
+export const toggleReportWindow = (reportId) => ({
+    type: "TOGGLE_SHOW_WINDOW",
+    payload: reportId
+})
+
 
 

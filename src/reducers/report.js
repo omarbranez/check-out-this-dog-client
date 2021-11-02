@@ -43,6 +43,15 @@ const reportReducer = (state=initialState, action) => {
                 [action.payload.name]: action.payload.value
             }
         }
+        case "TOGGLE_SHOW_WINDOW":
+            // debugger
+            const toggledReport = state.reports.find((report) => report.id == action.payload)
+            toggledReport.show = !toggledReport.show
+            return { ...state,
+                    reports: [
+                        ...state.reports.slice(0, toggledReport), ...state.reports.slice(toggledReport + 1)
+                    ]
+            }
         default: 
             return {...state}
     }

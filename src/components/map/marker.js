@@ -1,49 +1,19 @@
-// import React from 'react'
+import React from 'react'
+import InfoWindow from './infoWindow'
 
-// const Marker = (props) => {
-//     return (
-//         <div className="pin" style={{zIndex: 2}}>
-//             <p>Here!</p>
-//         </div>
-//     )
-// }
-// export default Marker
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 18px;
-  height: 18px;
-  background-color: #000;
-  border: 2px solid #fff;
-  border-radius: 100%;
-  user-select: none;
-  transform: translate(-50%, -50%);
-  cursor: ${(props) => (props.onClick ? 'pointer' : 'default')};
-  &:hover {
-    z-index: 1;
-  }
-`;
-
-const Marker = ({ text, onClick }) => (
-  <Wrapper
-    className="pin"
-    alt={text}
-    onClick={onClick}
-  />
-);
-
-Marker.defaultProps = {
-  onClick: null,
-};
-
-Marker.propTypes = {
-  onClick: PropTypes.func,
-  text: PropTypes.string.isRequired,
-};
-
-export default Marker;
+const Marker = (props) => {
+  // console.log(props)
+    return (
+        <div className="pin" style={{
+            border: '1px solid white',
+            borderRadius: '50%',
+            height: 10,
+            width: 10,
+            backgroundColor: props.show ? 'red' : 'blue',
+            cursor: 'pointer',
+            zIndex: 10,}}>
+            { props.show === true ? <InfoWindow report={props}/> : null}
+        </div>
+    )
+}
+export default Marker

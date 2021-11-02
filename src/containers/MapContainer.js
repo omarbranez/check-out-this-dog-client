@@ -1,22 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react'
 import GoogleMapReact from 'google-map-react'
 import { connect, useDispatch } from 'react-redux'
-import { getReports } from '../actions/reports'
+import { getReports, toggleReportWindow } from '../actions/reports'
 // this needs to account for the user changing their location
-const Marker = ({ text }) => <div className="pin">{text}</div>
-// import Marker from '../components/map/marker'
+// const Marker = ({ text }) => <div className="pin">{text}</div>
+import Marker from '../components/map/marker'
 
-// class MapContainer extends Component {
 const MapContainer = (props) => {
 
     const [bounds, setBounds] = useState(null);
     const [zoom, setZoom] = useState(14);
     const dispatch = useDispatch()
     const mapRef = useRef()
+    
     useEffect(() => {
         dispatch(getReports())
     }, [dispatch])
     
+    const handleMarkerClick = (e) => {
+        // debugger
+        props.toggleReportWindow(e)
+    }
     return (
         <div style={{ height: '100vh', width: '100%', zIndex: 0 }}>
             {(props.loading === false && props.mapLoading === false) ?
@@ -37,9 +41,10 @@ const MapContainer = (props) => {
                             bounds.nw.lat
                         ]);
                     }}
+                    onChildClick={handleMarkerClick}
                 >
                     {/* <Marker center={props.mapCoordinates.center} text="You are Here!"/> */}
-                    {props.reports.map((report) => <Marker key={report.id} lat={report.lat} lng={report.lng} text={report.name} />)}
+                    {props.reports.map((report) => <Marker key={report.id} lat={report.lat} lng={report.lng} text={report.name} show={report.show} breed={report.breed} timeCreated={report.time_created} name={report.name} />)}
                 </GoogleMapReact>
                 : <h2> Loading ...</h2>
             }
@@ -55,4 +60,4 @@ const mapStateToProps = (state) => ({
     mapLoading: state.mapCoordinates.loading,
 })
 
-export default connect(mapStateToProps, { getReports })(MapContainer)
+export default connect(mapStateToProps, { getReports, toggleReportWindow })(MapContainer)
