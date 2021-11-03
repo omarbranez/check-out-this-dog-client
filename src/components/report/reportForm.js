@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Select from 'react-select'
+import UserMap from '../map/userMap'
 import { connect, useDispatch } from 'react-redux'
 import { createReport, reportFormChange, reportFormSelectChange, reportFormImageChange } from '../../actions/reports'
 import { getBreeds } from '../../actions/breeds'
@@ -54,6 +55,10 @@ const ReportForm = (props) => {
                     <input id="lat-field" disabled type="text" name="lat" onChange={props.reportFormChange} value={lat}/>
                     <input id="lng-field" disabled type="text" name="lng" onChange={props.reportFormChange} value={lng}/>
                     <input type="button" onClick={handleClick} value="Set Location"/>
+                </div>
+                <br />
+                <div>
+                    <UserMap mapCoordinates={props.mapCoordinates} mapLoading={props.mapLoading}/>
                 </div>
                 <br />
                 <div>
@@ -115,6 +120,7 @@ const mapStateToProps = (state) => ({
     loading: state.breeds.loading,
     form: state.reports.reportForm,
     mapCoordinates: state.mapCoordinates.center,
+    mapLoading: state.mapCoordinates.loading,
     user: state.user
 })
 
