@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 import UserMap from '../map/userMap'
 import { connect, useDispatch } from 'react-redux'
 import { createReport, reportFormChange, reportFormSelectChange, reportFormImageChange } from '../../actions/reports'
 import { getBreeds } from '../../actions/breeds'
 import { withRouter, useHistory } from 'react-router-dom'
-import {colors} from '../../colors'
+import { colors } from '../../colors'
 
 
 const ReportForm = (props) => {
+
     const history = useHistory()
+
+    const [ showMap, setShowMap ] = useState(false)
+    const [ disableButton, setDisableButton ] = useState(false)
+
     const { age, color, dogId, features, demeanor, gender, lat, lng, name } = props.form
+    
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getBreeds())
@@ -23,7 +29,7 @@ const ReportForm = (props) => {
         history.push("/map")
 
     }
-    function triggerInput(input, enteredValue) { // should be a blog post
+    function triggerInput(input, enteredValue) { // should be a blog post. REACT HATES THIS
         const lastValue = input.value
         input.value = enteredValue
         const event = new Event("input", { bubbles: true })
@@ -34,16 +40,19 @@ const ReportForm = (props) => {
         input.dispatchEvent(event)
     }
 
-    const handleClick = () => {
+    const handleCurrentLocationClick = () => { 
         triggerInput(document.getElementById("lat-field"), props.mapCoordinates.lat)
         triggerInput(document.getElementById("lng-field"), props.mapCoordinates.lng)
+    }
+
+    const sendMapToForm = (lat, lng) => {
+        triggerInput(document.getElementById("lat-field"), lat)
+        triggerInput(document.getElementById("lng-field"), lng)
     }
 
     const isEnabled = 
         age && color && features && demeanor && gender && lat && lng && name && dogId// && photo// && userId //dogId
     
-    // console.log(props)
-
     const breeds = props.breeds.map(breed => ({value: breed.id, label: breed.breed, attribute: "dogId"}))
 
     return (
@@ -54,11 +63,12 @@ const ReportForm = (props) => {
                     <label>Location</label><br />
                     <input id="lat-field" disabled type="text" name="lat" onChange={props.reportFormChange} value={lat}/>
                     <input id="lng-field" disabled type="text" name="lng" onChange={props.reportFormChange} value={lng}/>
-                    <input type="button" onClick={handleClick} value="Set Location"/>
+                    <input type="button" onClick={handleCurrentLocationClick} value="Use Current Location"/>
+                    <input type="button" onClick={()=>setShowMap(!showMap)} value="Find Location on Map"/>
                 </div>
                 <br />
-                <div>
-                    <UserMap mapCoordinates={props.mapCoordinates} mapLoading={props.mapLoading}/>
+                <div >
+                    {showMap && !props.mapLoading ? <UserMap mapCoordinates={props.mapCoordinates} mapLoading={props.mapLoading} sendMapToForm={sendMapToForm}/> : null }
                 </div>
                 <br />
                 <div>

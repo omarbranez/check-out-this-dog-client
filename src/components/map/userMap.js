@@ -6,7 +6,9 @@ const UserMap = (props) => {
     const [ coordinates, setCoordinates ] = useState(null)
 
     const handleClick = (e) => {
+        console.log(e.lat, e.lng)
         setCoordinates({lat: e.lat, lng: e.lng})
+        props.sendMapToForm(e.lat, e.lng)
     }
 
     return(
