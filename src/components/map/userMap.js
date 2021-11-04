@@ -4,11 +4,18 @@ import Marker from '../../components/map/marker'
 
 const UserMap = (props) => {
     const [ coordinates, setCoordinates ] = useState(null)
+    const [ showConfirmButton, setShowConfirmButton] = useState(false)
 
-    const handleClick = (e) => {
-        console.log(e.lat, e.lng)
+    const handleMapClick = (e) => {
         setCoordinates({lat: e.lat, lng: e.lng})
-        props.sendMapToForm(e.lat, e.lng)
+        setShowConfirmButton(!showConfirmButton)
+        props.sendMapToForm({lat: e.lat, lng: e.lng})
+
+    }
+
+    const handleConfirmClick = () => {
+        setShowConfirmButton(!showConfirmButton)
+        props.confirmClicked()
     }
 
     return(
@@ -18,12 +25,13 @@ const UserMap = (props) => {
                     bootstrapURLKeys={{ key: `${process.env.REACT_APP_B_API_KEY}` }}
                     center={props.mapCoordinates}
                     defaultZoom={14}
-                    onClick={handleClick}
+                    onClick={handleMapClick}
                     options={{fullscreenControl: false}}
                     >
                 {coordinates && <Marker lat={coordinates.lat} lng={coordinates.lng} show={false}/>}
                 </GoogleMapReact>
             : <h2>Loading</h2>}
+            {showConfirmButton ? <input type="button" value="Confirm Location" onClick={handleConfirmClick}/> : null }
         </div>
     )
 }

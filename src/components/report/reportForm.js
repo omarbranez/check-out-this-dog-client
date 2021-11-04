@@ -14,6 +14,7 @@ const ReportForm = (props) => {
 
     const [ showMap, setShowMap ] = useState(false)
     const [ disableButton, setDisableButton ] = useState(false)
+    const [ confirmClick, setConfirmClick ]= useState(false)
 
     const { age, color, dogId, features, demeanor, gender, lat, lng, name } = props.form
     
@@ -24,7 +25,6 @@ const ReportForm = (props) => {
     
     const handleSubmit = (e) => {
         e.preventDefault()
-        // console.log(props.form)
         props.createReport({...props.form, user_id: props.user.id, dog_id: dogId})
         history.push("/map")
 
@@ -45,12 +45,17 @@ const ReportForm = (props) => {
         triggerInput(document.getElementById("lng-field"), props.mapCoordinates.lng)
     }
 
-    const sendMapToForm = (lat, lng) => {
+    const sendMapToForm = ({lat, lng}) => {
         triggerInput(document.getElementById("lat-field"), lat)
         triggerInput(document.getElementById("lng-field"), lng)
     }
 
-    const isEnabled = 
+    const confirmClicked = () => {
+        // setConfirmClick(!confirmClick)
+        setShowMap(!showMap)
+    }
+
+    const isSubmitEnabled = 
         age && color && features && demeanor && gender && lat && lng && name && dogId// && photo// && userId //dogId
     
     const breeds = props.breeds.map(breed => ({value: breed.id, label: breed.breed, attribute: "dogId"}))
@@ -63,12 +68,12 @@ const ReportForm = (props) => {
                     <label>Location</label><br />
                     <input id="lat-field" disabled type="text" name="lat" onChange={props.reportFormChange} value={lat}/>
                     <input id="lng-field" disabled type="text" name="lng" onChange={props.reportFormChange} value={lng}/>
-                    <input type="button" onClick={handleCurrentLocationClick} value="Use Current Location"/>
+                    <input type="button" disabled={showMap} onClick={handleCurrentLocationClick} value="Use Current Location"/>
                     <input type="button" onClick={()=>setShowMap(!showMap)} value="Find Location on Map"/>
                 </div>
                 <br />
                 <div >
-                    {showMap && !props.mapLoading ? <UserMap mapCoordinates={props.mapCoordinates} mapLoading={props.mapLoading} sendMapToForm={sendMapToForm}/> : null }
+                    {showMap && !props.mapLoading ? <UserMap mapCoordinates={props.mapCoordinates} mapLoading={props.mapLoading} sendMapToForm={sendMapToForm} confirmClicked={confirmClicked}/> : null }
                 </div>
                 <br />
                 <div>
@@ -117,7 +122,7 @@ const ReportForm = (props) => {
                 </div>
                 <br />
                 <div>
-                    <input type="submit" value="Submit New Report" disabled={!isEnabled}/>
+                    <input type="submit" value="Submit New Report" disabled={!isSubmitEnabled}/>
                 </div>
             </form>
         </div>
