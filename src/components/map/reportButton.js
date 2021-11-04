@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import Tooltip from '@mui/material/Tooltip'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const ReportButton = (props) => {
     
-    const history = useHistory()
+    // const navigate = useNavigate()
     
     const [open, setOpen] = useState(false)
     

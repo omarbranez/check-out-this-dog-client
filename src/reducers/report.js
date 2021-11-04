@@ -34,6 +34,7 @@ const reportReducer = (state=initialState, action) => {
             return {
                 ...state, 
                 reports: action.payload,
+                reportForm: nullReportForm,
                 loading: false,
             }
         case "REPORT_FORM_CHANGE":

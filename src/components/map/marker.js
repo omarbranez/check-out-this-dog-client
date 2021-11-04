@@ -6,9 +6,10 @@ import '../../marker.css'
 const Marker = (props) => {
   // console.log(props)
     return (
-        <div style={{ 
+        <div>
+         {/* style={{ 
           backgroundColor: props.show ? 'red' : 'blue',}}
-          >
+          > */}
             {/* // className="pin bounce" 
             // style={{
             // border: '1px solid white',
@@ -18,8 +19,8 @@ const Marker = (props) => {
             // cursor: 'pointer',
             // zIndex: 10,}}> */}
             <img src={process.env.PUBLIC_URL + "/location-pin.png"}
-            height= "60rem"
-            style={{position: 'absolute', transform: 'translate(-50%, -100%)'}}>
+              height= "60rem"
+              style={{position: 'absolute', transform: 'translate(-50%, -100%)'}}>
             </img> 
             { props.show === true ? <InfoWindow report={props}/> : null}
            {/* <img src="./location-pin.png"></img> */}

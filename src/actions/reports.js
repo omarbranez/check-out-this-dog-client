@@ -13,6 +13,32 @@ export const getReports = () => {
         })
     )}
 }
+
+export const getFilteredReports = () => {
+    return dispatch => { // try watchPosition
+        navigator.geolocation.getCurrentPosition(position =>  {
+            dispatch({ type: "LOADING_MAP" })
+            dispatch({type: "SET_CENTER", payload: {
+              center: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            }
+        }
+    })
+    const bounds = new URLSearchParams().toString()
+    return dispatch => {
+        dispatch({ type: "LOADING_REPORTS"})
+        fetch(REPORTS_URL + '?' + bounds, {
+            header: 'Access-Control-Allow-Origin'
+        })
+        .then(res => res.json())
+        .then(responseJSON => dispatch({
+            type: "ADD_REPORTS",
+            payload: responseJSON,
+        }))
+    }
+})}}
+
 export const reportFormChange = (e) => ({
     type: "REPORT_FORM_CHANGE",
     payload: {name: e.target.name, value: e.target.value}
@@ -39,6 +65,7 @@ export const createReport = (reportData) => {
     fData.append('lng', reportData.lng)
     fData.append('age', reportData.age)
     fData.append('features', reportData.features)
+    fData.append('demeanor', reportData.demeanor)
     fData.append('photo', reportData.photo)
     fData.append('show', false)
 

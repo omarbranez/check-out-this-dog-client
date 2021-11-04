@@ -4,17 +4,16 @@ import UserMap from '../map/userMap'
 import { connect, useDispatch } from 'react-redux'
 import { createReport, reportFormChange, reportFormSelectChange, reportFormImageChange } from '../../actions/reports'
 import { getBreeds } from '../../actions/breeds'
-import { withRouter, useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { colors } from '../../colors'
 
 
 const ReportForm = (props) => {
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const [ showMap, setShowMap ] = useState(false)
     const [ disableButton, setDisableButton ] = useState(false)
-    const [ confirmClick, setConfirmClick ]= useState(false)
 
     const { age, color, dogId, features, demeanor, gender, lat, lng, name } = props.form
     
@@ -26,7 +25,7 @@ const ReportForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         props.createReport({...props.form, user_id: props.user.id, dog_id: dogId})
-        history.push("/map")
+        navigate('/map', {replace: true})
 
     }
     function triggerInput(input, enteredValue) { // should be a blog post. REACT HATES THIS
@@ -51,7 +50,6 @@ const ReportForm = (props) => {
     }
 
     const confirmClicked = () => {
-        // setConfirmClick(!confirmClick)
         setShowMap(!showMap)
     }
 
@@ -139,4 +137,4 @@ const mapStateToProps = (state) => ({
     user: state.user
 })
 
-export default connect(mapStateToProps, { createReport, getBreeds, reportFormChange, reportFormSelectChange, reportFormImageChange })(withRouter(ReportForm))
+export default connect(mapStateToProps, { createReport, getBreeds, reportFormChange, reportFormSelectChange, reportFormImageChange })(ReportForm)

@@ -19,7 +19,7 @@ const UserMap = (props) => {
     }
 
     return(
-        <div style={{ height: '200px', width: '200px' }}>
+        <div style={{ height: '300px', width: '500px' }}>
             {(props.mapLoading === false) ?
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: `${process.env.REACT_APP_B_API_KEY}` }}

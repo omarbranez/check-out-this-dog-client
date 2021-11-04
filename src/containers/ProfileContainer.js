@@ -1,8 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { useParams } from 'react-router-dom'
+
 import Report from '../components/report/report'
 
 const ProfileContainer = (props) => {
+
+    const params = useParams()
+    const { username } = params
+    console.log(params)
 
     return(
         <div>

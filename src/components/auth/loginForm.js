@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import { connect } from 'react-redux'
-import { withRouter, useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { handleLoginFormChange, loginUser} from '../../actions/user'
 import { isUserLoggedIn } from '../../util/auth'
 const LoginForm = (props) => {
-    const history = useHistory()
+    const navigate = useNavigate()
     const { form, handleLoginFormChange, loginUser } = props
     const { username, password, passwordConfirmation } = form
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        password === passwordConfirmation ? loginUser({username: username, password: password}, history) : alert("Passwords do not match")
+        password === passwordConfirmation ? loginUser({username: username, password: password}, navigate) : alert("Passwords do not match")
     }
 
     return (
@@ -33,4 +33,4 @@ const mapStateToProps = (state) => ({
     form: state.user.loginForm
 })
 
-export default connect(mapStateToProps, { handleLoginFormChange, loginUser})(withRouter(LoginForm))
+export default connect(mapStateToProps, { handleLoginFormChange, loginUser})(LoginForm)

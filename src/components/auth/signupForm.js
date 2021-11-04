@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import styled from "styled-components"
 import { connect } from 'react-redux'
-import { withRouter, useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 import { handleLoginFormChange, createUser} from '../../actions/user'
 
 const SignupForm = (props) => {
-    const history = useHistory()
+    const history = useNavigate()
     const { form, handleLoginFormChange, createUser } = props
     const { username, password, passwordConfirmation } = form
 
@@ -33,4 +33,4 @@ const mapStateToProps = (state) => ({
     form: state.user.loginForm
 })
 
-export default connect(mapStateToProps, { handleLoginFormChange, createUser})(withRouter(SignupForm))
+export default connect(mapStateToProps, { handleLoginFormChange, createUser})(SignupForm)

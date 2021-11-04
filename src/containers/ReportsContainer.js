@@ -1,14 +1,13 @@
-// import React, { Component} from 'react'
 import React, { useState, useEffect } from 'react'
 import { connect, useDispatch } from 'react-redux'
-import { Redirect, Link } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 import { getReports } from '../actions/reports'
-// import { getBreeds } from '../actions/breeds'
 import ReportForm from '../components/report/reportForm'
 import Report from '../components/report/report'
 import { DataGrid, GridToolbarFilterButton} from '@mui/x-data-grid'
 
 const ReportsContainer = (props) => {
+
     const dispatch = useDispatch()
 
     const [ sortDate, setSortDate ] = useState([{field: 'date', sort: 'desc'}])

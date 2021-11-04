@@ -1,3 +1,5 @@
+import { Navigate } from "react-router-dom"
+
 const BASE_URL = "http://localhost:3000/"
 
 export const handleLoginFormChange = (e) => ({
@@ -24,7 +26,7 @@ export const createUser = (formData, history) => {
                     type: "SET_USER",
                     payload: {user: res.user}
                 })
-                history.push('/profile')
+                return <Navigate replace to='/profile'/>
         }})
     }
 }
@@ -48,7 +50,8 @@ export const loginUser = (formData, history) => {
                     type: "SET_USER",
                     payload: {user: res.user}
                 })
-                history.push('/map')
+                // history.push('/map')
+                return <Navigate replace to='/map'/>
         }})
     }
 }
