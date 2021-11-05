@@ -1,12 +1,22 @@
-import React from 'react'
+import React, {useState} from 'react'
 import InfoWindow from './infoWindow'
 
 import '../../marker.css'
 
 const Marker = (props) => {
   // console.log(props)
+  const [hovered, setHovered] = useState(false)
+
+  const handleMouseEnter = () => {
+    setHovered(true)
+  }
+
+  const handleMouseLeave = () => {
+    setHovered(false)
+  }
+
     return (
-        <div>
+        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
          {/* style={{ 
           backgroundColor: props.show ? 'red' : 'blue',}}
           > */}
@@ -19,7 +29,7 @@ const Marker = (props) => {
             // cursor: 'pointer',
             // zIndex: 10,}}> */}
             <img src={process.env.PUBLIC_URL + "/location-pin.png"}
-              height= "60rem"
+              height= { hovered ? "80rem" : "60rem" }
               style={{position: 'absolute', transform: 'translate(-50%, -100%)'}}>
             </img> 
             { props.show === true ? <InfoWindow report={props}/> : null}

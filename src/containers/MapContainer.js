@@ -82,6 +82,8 @@ const MapContainer = (props) => {
                             bounds.nw.lat
                         ])
                     }}
+                    onChildMouseEnter={console.log("INSIDE A MARKER")}
+                    onChildMouseLeave={console.log("LEAVING MARKER")}
                     onChildClick={handleMarkerClick}>
                     {props.reports.map((report) => <Marker 
                     // {/* {filteredMarkers.map((report) => <Marker  */}

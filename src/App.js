@@ -1,14 +1,14 @@
 // import './App.css';
 import './marker.css'
 // import { Route, Switch, Redirect } from 'react-router-dom'
-import { Route, Routes, Navigate, useNavigate, Link } from 'react-router'
-import { connect } from 'react-redux'
+import { Route, Routes, Navigate, useNavigate, Link } from 'react-router-dom'
+import { connect, useDispatch } from 'react-redux'
 import { getReports } from './actions/reports'
 import { setCenter } from './actions/map'
 import { autoLoginUser, logoutUser } from './actions/user';
 import React, { useEffect } from 'react'
 import PrivateRoute from './containers/PrivateRoute'
-import PrivateOutlet from './containers/PrivateOutlet'
+// import PrivateOutlet from './containers/PrivateOutlet'
 import HomeContainer from './containers/HomeContainer'
 import ProfileContainer from './containers/ProfileContainer';
 import ReportsContainer from './containers/ReportsContainer';
@@ -21,25 +21,37 @@ import LoginForm from './components/auth/loginForm'
 import SignupForm from './components/auth/signupForm'
 
 
-const App = ({autoLoginUser, setCenter, user}) => {
+const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
 // class App extends Component {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   // componentDidMount(){
   //   localStorage.token && props.autoLoginUser()
   //   props.setCenter()
   // }
+  // useEffect(() => {
+  //   dispatch(setCenter())
+  // }, [dispatch])
 
-  useEffect(() => user && autoLoginUser() && setCenter(), [])
+  useEffect(() => user && autoLoginUser(), [])  // [ dependency1, dependency2, ...dependencyN]
+  // run function, then dont run it again until [arg1, arg2] ARG2 changes
+  // then 
+  // return a cleanup  function
+  // ,return cleanup = () => {console.log("cleaning up!")}
     // setCenter()
 
-  const logout = (props) => {
-    props.logoutUser()
-    // return <Navigate replace to='/' push={true} message={"You have been logged out!"}/>
-    navigate('/', {replace: true})
+  const logout = () => {
+    logoutUser()
+    return <Navigate replace to='/' push={true} message={"You have been logged out!"}/>
+    // navigate('/', {replace: true})
   }
 
+  // const LogoutElement = () => {
+  //   return logout
+  // }
+  
     return (
      <div className="App">
           <Navbar />
@@ -61,8 +73,12 @@ const App = ({autoLoginUser, setCenter, user}) => {
             {/* <PrivateRoute exact path='/reports/new' component={ReportForm} /> */}
             <Route path='/breeds' element={<BreedsContainer/>}/>
             <Route path='/login' element={<LoginForm/>}/>
+            {/* <Route path='/login/success' element={<LoginSuccess/>}/>
+            <Route path='/login/failure' element={<LoginFailed/>}/> */}
             <Route path='/signup' element={<SignupForm/>}/>
             <Route path='/logout' render={logout}/>
+            {/* <Route path='/logout' element={<LogoutElement/>}/> */}
+            {/* <Route path='/logout' element={<LogoutPage/>}/> */}
           </Routes>
     </div>
     );

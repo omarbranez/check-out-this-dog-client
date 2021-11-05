@@ -1,6 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, {useEffect} from 'react'
+import { connect, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { getReports } from '../actions/reports'
 
 import Report from '../components/report/report'
 
@@ -9,6 +10,11 @@ const ProfileContainer = (props) => {
     const params = useParams()
     const { username } = params
     console.log(params)
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getReports())
+    }, [dispatch])
 
     return(
         <div>
@@ -26,4 +32,4 @@ const mapStateToProps = (state) => ({
     reports: state.reports.reports.filter((report) => report.user_id === state.user.id ),
     user: state.user
 })
-export default connect(mapStateToProps)(ProfileContainer)
+export default connect(mapStateToProps, {getReports})(ProfileContainer)
