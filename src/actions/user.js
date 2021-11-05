@@ -7,7 +7,7 @@ export const handleLoginFormChange = (e) => ({
     payload: {name: e.target.name, value: e.target.value}
 })
 
-export const createUser = (formData, history) => {
+export const createUser = (formData, navigate) => {
     return dispatch => {
         fetch(BASE_URL + "/users", {
             method: 'POST',
@@ -26,12 +26,13 @@ export const createUser = (formData, history) => {
                     type: "SET_USER",
                     payload: {user: res.user}
                 })
-                return <Navigate replace to='/profile'/>
+                navigate('/login/success', {replace: true})
+                
         }})
     }
 }
 
-export const loginUser = (formData, history) => {
+export const loginUser = (formData, navigate) => {
     return dispatch => {
         fetch(BASE_URL + "/login", {
             method: 'POST',
@@ -51,7 +52,7 @@ export const loginUser = (formData, history) => {
                     payload: {user: res.user}
                 })
                 // history.push('/map')
-                return <Navigate replace to='/map'/>
+                navigate('/login/success', {replace: true})
         }})
     }
 }
@@ -74,9 +75,11 @@ export const autoLoginUser = () => {
     }
 }
 
-export const logoutUser = () => {
+export const logoutUser = (navigate) => {
     return dispatch => {
         localStorage.clear("token")
         dispatch({type: "LOGOUT"})
+        navigate('/welcome', {replace: true})
     }
+    
 }

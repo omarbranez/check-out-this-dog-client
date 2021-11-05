@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router'
 import { handleLoginFormChange, createUser} from '../../actions/user'
 
 const SignupForm = (props) => {
-    const history = useNavigate()
+    const navigate = useNavigate()
     const { form, handleLoginFormChange, createUser } = props
     const { username, password, passwordConfirmation } = form
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        password === passwordConfirmation ? createUser({username: username, password: password}) : alert("Passwords do not match")
+        password === passwordConfirmation ? createUser({username: username, password: password}, navigate) : alert("Passwords do not match")
     }
 
     return (

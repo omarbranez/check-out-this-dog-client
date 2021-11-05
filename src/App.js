@@ -18,7 +18,9 @@ import BreedsContainer from './containers/BreedsContainer';
 import MapContainer from './containers/MapContainer'
 import Navbar from './components/navbar'
 import LoginForm from './components/auth/loginForm'
+import LoginSuccess from './components/home/login'
 import SignupForm from './components/auth/signupForm'
+import LogoutPage from './components/home/logout'
 
 
 const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
@@ -73,12 +75,12 @@ const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
             {/* <PrivateRoute exact path='/reports/new' component={ReportForm} /> */}
             <Route path='/breeds' element={<BreedsContainer/>}/>
             <Route path='/login' element={<LoginForm/>}/>
-            {/* <Route path='/login/success' element={<LoginSuccess/>}/>
-            <Route path='/login/failure' element={<LoginFailed/>}/> */}
+            <Route path='/login/success' element={<LoginSuccess/>}/>
+            {/* <Route path='/login/failure' element={<LoginFailed/>}/> */}
             <Route path='/signup' element={<SignupForm/>}/>
-            <Route path='/logout' render={logout}/>
+            {/* <Route path='/logout' render={logout}/> */}
             {/* <Route path='/logout' element={<LogoutElement/>}/> */}
-            {/* <Route path='/logout' element={<LogoutPage/>}/> */}
+            <Route path='/logout' element={<LogoutPage/>}/>
           </Routes>
     </div>
     );
