@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux'
 import { Navigate, Link } from 'react-router-dom'
 import { getReports } from '../actions/reports'
 import ReportForm from '../components/report/reportForm'
-import Report from '../components/report/report'
+// import Report from '../components/report/report'
 import { DataGrid, GridToolbarFilterButton} from '@mui/x-data-grid'
 
 const ReportsContainer = (props) => {

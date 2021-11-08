@@ -39,6 +39,22 @@ export const getFilteredReports = () => {
     }
 })}}
 
+export const setSelectedReport = (id) => {
+    console.log("THE ID IS " + id)
+    return dispatch => {
+        fetch(REPORTS_URL + '/' + id)
+        .then(res => res.json())
+        .then(report => dispatch({
+            type: 'SET_SELECTED_REPORT',
+            payload: report
+        }))
+    }
+}
+
+export const unsetSelectedReport = () => ({
+    type: "UNSET_SELECTED_REPORT"
+})
+
 export const reportFormChange = (e) => ({
     type: "REPORT_FORM_CHANGE",
     payload: {name: e.target.name, value: e.target.value}

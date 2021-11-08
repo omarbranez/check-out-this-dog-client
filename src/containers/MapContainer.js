@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
-import GoogleMapReact from 'google-map-react'
+import GoogleMapReact from 'google-map-react/'
+// import { Map, InfoWindow, GoogleApiWrapper } from 'google-map-react'
+import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import { connect, useDispatch } from 'react-redux'
 import { getReports, toggleReportWindow } from '../actions/reports'
 import { setCenter } from '../actions/map'
@@ -15,8 +17,21 @@ const MapContainer = (props) => {
     const [bounds, setBounds] = useState(null)
     const [zoom, setZoom] = useState(14)
     const dispatch = useDispatch()
-
     const mapRef = useRef()
+    // console.log(MapMarker)
+    useEffect(() => {
+        dispatch(getReports())
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(setCenter())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (mapRef.current) {
+            const { map, maps } = mapRef.current
+        }
+    }, [mapRef])
    
     const handleMarkerClick = (e) => {
         console.log(e)
@@ -27,20 +42,40 @@ const MapContainer = (props) => {
         navigate('/reports/new')
     }
 
-    const handleOnLoad = (map,maps) => {
+    const handleOnLoad = ({ map, maps }) => {
+        mapRef.current = { map, maps }
         const controlButtonDiv = document.createElement('div')
         controlButtonDiv.addEventListener('click', () => { handleReportButtonClick() })
         ReactDOM.render(<ReportButton />, controlButtonDiv)
         map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(controlButtonDiv)
+        // mapRef.current = { map, maps }
+        const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const markers = props.reports && props.reports.map((report, i) => {
+            const lat = report.lat
+            const lng = report.lng
+            const location = { lat, lng }
+            console.log(location)
+            console.log(maps.Marker)
+            return new maps.Marker({position: location, label: labels[i % labels.length]})
+        })
+        console.log(markers)
+        new MarkerClusterer({map, markers})
+        // const infoWindow = new google
+        console.log(mapRef.current.maps)
     }
 
-    useEffect(() => {
-        dispatch(getReports())
-    }, [dispatch])
+    // const markers = props.reports && props.reports.map(report => {
+    //     const location = { lat:report.lat, lng:report.lng, }
 
-    useEffect(() => {
-        dispatch(setCenter())
-    }, [dispatch])
+    // })
+    // const markerCluster = new MarkerClusterer(map, markers, {
+    //     imagePath: './img/m1',
+    //     gridSize: 30,
+    //     minimumClusterSize: 3 
+    // })
+
+
+
 
     // useEffect(() => {
     //     dispatch(getFilteredReports())
@@ -69,10 +104,11 @@ const MapContainer = (props) => {
                     center={props.mapCoordinates.center}
                     defaultZoom={14}
                     yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) => {
-                        mapRef.current = map
-                        handleOnLoad(map, maps)
-                    }}
+                    onGoogleApiLoaded={handleOnLoad}
+                    // onGoogleApiLoaded={({ map, maps }) => {
+                        // mapRef.current = map
+                        // handleOnLoad(map, maps)
+                    // }}
                     onChange={({ zoom, bounds }) => {
                         setZoom(zoom)
                         setBounds([
@@ -82,11 +118,9 @@ const MapContainer = (props) => {
                             bounds.nw.lat
                         ])
                     }}
-                    onChildMouseEnter={console.log("INSIDE A MARKER")}
-                    onChildMouseLeave={console.log("LEAVING MARKER")}
                     onChildClick={handleMarkerClick}>
+                        {/* // {filteredMarkers.map((report) => <Marker  */}
                     {props.reports.map((report) => <Marker 
-                    // {/* {filteredMarkers.map((report) => <Marker  */}
                         key={report.id} 
                         lat={report.lat} 
                         lng={report.lng} 

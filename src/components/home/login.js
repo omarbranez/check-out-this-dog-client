@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 const LoginSuccess = (props) => {
     
     const navigate = useNavigate()
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             navigate('/map', { redirect: true})

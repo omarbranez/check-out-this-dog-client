@@ -10,12 +10,29 @@ const nullReportForm = {
     lng: null,
     age: null,
     features: '',
+    demeanor: '',
+    photo: null,
+    created: '',
+}
+
+const nullReport = {
+    id: null,
+    user_id: null,
+    dog_id: null,
+    name: '',
+    color: '',
+    gender: '',
+    lat: null,
+    lng: null,
+    age: null,
+    features: '',
     photo: null,
     created: '',
 }
 
 const initialState = {
     reports: [],
+    selectedReport: nullReport,
     reportForm: nullReportForm,
     loading: false,
 }
@@ -37,6 +54,12 @@ const reportReducer = (state=initialState, action) => {
                 reportForm: nullReportForm,
                 loading: false,
             }
+        case "SET_SELECTED_REPORT": 
+        // debugger
+        console.log(action.payload)
+            return {...state, selectedReport: action.payload}
+        case "UNSET_SELECTED_REPORT":
+            return {...state, selectedReport: nullReport}
         case "REPORT_FORM_CHANGE":
             // debugger
             return { ...state, reportForm: {

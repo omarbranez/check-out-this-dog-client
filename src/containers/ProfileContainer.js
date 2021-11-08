@@ -1,12 +1,15 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { connect, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { getReports } from '../actions/reports'
+// import Modal from 'react-modal'
+import ReportModal from '../components/report/modal'
 
-import Report from '../components/report/report'
+// import Report from '../components/report/report'
 
 const ProfileContainer = (props) => {
-
+    const navigate = useNavigate()
+    const [showModal, setShowModal] = useState(false)
     const params = useParams()
     const { username } = params
     console.log(params)
@@ -21,10 +24,29 @@ const ProfileContainer = (props) => {
             <h1>Welcome Back, {props.user.username}</h1>
             <h2>You have made {props.reports.length} reports</h2>
             <div>
-                {props.reports.map((report) => <Report key={report.id} {...report} user={props.user}/>)}
+                {props.reports.map((report) => <ReportModal key={report.id} {...report} user={props.user}/>)}
             </div>
         </div>
     )
+
+    // const handleReportClick = (e) => {
+    //     console.log(e)
+    //     setShowModal(!showModal)
+    //     navigate.call('/reports/7', {replace: true})
+    // }
+    // return (
+    //     <div>
+    //         <h1>Welcome Back, {props.user.username}</h1>
+    //         <h2>You have made {props.reports.length} reports</h2>
+    //         {props.reports.map((report) => 
+    //             <div>
+    //                 <h2 className='grow' style={{color:'blue'}} onClick={(e)=> handleReportClick(e)}>{report.name}, the {report.breed}</h2>
+    //                 <p>on: {report.created}</p>
+    //                 <ReportModal isOpen={showModal} {...report} user={props.user}/>
+    //             </div>)}
+            
+    //     </div>
+    // )
 }
 
 

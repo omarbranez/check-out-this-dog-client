@@ -6,3 +6,4 @@ const isUserLoggedIn = () => {
 }
 
 export default isUserLoggedIn
+
