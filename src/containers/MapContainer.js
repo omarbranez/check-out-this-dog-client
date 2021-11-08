@@ -121,6 +121,7 @@ const MapContainer = (props) => {
                     onChildClick={handleMarkerClick}>
                         {/* // {filteredMarkers.map((report) => <Marker  */}
                     {props.reports.map((report) => <Marker 
+                        id={report.id}
                         key={report.id} 
                         lat={report.lat} 
                         lng={report.lng} 

@@ -1,6 +1,9 @@
-// import React from 'react'
+import React from 'react'
+import { useNavigate } from "react-router-dom"
 
 const InfoWindow = (props) => {
+    // console.log(props)
+    const navigate = useNavigate()
     // console.log(props)
     const infoWindowStyle = {
         position: 'relative',
@@ -13,9 +16,16 @@ const InfoWindow = (props) => {
         fontSize: 14,
         zIndex: 100,
     }
+
+    const handleClick = () => {
+      console.log(props.report.id)
+      // props.clickable && 
+      navigate(`/reports/${props.report.id}`)
+    }
+    // console.log(props.report.id)
     
     return (
-        <div style={infoWindowStyle}>
+        <div style={infoWindowStyle} id={props.report.id}>
           <div style={{ fontSize: 16 }}>
             {props.report.name}
           </div>
@@ -25,6 +35,7 @@ const InfoWindow = (props) => {
           <div style={{ fontSize: 14, color: 'grey' }}>
             {props.report.timeCreated}
           </div>
+          <button onClick={handleClick}>Click to see Report Details</button>
         </div>
       )
 }
