@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import GoogleMapReact from 'google-map-react/'
-// import { Map, InfoWindow, GoogleApiWrapper } from 'google-map-react'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import { connect, useDispatch } from 'react-redux'
 import { getReports, toggleReportWindow } from '../actions/reports'
-import { setCenter } from '../actions/map'
+import { setCenter, resetCenter } from '../actions/map'
 // this needs to account for the user changing their location
 import Marker from '../components/map/marker'
 import ReportButton from '../components/map/reportButton'
+import CurrentLocationButton from '../components/map/currentLocationButton'
+import DefaultLocationButton from '../components/map/defaultLocationButton'
 import ReactDOM from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,17 +16,19 @@ const MapContainer = (props) => {
 
     const navigate = useNavigate()
     const [bounds, setBounds] = useState(null)
-    const [zoom, setZoom] = useState(14)
+    const [zoom, setZoom] = useState(15)
+
     const dispatch = useDispatch()
     const mapRef = useRef()
-    // console.log(MapMarker)
+
     useEffect(() => {
         dispatch(getReports())
     }, [dispatch])
 
-    useEffect(() => {
-        dispatch(setCenter())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(setCenter())
+    // }, [dispatch])
+    
 
     useEffect(() => {
         if (mapRef.current) {
@@ -42,26 +45,43 @@ const MapContainer = (props) => {
         navigate('/reports/new')
     }
 
+    const handleCurrentLocationClick = () => {
+        props.setCenter()
+    }
+
+    const handleDefaultLocationClick = () => {
+        props.resetCenter()
+    }
+
     const handleOnLoad = ({ map, maps }) => {
         mapRef.current = { map, maps }
         const controlButtonDiv = document.createElement('div')
         controlButtonDiv.addEventListener('click', () => { handleReportButtonClick() })
         ReactDOM.render(<ReportButton />, controlButtonDiv)
-        map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(controlButtonDiv)
+        map.controls[maps.ControlPosition.LEFT_BOTTOM].push(controlButtonDiv)
+        const currentLocationButtonDiv = document.createElement('div')
+        currentLocationButtonDiv.addEventListener('click', () => { handleCurrentLocationClick() })
+        ReactDOM.render(<CurrentLocationButton />, currentLocationButtonDiv)
+        map.controls[maps.ControlPosition.LEFT_BOTTOM].push(currentLocationButtonDiv)
+
+        const defaultLocationButtonDiv = document.createElement('div')
+        defaultLocationButtonDiv.addEventListener('click', () => { handleDefaultLocationClick() })
+        ReactDOM.render(<DefaultLocationButton />, defaultLocationButtonDiv)
+        map.controls[maps.ControlPosition.LEFT_BOTTOM].push(defaultLocationButtonDiv)
         // mapRef.current = { map, maps }
         const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const markers = props.reports && props.reports.map((report, i) => {
             const lat = report.lat
             const lng = report.lng
             const location = { lat, lng }
-            console.log(location)
-            console.log(maps.Marker)
+            // console.log(location)
+            // console.log(maps.Marker)
             return new maps.Marker({position: location, label: labels[i % labels.length]})
         })
-        console.log(markers)
+        // console.log(markers)
         new MarkerClusterer({map, markers})
         // const infoWindow = new google
-        console.log(mapRef.current.maps)
+        // console.log(mapRef.current.maps)
     }
 
     // const markers = props.reports && props.reports.map(report => {
@@ -98,17 +118,13 @@ const MapContainer = (props) => {
 
     return (
         <div style={{ height: '100vh', width: '100%', zIndex: 0 }}>
-            {(props.loading === false && props.mapLoading === false) ?
+            {(props.loading === false && props.currentCenter) ?
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: `${process.env.REACT_APP_B_API_KEY}` }}
-                    center={props.mapCoordinates.center}
-                    defaultZoom={14}
+                    center={props.currentCenter}
+                    defaultZoom={15}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={handleOnLoad}
-                    // onGoogleApiLoaded={({ map, maps }) => {
-                        // mapRef.current = map
-                        // handleOnLoad(map, maps)
-                    // }}
                     onChange={({ zoom, bounds }) => {
                         setZoom(zoom)
                         setBounds([
@@ -118,6 +134,7 @@ const MapContainer = (props) => {
                             bounds.nw.lat
                         ])
                     }}
+                    options={{fullscreenControl:false}}
                     onChildClick={handleMarkerClick}>
                         {/* // {filteredMarkers.map((report) => <Marker  */}
                     {props.reports.map((report) => <Marker 
@@ -135,14 +152,13 @@ const MapContainer = (props) => {
         }
         </div>
     )
-    {/* <Marker center={props.mapCoordinates.center} text="You are Here!"/> */}
 }
 
 const mapStateToProps = (state) => ({
     reports: state.reports.reports,
-    mapCoordinates: state.mapCoordinates,
+    userCenter: state.user.defaultCenter,
+    currentCenter: state.user.currentCenter,
     loading: state.reports.loading,
-    mapLoading: state.mapCoordinates.loading,
 })
 
-export default connect(mapStateToProps, { getReports, toggleReportWindow, setCenter })(MapContainer)
+export default connect(mapStateToProps, { getReports, toggleReportWindow, setCenter, resetCenter })(MapContainer)

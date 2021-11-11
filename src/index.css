@@ -91,5 +91,11 @@ hr {
   height: 20vh;
 }
 
+.currentLocationButton {
+  height: 15vh;
+}
 
+.defaultLocationButton {
+  height: 15vh;
+}
 
