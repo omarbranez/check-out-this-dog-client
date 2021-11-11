@@ -18,6 +18,7 @@ const initialState = {
         lng: '',
     },
     loginForm: initialLoginForm,
+    geolocating: false,
 }
 
 const userReducer = (state=initialState, action) => {
@@ -28,7 +29,7 @@ const userReducer = (state=initialState, action) => {
                 [action.payload.name]: action.payload.value
             }}
         case "LOGIN_FORM_CENTER_CHANGE":
-            debugger
+            // debugger
             return {...state, loginForm: {
                 ...state.loginForm,
                 lat: action.payload.lat,
@@ -53,6 +54,10 @@ const userReducer = (state=initialState, action) => {
                     lat: state.defaultCenter.lat,
                     lng: state.defaultCenter.lng,
             }}
+        case "CURRENTLY_GEOLOCATING":
+            return {...state, geolocating: true}
+        case "FINISHED_GEOLOCATING":
+            return {...state, geolocating: false}
         case "LOGOUT":
             return {...state, username: '', id: null}
         default:

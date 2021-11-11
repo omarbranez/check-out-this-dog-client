@@ -28,25 +28,6 @@ const ProfileContainer = (props) => {
             </div>
         </div>
     )
-
-    // const handleReportClick = (e) => {
-    //     console.log(e)
-    //     setShowModal(!showModal)
-    //     navigate.call('/reports/7', {replace: true})
-    // }
-    // return (
-    //     <div>
-    //         <h1>Welcome Back, {props.user.username}</h1>
-    //         <h2>You have made {props.reports.length} reports</h2>
-    //         {props.reports.map((report) => 
-    //             <div>
-    //                 <h2 className='grow' style={{color:'blue'}} onClick={(e)=> handleReportClick(e)}>{report.name}, the {report.breed}</h2>
-    //                 <p>on: {report.created}</p>
-    //                 <ReportModal isOpen={showModal} {...report} user={props.user}/>
-    //             </div>)}
-            
-    //     </div>
-    // )
 }
 
 

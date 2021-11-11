@@ -1,7 +1,7 @@
 export const setCenter = () => {
   return dispatch => { // try watchPosition
+    dispatch({ type: "CURRENTLY_GEOLOCATING" })
     navigator.geolocation.getCurrentPosition(position => {
-      dispatch({ type: "LOADING_MAP" })
       dispatch({
         type: "SET_NEW_CENTER", payload: {
           currentCenter: {
@@ -10,6 +10,7 @@ export const setCenter = () => {
           }
         }
       })
+      dispatch({ type: "FINISHED_GEOLOCATING"})
     })
   }
 }

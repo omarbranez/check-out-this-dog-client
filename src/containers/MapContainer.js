@@ -9,15 +9,15 @@ import Marker from '../components/map/marker'
 import ReportButton from '../components/map/reportButton'
 import CurrentLocationButton from '../components/map/currentLocationButton'
 import DefaultLocationButton from '../components/map/defaultLocationButton'
+import LoadingSpinner from '../components/map/loadingSpinner'
 import ReactDOM from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 
 const MapContainer = (props) => {
-
+    const center = useRef()
     const navigate = useNavigate()
     const [bounds, setBounds] = useState(null)
     const [zoom, setZoom] = useState(15)
-
     const dispatch = useDispatch()
     const mapRef = useRef()
 
@@ -25,10 +25,10 @@ const MapContainer = (props) => {
         dispatch(getReports())
     }, [dispatch])
 
-    // useEffect(() => {
-    //     dispatch(setCenter())
-    // }, [dispatch])
-    
+    useEffect(() => {
+        center.current = props.currentCenter
+        return resetCenter
+    }, [center,resetCenter, props.currentCenter])
 
     useEffect(() => {
         if (mapRef.current) {
@@ -55,10 +55,12 @@ const MapContainer = (props) => {
 
     const handleOnLoad = ({ map, maps }) => {
         mapRef.current = { map, maps }
+
         const controlButtonDiv = document.createElement('div')
         controlButtonDiv.addEventListener('click', () => { handleReportButtonClick() })
         ReactDOM.render(<ReportButton />, controlButtonDiv)
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(controlButtonDiv)
+
         const currentLocationButtonDiv = document.createElement('div')
         currentLocationButtonDiv.addEventListener('click', () => { handleCurrentLocationClick() })
         ReactDOM.render(<CurrentLocationButton />, currentLocationButtonDiv)
@@ -68,20 +70,18 @@ const MapContainer = (props) => {
         defaultLocationButtonDiv.addEventListener('click', () => { handleDefaultLocationClick() })
         ReactDOM.render(<DefaultLocationButton />, defaultLocationButtonDiv)
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(defaultLocationButtonDiv)
-        // mapRef.current = { map, maps }
+
         const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const markers = props.reports && props.reports.map((report, i) => {
             const lat = report.lat
             const lng = report.lng
             const location = { lat, lng }
-            // console.log(location)
-            // console.log(maps.Marker)
             return new maps.Marker({position: location, label: labels[i % labels.length]})
         })
-        // console.log(markers)
+
         new MarkerClusterer({map, markers})
-        // const infoWindow = new google
-        // console.log(mapRef.current.maps)
+        // const markerCluster = new MarkerClusterer({map, markers})
+        // maps.event.addListener(markerCluster, "mouseover", function (e){console.log(e)})
     }
 
     // const markers = props.reports && props.reports.map(report => {
@@ -115,6 +115,9 @@ const MapContainer = (props) => {
     //         })
     //     }
     // }
+    const handleOnChildMouseEnter = () => {
+
+    }
 
     return (
         <div style={{ height: '100vh', width: '100%', zIndex: 0 }}>
@@ -137,6 +140,7 @@ const MapContainer = (props) => {
                     options={{fullscreenControl:false}}
                     onChildClick={handleMarkerClick}>
                         {/* // {filteredMarkers.map((report) => <Marker  */}
+                    {props.geolocating ? <LoadingSpinner text={"Locating"}/>: null }
                     {props.reports.map((report) => <Marker 
                         id={report.id}
                         key={report.id} 
@@ -148,7 +152,7 @@ const MapContainer = (props) => {
                         timeCreated={report.time_created} 
                         name={report.name} />)}
                 </GoogleMapReact>
-            : <h2> Loading ...</h2>
+            : <LoadingSpinner text={"Loading"}/> 
         }
         </div>
     )
@@ -158,7 +162,9 @@ const mapStateToProps = (state) => ({
     reports: state.reports.reports,
     userCenter: state.user.defaultCenter,
     currentCenter: state.user.currentCenter,
+    geolocating: state.user.geolocating,
     loading: state.reports.loading,
+    
 })
 
 export default connect(mapStateToProps, { getReports, toggleReportWindow, setCenter, resetCenter })(MapContainer)

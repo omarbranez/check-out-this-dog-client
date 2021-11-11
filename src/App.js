@@ -7,6 +7,8 @@ import { getReports } from './actions/reports'
 import { setCenter } from './actions/map'
 import { autoLoginUser, logoutUser } from './actions/user';
 import React, { useEffect } from 'react'
+// import SimpleReactLightbox from 'simple-react-lightbox'
+
 import PrivateRoute from './containers/PrivateRoute'
 // import PrivateOutlet from './containers/PrivateOutlet'
 import HomeContainer from './containers/HomeContainer'
@@ -21,7 +23,6 @@ import LoginForm from './components/auth/loginForm'
 import LoginSuccess from './components/home/login'
 import SignupForm from './components/auth/signupForm'
 import LogoutPage from './components/home/logout'
-import Helmet from 'react-helmet';
 
 const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
 // class App extends Component {
@@ -82,9 +83,6 @@ const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
             {/* <Route path='/logout' element={<LogoutElement/>}/> */}
             <Route path='/logout' element={<LogoutPage/>}/>
           </Routes>
-          {/* <Helmet>
-          <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AoP-zJkbWhCm3e7ehFnO4ARWJBKN5pbIGv-6kNCDDbqm8aAB9REd_t3vvgBsq1gZ&callback=loadMapScenario'></script>
-          </Helmet> */}
     </div>
     );
   }
