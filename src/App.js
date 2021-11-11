@@ -21,14 +21,14 @@ import LoginForm from './components/auth/loginForm'
 import LoginSuccess from './components/home/login'
 import SignupForm from './components/auth/signupForm'
 import LogoutPage from './components/home/logout'
-
+import Helmet from 'react-helmet';
 
 const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
 // class App extends Component {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
+  
   // componentDidMount(){
   //   localStorage.token && props.autoLoginUser()
   //   props.setCenter()
@@ -43,7 +43,7 @@ const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
   // return a cleanup  function
   // ,return cleanup = () => {console.log("cleaning up!")}
     // setCenter()
-
+  // useEffect(() => localStorage.token && autoLoginUser)
   const logout = () => {
     logoutUser()
     return <Navigate replace to='/' push={true} message={"You have been logged out!"}/>
@@ -82,6 +82,9 @@ const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
             {/* <Route path='/logout' element={<LogoutElement/>}/> */}
             <Route path='/logout' element={<LogoutPage/>}/>
           </Routes>
+          {/* <Helmet>
+          <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AoP-zJkbWhCm3e7ehFnO4ARWJBKN5pbIGv-6kNCDDbqm8aAB9REd_t3vvgBsq1gZ&callback=loadMapScenario'></script>
+          </Helmet> */}
     </div>
     );
   }

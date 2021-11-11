@@ -2,11 +2,13 @@ const initialLoginForm = {
     username: '',
     password: '',
     passwordConfirmation: '',
+    zip: '',
 }
 
 const initialState = {
     id: null,
     username: '',
+
     loginForm: initialLoginForm,
 }
 
