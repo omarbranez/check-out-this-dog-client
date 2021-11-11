@@ -10,12 +10,12 @@ const initialState = {
     id: null,
     username: '',
     defaultCenter: {
-        lat: '',
-        lng: ''
+        lat: null,
+        lng: null
     },
     currentCenter: { // able to keep this logic in the reducer instead of a local state in map container
-        lat: '',
-        lng: '',
+        lat: null,
+        lng: null,
     },
     loginForm: initialLoginForm,
     geolocating: false,
@@ -46,20 +46,22 @@ const userReducer = (state=initialState, action) => {
                 lat: action.payload.user.lat,
                 lng: action.payload.user.lng,
             }}
-        case "SET_NEW_CENTER":
-            return {...state, ...action.payload}
         case "SET_DEFAULT_CENTER":
-            return {...state, 
+            return {
+                ...state,
                 currentCenter: {
                     lat: state.defaultCenter.lat,
                     lng: state.defaultCenter.lng,
-            }}
+                }
+            }
+        case "SET_NEW_CENTER":
+            return { ...state, ...action.payload }
         case "CURRENTLY_GEOLOCATING":
             return {...state, geolocating: true}
         case "FINISHED_GEOLOCATING":
             return {...state, geolocating: false}
         case "LOGOUT":
-            return {...state, username: '', id: null}
+            return {initialState}
         default:
             return {...state}
     }
