@@ -48,7 +48,6 @@ const Report = ({ setSelectedReport, unsetSelectedReport, id, user,
             <div>
                 < Map lat={lat} lng={lng}/>
             </div>
-        {/* </Modal> */}
     </div>
     
     return id ? loadedReport() : <h2>Loading...</h2>

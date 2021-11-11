@@ -38,7 +38,7 @@ const Marker = (props) => {
         height={hovered ? "80rem" : "60rem"}
         style={{ position: 'absolute', transform: 'translate(-50%, -100%)' }}>
       </img>
-      {props.show === true ? <InfoWindow key={props.id} report={props} /> : null}
+      {props.show === true ? <InfoWindow key={props.id} report={props} clickable={true}/> : null}
       {/* <img src="./location-pin.png"></img> */}
     </div>
     // <img src=

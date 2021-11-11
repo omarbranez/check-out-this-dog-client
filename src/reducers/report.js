@@ -1,4 +1,4 @@
-const nullReportForm = {
+    const nullReportForm = {
     id: null,
     user_id: null,
     dog_id: null,
