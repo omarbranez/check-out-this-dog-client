@@ -26,6 +26,9 @@ const MapContainer = (props) => {
     }, [dispatch])
 
     useEffect(() => {
+        resetCenter()
+    })
+    useEffect(() => {
         center.current = props.currentCenter
         return resetCenter
     }, [center,resetCenter, props.currentCenter])
@@ -35,39 +38,22 @@ const MapContainer = (props) => {
             const { map, maps } = mapRef.current
         }
     }, [mapRef])
-   
-    const handleMarkerClick = (e) => {
-        console.log(e)
-        props.toggleReportWindow(e)
-    }
-    
-    const handleReportButtonClick = () => {
-        navigate('/reports/new')
-    }
-
-    const handleCurrentLocationClick = () => {
-        props.setCenter()
-    }
-
-    const handleDefaultLocationClick = () => {
-        props.resetCenter()
-    }
 
     const handleOnLoad = ({ map, maps }) => {
         mapRef.current = { map, maps }
 
         const controlButtonDiv = document.createElement('div')
-        controlButtonDiv.addEventListener('click', () => { handleReportButtonClick() })
+        controlButtonDiv.addEventListener('click', () => { navigate('/reports/new') })
         ReactDOM.render(<ReportButton />, controlButtonDiv)
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(controlButtonDiv)
 
         const currentLocationButtonDiv = document.createElement('div')
-        currentLocationButtonDiv.addEventListener('click', () => { handleCurrentLocationClick() })
+        currentLocationButtonDiv.addEventListener('click', () => { props.setCenter() })
         ReactDOM.render(<CurrentLocationButton />, currentLocationButtonDiv)
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(currentLocationButtonDiv)
 
         const defaultLocationButtonDiv = document.createElement('div')
-        defaultLocationButtonDiv.addEventListener('click', () => { handleDefaultLocationClick() })
+        defaultLocationButtonDiv.addEventListener('click', () => { props.resetCenter() })
         ReactDOM.render(<DefaultLocationButton />, defaultLocationButtonDiv)
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(defaultLocationButtonDiv)
 
@@ -80,22 +66,7 @@ const MapContainer = (props) => {
         })
 
         new MarkerClusterer({map, markers})
-        // const markerCluster = new MarkerClusterer({map, markers})
-        // maps.event.addListener(markerCluster, "mouseover", function (e){console.log(e)})
     }
-
-    // const markers = props.reports && props.reports.map(report => {
-    //     const location = { lat:report.lat, lng:report.lng, }
-
-    // })
-    // const markerCluster = new MarkerClusterer(map, markers, {
-    //     imagePath: './img/m1',
-    //     gridSize: 30,
-    //     minimumClusterSize: 3 
-    // })
-
-
-
 
     // useEffect(() => {
     //     dispatch(getFilteredReports())
@@ -138,7 +109,7 @@ const MapContainer = (props) => {
                         ])
                     }}
                     options={{fullscreenControl:false}}
-                    onChildClick={handleMarkerClick}>
+                    onChildClick={(e) => {props.toggleReportWindow(e)}}>
                         {/* // {filteredMarkers.map((report) => <Marker  */}
                     {props.geolocating ? <LoadingSpinner text={"Locating"}/>: null }
                     {props.reports.map((report) => <Marker 

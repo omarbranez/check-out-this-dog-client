@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { setSelectedReport, unsetSelectedReport } from '../../actions/reports'
 import Map from '../map/map'
+import AnalyzeImage from './analyzeImage'
 
 //need to use nested routes
 const Report = ({ setSelectedReport, unsetSelectedReport, id, user,
@@ -48,6 +49,9 @@ const Report = ({ setSelectedReport, unsetSelectedReport, id, user,
             <div>
                 < Map lat={lat} lng={lng}/>
             </div>
+            <>
+                <AnalyzeImage imageUrl={photo.url}/>
+            </>
     </div>
     
     return id ? loadedReport() : <h2>Loading...</h2>

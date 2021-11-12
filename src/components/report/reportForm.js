@@ -6,6 +6,7 @@ import { createReport, reportFormChange, reportFormSelectChange, reportFormImage
 import { getBreeds } from '../../actions/breeds'
 import { useNavigate } from 'react-router-dom'
 import { colors } from '../../colors'
+import AnalyzeImage from './analyzeImage'
 
 
 const ReportForm = (props) => {
@@ -15,7 +16,7 @@ const ReportForm = (props) => {
     const [ showMap, setShowMap ] = useState(false)
     const [ disableButton, setDisableButton ] = useState(false)
 
-    const { age, color, dogId, features, demeanor, gender, lat, lng, name } = props.form
+    const { age, color, dogId, features, demeanor, gender, lat, lng, name, photo } = props.form
     
     const dispatch = useDispatch()
     useEffect(() => {
@@ -40,8 +41,8 @@ const ReportForm = (props) => {
     }
 
     const handleCurrentLocationClick = () => { 
-        triggerInput(document.getElementById("lat-field"), props.mapCoordinates.lat)
-        triggerInput(document.getElementById("lng-field"), props.mapCoordinates.lng)
+        triggerInput(document.getElementById("lat-field"), props.currentCenter.lat)
+        triggerInput(document.getElementById("lng-field"), props.currentCenter.lng)
     }
 
     const sendMapToForm = ({lat, lng}) => {
@@ -71,7 +72,7 @@ const ReportForm = (props) => {
                 </div>
                 <br />
                 <div >
-                    {showMap && !props.mapLoading ? <UserMap mapCoordinates={props.mapCoordinates} mapLoading={props.mapLoading} sendMapToForm={sendMapToForm} confirmClicked={confirmClicked}/> : null }
+                    {showMap && !props.geolocating ? <UserMap mapCoordinates={props.currentCenter} mapLoading={props.geolocating} sendMapToForm={sendMapToForm} confirmClicked={confirmClicked}/> : null }
                 </div>
                 <br />
                 <div>
@@ -123,6 +124,9 @@ const ReportForm = (props) => {
                     <input type="submit" value="Submit New Report" disabled={!isSubmitEnabled}/>
                 </div>
             </form>
+            <div>
+                <AnalyzeImage image={photo}/>
+            </div>
         </div>
     )
 }
@@ -132,8 +136,8 @@ const mapStateToProps = (state) => ({
     breeds: state.breeds.breeds,
     loading: state.breeds.loading,
     form: state.reports.reportForm,
-    mapCoordinates: state.mapCoordinates.center,
-    mapLoading: state.mapCoordinates.loading,
+    currentCenter: state.user.currentCenter,
+    geolocating: state.user.geolocating,
     user: state.user
 })
 

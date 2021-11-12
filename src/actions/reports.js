@@ -104,5 +104,6 @@ export const toggleReportWindow = (reportId) => ({
     payload: reportId
 })
 
-
-
+export const uploadPhotoToComputerVision = () => ({
+    
+})
