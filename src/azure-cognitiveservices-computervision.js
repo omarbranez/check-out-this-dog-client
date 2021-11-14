@@ -59,21 +59,21 @@ export const computerVision = async (url) => {
     console.log(url)
 
     const makeblob = function (url) { // turn the url into a blob
-        var BASE64_MARKER = ';base64,';
+        let BASE64_MARKER = ';base64,';
         if (url.indexOf(BASE64_MARKER) == -1) {
-            var parts = url.split(',');
-            var contentType = parts[0].split(':')[1];
-            var raw = decodeURIComponent(parts[1]);
+            let parts = url.split(',');
+            let contentType = parts[0].split(':')[1];
+            let raw = decodeURIComponent(parts[1]);
             return new Blob([raw], { type: contentType });
         }
-        var parts = url.split(BASE64_MARKER);
-        var contentType = parts[0].split(':')[1];
-        var raw = window.atob(parts[1]);
-        var rawLength = raw.length;
+        let parts = url.split(BASE64_MARKER);
+        let contentType = parts[0].split(':')[1];
+        let raw = window.atob(parts[1]);
+        let rawLength = raw.length;
 
-        var uInt8Array = new Uint8Array(rawLength);
+        let uInt8Array = new Uint8Array(rawLength);
 
-        for (var i = 0; i < rawLength; ++i) {
+        for (let i = 0; i < rawLength; ++i) {
             uInt8Array[i] = raw.charCodeAt(i);
         }
 
@@ -89,13 +89,11 @@ export const computerVision = async (url) => {
     // analyze image
     const analysis = await computerVisionClient.analyzeImageInStream(urlToAnalyze, { visualFeatures });
 
-    // const analysis = await computerVisionClient.analyzeImageInStream({image, visualFeatures });
-
 
     // text detected - what does it say and where is it
-    if (includesText(analysis.tags) || includesHandwriting(analysis.tags)) {
-        analysis.text = await readTextFromURL(computerVisionClient, urlToAnalyze);
-    }
+    // if (includesText(analysis.tags) || includesHandwriting(analysis.tags)) {
+    //     analysis.text = await readTextFromURL(computerVisionClient, urlToAnalyze);
+    // }
 
     // all information about image
     return { "URL": urlToAnalyze, ...analysis};

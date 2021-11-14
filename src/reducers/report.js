@@ -28,6 +28,8 @@ const nullReport = {
     features: '',
     photo: null,
     created: '',
+    reactions: [],
+    comments: []
 }
 
 const initialState = {

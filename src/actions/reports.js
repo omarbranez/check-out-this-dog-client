@@ -1,4 +1,5 @@
-const REPORTS_URL = 'http://localhost:3000/encounters'
+const REPORTS_URL = 'http://localhost:3000/reports'
+const REACTIONS_URL = 'http://localhost:3000/reactions'
 
 export const getReports = () => {
     return dispatch => {
@@ -104,6 +105,31 @@ export const toggleReportWindow = (reportId) => ({
     payload: reportId
 })
 
-export const uploadPhotoToComputerVision = () => ({
-    
-})
+export const addLiked = (userId, reportId) => {
+    return dispatch => {
+        fetch(REACTIONS_URL, {
+            method: 'POST',
+            body: {
+                user_id: userId,
+                report_id: reportId,
+                liked: true
+            }
+        })
+    }
+}
+
+export const undoLiked = (userId, reportId) => {
+    return dispatch => {
+        fetch(REACTIONS_URL, {
+            method: 'DELETE',
+            body: {
+                user_id: userId,
+                report_id: reportId,
+                liked: true
+            }
+        })
+        // .then(res => res.json())
+        .then(getReports()) // we dont want the reactions sent back, we want the updated reports
+    }
+}
+
