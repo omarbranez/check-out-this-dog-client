@@ -1,4 +1,4 @@
-export const setCenter = () => {
+export const setGeolocatedCenter = () => {
   return dispatch => { // try watchPosition
     dispatch({ type: "CURRENTLY_GEOLOCATING" })
     navigator.geolocation.getCurrentPosition(position => {
@@ -14,6 +14,16 @@ export const setCenter = () => {
     })
   }
 }
+
+export const setMarkerCenter = (markerLat, markerLng) => ({
+  type: "SET_NEW_CENTER",
+  payload: {
+    currentCenter: {
+      lat: markerLat,
+      lng: markerLng,
+    }
+  }
+})
 
 export const resetCenter = () => ({
   type: "SET_DEFAULT_CENTER"

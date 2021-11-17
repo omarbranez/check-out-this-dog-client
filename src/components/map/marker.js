@@ -1,11 +1,14 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setMarkerCenter } from '../../actions/map'
 import InfoWindow from './infoWindow'
 
 import '../../marker.css'
 
 const Marker = (props) => {
   // console.log(props)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [hovered, setHovered] = useState(false)
 
@@ -17,23 +20,16 @@ const Marker = (props) => {
     setHovered(false)
   }
 
+  const handleMarkerClick = () => {
+    console.log('marker clicked')
+    dispatch(setMarkerCenter(props.lat, props.lng))
+  }
   // const handleClick = (e) => {
   //   console.log("Currently Clicked Marker ID is " + e)
   //   navigate(`/reports/${e}`)
   // }
   return (
-    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      {/* style={{ 
-          backgroundColor: props.show ? 'red' : 'blue',}}
-          > */}
-      {/* // className="pin bounce" 
-            // style={{
-            // border: '1px solid white',
-            // borderRadius: '50%',
-            // height: 10,
-            // width: 10,
-            // cursor: 'pointer',
-            // zIndex: 10,}}> */}
+    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleMarkerClick}>
       <img src={process.env.PUBLIC_URL + "/location-pin.png"}
         height={hovered ? "80rem" : "60rem"}
         style={{ position: 'absolute', transform: 'translate(-50%, -100%)' }}>

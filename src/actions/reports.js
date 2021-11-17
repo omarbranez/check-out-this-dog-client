@@ -4,7 +4,10 @@ export const getReports = () => {
     return dispatch => {
         dispatch({ type: "LOADING_REPORTS"})
         fetch(REPORTS_URL, {
-            header: 'Access-Control-Allow-Origin'
+            headers: {
+            // 'Access-Control-Allow-Origin'
+            'Authorization': localStorage.token,
+            }
         })
         .then(res => res.json())
         .then(responseJSON => dispatch({
@@ -40,15 +43,11 @@ export const getFilteredReports = () => {
 })}}
 
 export const setSelectedReport = (id) => {
-    // console.log("THE ID IS " + id)
-    // debugger
     return dispatch => {
-        // dispatch({type: "ADD_LIKE_TO_SET_REPORT"})
         fetch(REPORTS_URL + '/' + id, {
             headers: {
                 'Authorization': localStorage.token,
             }})
-        // .then(res => console.log(res.json()))
         .then(res => res.json())
         .then(report => dispatch({
             type: 'SET_SELECTED_REPORT',
@@ -125,22 +124,13 @@ export const addLiked = (userId, reportId) => {
             })
         })
         .then(dispatch(setSelectedReport(reportId)))
-
-        // .then(dispatch({
-        //     type: "LIKE_REPORT"
-        // }))
 }}
 
 export const undoLiked = (likeId, reportId) => {
-    // console.log(likeId)
     return dispatch => {
         fetch(REACTIONS_URL + `/${likeId}`, {
             method: 'DELETE',
         })
-        // .then(res => res.json())
-        // .then(dispatch({
-        //     type: "UNLIKE_REPORT"
-        // }))
         .then(dispatch(setSelectedReport(reportId)))
     }
 }

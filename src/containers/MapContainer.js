@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react/'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import { connect, useDispatch } from 'react-redux'
 import { getReports, toggleReportWindow } from '../actions/reports'
-import { setCenter, resetCenter } from '../actions/map'
+import { setGeolocatedCenter, resetCenter } from '../actions/map'
 // this needs to account for the user changing their location
 import Marker from '../components/map/marker'
 import ReportButton from '../components/map/reportButton'
@@ -139,4 +139,4 @@ const mapStateToProps = (state) => ({
     
 })
 
-export default connect(mapStateToProps, { getReports, toggleReportWindow, setCenter, resetCenter })(MapContainer)
+export default connect(mapStateToProps, { getReports, toggleReportWindow, setGeolocatedCenter, resetCenter })(MapContainer)

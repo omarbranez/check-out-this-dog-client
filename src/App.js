@@ -4,7 +4,7 @@ import './marker.css'
 import { Route, Routes, Navigate, useNavigate, Link } from 'react-router-dom'
 import { connect, useDispatch } from 'react-redux'
 import { getReports } from './actions/reports'
-import { setCenter } from './actions/map'
+import { setGeolocatedCenter } from './actions/map'
 import { autoLoginUser, logoutUser } from './actions/user';
 import React, { useEffect } from 'react'
 // import SimpleReactLightbox from 'simple-react-lightbox'
@@ -94,4 +94,4 @@ const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
 const mapStateToProps = (state) => {
   return {user: state.user}
 }
-export default connect(mapStateToProps, {getReports, setCenter, autoLoginUser, logoutUser })(App);
+export default connect(mapStateToProps, {getReports, setGeolocatedCenter, autoLoginUser, logoutUser })(App);

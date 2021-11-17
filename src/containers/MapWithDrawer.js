@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react/'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import { connect, useDispatch } from 'react-redux'
 import { getReports, toggleReportWindow } from '../actions/reports'
-import { setCenter, resetCenter } from '../actions/map'
+import { setGeolocatedCenter, resetCenter } from '../actions/map'
 // this needs to account for the user changing their location
 import Marker from '../components/map/marker'
 import ReportButton from '../components/map/reportButton'
@@ -118,7 +118,7 @@ const MapContainer = (props) => {
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(controlButtonDiv)
 
         const currentLocationButtonDiv = document.createElement('div')
-        currentLocationButtonDiv.addEventListener('click', () => { props.setCenter() })
+        currentLocationButtonDiv.addEventListener('click', () => { props.setGeolocatedCenter() })
         ReactDOM.render(<CurrentLocationButton />, currentLocationButtonDiv)
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(currentLocationButtonDiv)
 
@@ -133,6 +133,7 @@ const MapContainer = (props) => {
         aria-label="open drawer"
         edge="end">   <MenuIcon /></IconButton>, openListButtonDiv)
         map.controls[maps.ControlPosition.TOP_RIGHT].push(openListButtonDiv)
+
         const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const markers = props.reports && props.reports.map((report, i) => {
             const lat = report.lat
@@ -180,8 +181,6 @@ const MapContainer = (props) => {
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <Main open={open} sx={{ height: [null, null, 700], zIndex: 1 }}>
-                    {/* <DrawerHeader /> */}
-                    {/* <div style={{ height: '100vh', width: '100%', zIndex: 0 }}> */}
                     <GoogleMapReact
                         bootstrapURLKeys={{ key: `${process.env.REACT_APP_B_API_KEY}` }}
                         center={props.currentCenter}
@@ -260,4 +259,4 @@ const mapStateToProps = (state) => ({
     
 })
 
-export default connect(mapStateToProps, { getReports, toggleReportWindow, setCenter, resetCenter })(MapContainer)
+export default connect(mapStateToProps, { getReports, toggleReportWindow, setGeolocatedCenter, resetCenter })(MapContainer)
