@@ -56,7 +56,6 @@ export const loginUser = (formData, navigate) => {
                     type: "SET_USER",
                     payload: {user: res.user}
                 })
-                // history.push('/map')
                 navigate('/login/success', {replace: true})
         }})
     }
@@ -72,6 +71,7 @@ export const autoLoginUser = () => {
             },
         })
         .then(res => res.json())
+        // .then(console.log(res))
         .then(res => {
             dispatch({
                 type: "SET_USER",

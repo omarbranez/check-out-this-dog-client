@@ -5,7 +5,7 @@ import Marker from './marker'
 const Map = (props) => {
     const {lat, lng} = props
     return(
-        <div style={{ height: '200px', width: '200px', display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <div style={{ height: '200px', width: '200px', display: "flex", justifyContent: "center", alignItems: "center", margin: 'auto'}}>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: `${process.env.REACT_APP_B_API_KEY}`}}
                 center={[lat, lng]}

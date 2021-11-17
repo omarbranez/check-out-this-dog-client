@@ -36,7 +36,6 @@ const userReducer = (state=initialState, action) => {
                 lng: action.payload.lng,
             }}
         case "SET_USER":
-            // debugger
             return {...state, ...action.payload.user,
             defaultCenter: {
                 lat: action.payload.user.lat,

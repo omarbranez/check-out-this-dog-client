@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { setSelectedReport, unsetSelectedReport } from '../../actions/reports'
+import { setSelectedReport, unsetSelectedReport, addLiked, undoLiked } from '../../actions/reports'
 import Map from '../map/map'
 import ReactionButton from '../reactions/reactionButton'
 import Tooltip from '@mui/material/Tooltip'
 
 //need to use nested routes
-const Report = ({ setSelectedReport, unsetSelectedReport, id, user,
+const Report = ({ addLiked, undoLiked, setSelectedReport, unsetSelectedReport, id, user,
     user_id,
     dog_id,
     breed,
@@ -22,16 +22,30 @@ const Report = ({ setSelectedReport, unsetSelectedReport, id, user,
     photo,
     created,
     reactions,
-    comments}) => {
-    console.log(reactions.length)
-    console.log(comments.length)
+    comments, liked}) => {
+    
     const location = useLocation()
     const reportId = location.pathname[9]
     
+    // const [likeId, setLikeId] = useState(null)
     useEffect(()=> {
         id ? setSelectedReport(id) : setSelectedReport(reportId)
         return unsetSelectedReport
     }, [setSelectedReport, reportId, unsetSelectedReport])
+
+    // useEffect(()=> {
+    //     reactions.find((reaction) => (reaction.user_id == user.id)) && setLikeId
+    // })
+    // const handleClick = () => {
+    //     if (!reactions.find((reaction) => (reaction.user_id == user.id))){
+    //         addLiked(user.id, id) //got rid of parseint
+    //     } else { undoLiked(getOwnLikeId) }
+    // }
+    const handleClick = () => {
+        liked ? undoLiked(getOwnLikeId, id) : addLiked(user.id, id) 
+    }
+
+    const getOwnLikeId = reactions.find(reaction => reaction.user_id == user.id) ? reactions.find(reaction => reaction.user_id == user.id).id : null
 
     const [hovered, setHovered] = useState(false)
     const [showModal, setShowModal] = useState(false)
@@ -40,14 +54,16 @@ const Report = ({ setSelectedReport, unsetSelectedReport, id, user,
         <div>
             <h2>{name}, the {breed}</h2>
             <p>on: {created}</p>
-            <ReactionButton userId={user.id} reportId={id} count={reactions.length}/>
+            <div onClick={handleClick}>
+            <ReactionButton user={user} userId={user.id} reportId={id} liked={liked} reactions={reactions}/>
+            </div>
             {user.id === user_id ? <p>Reported by: You!</p> : <p>Reported by: {user.username}</p>}
             <p>Breed: {breed}</p>
             <p>Color: {color}</p>
             <p>Age: {age}</p>
             <p>Features: {features}</p>
             <p>Demeanor: {demeanor}</p>
-            <img className="photo" src={photo.url} />
+            <img className="photo" src={photo.url} style={{maxWidth: '30%', height:'auto'}}/>
             <p>Location:</p>
             <div>
                 < Map lat={lat} lng={lng} />
@@ -59,7 +75,9 @@ const Report = ({ setSelectedReport, unsetSelectedReport, id, user,
 
 const mapStateToProps = (state) => ({
     ...state.reports.selectedReport,
-    user: state.user
+    user: state.user,
+    reactionsCount: state.reports.reactionsCount,
+    // localLiked: state.reports.liked,
 })
 
-export default connect(mapStateToProps, { setSelectedReport, unsetSelectedReport})(Report)
+export default connect(mapStateToProps, { setSelectedReport, unsetSelectedReport, addLiked, undoLiked})(Report)

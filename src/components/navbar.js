@@ -26,7 +26,7 @@ class Navbar extends Component {
                 < Link to="/"><button>Home</button>  </Link>
                 {/* {isUserLoggedIn() ? < Link to={"/profile/"+`${username}`}>{username}'s Profile  </Link> : null} */}
                 {isUserLoggedIn() ? < Link to={"/profile/"+`${username}`}><button variant="contained" >{username}'s Profile</button></Link> : null}
-                {isUserLoggedIn() ? < Link to="/reports/new"><button variant="contained"on >New Report</button></Link> : null}
+                {isUserLoggedIn() ? < Link to="/reports/new"><button variant="contained" >New Report</button></Link> : null}
                 < Link to="/map"><button variant="contained" >Map</button></Link>
                 < Link to="/reports"><button variant="contained" >News Feed</button></Link>
                 {isUserLoggedIn() ? null : < Link to="/login"><button variant="contained" >Log In </button></Link>}

@@ -1,6 +1,5 @@
 const REPORTS_URL = 'http://localhost:3000/reports'
 const REACTIONS_URL = 'http://localhost:3000/reactions'
-
 export const getReports = () => {
     return dispatch => {
         dispatch({ type: "LOADING_REPORTS"})
@@ -41,9 +40,15 @@ export const getFilteredReports = () => {
 })}}
 
 export const setSelectedReport = (id) => {
-    console.log("THE ID IS " + id)
+    // console.log("THE ID IS " + id)
+    // debugger
     return dispatch => {
-        fetch(REPORTS_URL + '/' + id)
+        // dispatch({type: "ADD_LIKE_TO_SET_REPORT"})
+        fetch(REPORTS_URL + '/' + id, {
+            headers: {
+                'Authorization': localStorage.token,
+            }})
+        // .then(res => console.log(res.json()))
         .then(res => res.json())
         .then(report => dispatch({
             type: 'SET_SELECTED_REPORT',
@@ -109,27 +114,34 @@ export const addLiked = (userId, reportId) => {
     return dispatch => {
         fetch(REACTIONS_URL, {
             method: 'POST',
-            body: {
+            headers: {
+                'Content-Type': "application/json",
+                "Accept": "application/json",
+                'Authorization': localStorage.token,
+            },
+            body: JSON.stringify({
                 user_id: userId,
-                report_id: reportId,
-                liked: true
-            }
+                report_id: reportId
+            })
         })
-    }
-}
+        .then(dispatch(setSelectedReport(reportId)))
 
-export const undoLiked = (userId, reportId) => {
+        // .then(dispatch({
+        //     type: "LIKE_REPORT"
+        // }))
+}}
+
+export const undoLiked = (likeId, reportId) => {
+    // console.log(likeId)
     return dispatch => {
-        fetch(REACTIONS_URL, {
+        fetch(REACTIONS_URL + `/${likeId}`, {
             method: 'DELETE',
-            body: {
-                user_id: userId,
-                report_id: reportId,
-                liked: true
-            }
         })
         // .then(res => res.json())
-        .then(getReports()) // we dont want the reactions sent back, we want the updated reports
+        // .then(dispatch({
+        //     type: "UNLIKE_REPORT"
+        // }))
+        .then(dispatch(setSelectedReport(reportId)))
     }
 }
 

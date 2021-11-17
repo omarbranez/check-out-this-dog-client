@@ -23,6 +23,8 @@ import LoginForm from './components/auth/loginForm'
 import LoginSuccess from './components/home/login'
 import SignupForm from './components/auth/signupForm'
 import LogoutPage from './components/home/logout'
+import PersistentDrawerRight from './components/map/drawer'
+import MapWithDrawer from './containers/MapWithDrawer'
 
 const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
 // class App extends Component {
@@ -82,6 +84,8 @@ const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
             {/* <Route path='/logout' render={logout}/> */}
             {/* <Route path='/logout' element={<LogoutElement/>}/> */}
             <Route path='/logout' element={<LogoutPage/>}/>
+            <Route path='/drawer' element={<PersistentDrawerRight/>}/>
+            <Route path='/mapwithdrawer' element={<MapWithDrawer/>}/>
           </Routes>
     </div>
     );

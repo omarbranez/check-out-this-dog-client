@@ -10,6 +10,7 @@ import ReportButton from '../components/map/reportButton'
 import CurrentLocationButton from '../components/map/currentLocationButton'
 import DefaultLocationButton from '../components/map/defaultLocationButton'
 import LoadingSpinner from '../components/map/loadingSpinner'
+import Box from '@mui/material/Box';
 import ReactDOM from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 
