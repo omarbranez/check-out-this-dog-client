@@ -17,7 +17,7 @@ import ReportsContainer from './containers/ReportsContainer';
 import ReportForm from './components/report/reportForm'
 import Report from './components/report/report'
 import BreedsContainer from './containers/BreedsContainer';
-import MapContainer from './containers/MapContainer'
+// import MapContainer from './containers/MapContainer'
 import Navbar from './components/navbar'
 import LoginForm from './components/auth/loginForm'
 import LoginSuccess from './components/home/login'
@@ -69,7 +69,7 @@ const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
             {/* <Route path="/profile/:username" element={<PrivateOutlet/>}>
               <Route element={<ProfileContainer/>}/>
             </Route> */}
-            <Route path='/map' element={<MapContainer/>}/>
+            {/* <Route path='/map' element={<MapContainer/>}/> */}
             {/* <Route exact path="/reports" component={ReportsContainer}/> */}
             <Route path='/reports' exact element={<ReportsContainer/>}/>
             <PrivateRoute path='/reports/new' exact element={<ReportForm/>}/>
@@ -85,7 +85,7 @@ const App = ({autoLoginUser, setCenter, user, logoutUser}) => {
             {/* <Route path='/logout' element={<LogoutElement/>}/> */}
             <Route path='/logout' element={<LogoutPage/>}/>
             <Route path='/drawer' element={<PersistentDrawerRight/>}/>
-            <Route path='/mapwithdrawer' element={<MapWithDrawer/>}/>
+            <Route path='/map' element={<MapWithDrawer/>}/>
           </Routes>
     </div>
     );

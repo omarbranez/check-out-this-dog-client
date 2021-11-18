@@ -123,6 +123,7 @@ export const addLiked = (userId, reportId) => {
                 report_id: reportId
             })
         })
+        .then(res => console.log(res.json()))
         .then(dispatch(setSelectedReport(reportId)))
 }}
 
@@ -131,6 +132,7 @@ export const undoLiked = (likeId, reportId) => {
         fetch(REACTIONS_URL + `/${likeId}`, {
             method: 'DELETE',
         })
+        .then(res => console.log(res.status))
         .then(dispatch(setSelectedReport(reportId)))
     }
 }

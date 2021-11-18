@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import GoogleMapReact from 'google-map-react/'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
-import { connect, useDispatch } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { getReports, toggleReportWindow } from '../actions/reports'
-import { setGeolocatedCenter, resetCenter } from '../actions/map'
+import { setGeolocatedCenter, resetCenter, setMarkerCenter } from '../actions/map'
 // this needs to account for the user changing their location
 import Marker from '../components/map/marker'
 import ReportButton from '../components/map/reportButton'
@@ -79,7 +79,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }));
 
 const MapContainer = (props) => {
-    
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     
@@ -90,14 +90,12 @@ const MapContainer = (props) => {
     const [open, setOpen] = useState(false);
     const [bounds, setBounds] = useState(null)
     const [zoom, setZoom] = useState(15)
+    const [filteredReports, setFilteredReports] = useState(null)
 
     useEffect(() => {
         dispatch(getReports())
     }, [dispatch])
 
-    useEffect(() => {
-        resetCenter()
-    })
     useEffect(() => {
         center.current = props.currentCenter
         return resetCenter
@@ -109,9 +107,20 @@ const MapContainer = (props) => {
         }
     }, [mapRef])
 
-    const handleOnLoad = ({ map, maps }) => {
-        mapRef.current = { map, maps }
+    const filterReports = (reports, bounds) => {
+        setFilteredReports(reports.filter(report => inBoundingBox(bounds[0], bounds[1], report.lat, report.lng)))
+    }
 
+    useEffect(() => {
+        filterReports(props.reports, bounds)
+    }, [bounds])
+
+    console.log(bounds)
+    console.log(zoom)
+    console.log(filteredReports)
+
+    const handleOnLoad = ({ map, maps }) => { // this is the only way to add controls to google maps api
+        mapRef.current = { map, maps }
         const controlButtonDiv = document.createElement('div')
         controlButtonDiv.addEventListener('click', () => { navigate('/reports/new') })
         ReactDOM.render(<ReportButton />, controlButtonDiv)
@@ -141,41 +150,51 @@ const MapContainer = (props) => {
             const location = { lat, lng }
             return new maps.Marker({position: location, label: labels[i % labels.length]})
         })
-
+        
         new MarkerClusterer({map, markers})
+        const boundsFilter = (lat, lng) => {
+            const filter = new mapRef.current.maps.LatLngBounds(bounds[5], bounds[4])
+            if (filter.contains({lat: lat, lng: lng})){
+                return true
+            } else {
+                return false
+            }
+        }
     }
+
     const handleDrawerOpen = () => {
         setOpen(true);
-      };
-    
-      const handleDrawerClose = () => {
+    };
+
+    const handleDrawerClose = () => {
         setOpen(false);
-      };
-      const handleListItemClick = (id) => {
-          console.log(`${id} was clicked`)
-      }
-
-    // useEffect(() => {
-    //     dispatch(getFilteredReports())
-    // }, [dispatch])
-    
-
-    // const filterMarkersByBounds = () => {
-    //     if (props.reports) {
-    //         const filteredMarkers = props.reports.filter( report => {
-    //             if ( report.lat > bounds.se.lat && bounds.sw.lat && 
-    //                 (report.lat < bounds.ne.lat && bounds.nw.lat) && 
-    //                 (report.lng > bounds.nw.lng && bounds.sw.lng) && 
-    //                 (report.lng < bounds.ne.lng && bounds.se.lng)
-    //             ) { 
-    //                 return report
-    //             }
-    //         })
-    //     }
-    // }
-    const handleOnChildMouseEnter = () => {
-
+    };
+    const handleListItemClick = (lat, lng) => {
+        console.log(handleOnLoad(lat, lng))
+        props.setMarkerCenter(lat, lng)
     }
+    
+    const inBoundingBox = (sw, ne, rLat, rLng) => {
+        if (sw && ne && rLat && rLng) { 
+        let isLngInRange
+        if (ne.lng < sw.lng) {
+            isLngInRange = rLng >= sw.lng || rLng <= ne.lng
+        } else {
+            isLngInRange = rLng >= sw.lng && rLng <= ne.lng
+        }
+        return (
+            rLat >= sw.lat && rLat <= ne.lat && isLngInRange
+        )
+        } else {
+            return false
+        }
+    }
+    
+    // const filteredReports = () => { props.reports && props.reports.filter(report => inBoundingBox(bounds[0], bounds[1], report.lat, report.lng))}
+    // const filterReports = () => {
+    //     setFilteredReports(props.reports.filter(report => inBoundingBox(props.bounds.sw, props.bounds.ne, report.lat, report.lng)))
+    // }
+    // console.log(filteredReports)
     const renderMap = () => 
         <div>
             <Box sx={{ display: 'flex' }}>
@@ -190,10 +209,8 @@ const MapContainer = (props) => {
                         onChange={({ zoom, bounds }) => {
                             setZoom(zoom)
                             setBounds([
-                                bounds.nw.lng,
-                                bounds.se.lat,
-                                bounds.se.lng,
-                                bounds.nw.lat
+                                bounds.sw,
+                                bounds.ne,
                             ])
                         }}
                         options={{ fullscreenControl: false }}
@@ -230,16 +247,19 @@ const MapContainer = (props) => {
                     </DrawerHeader>
                     <Divider />
                     <List >
-                        {props.reports.map((report, index) => (
+                        {/* {props.reports.map((report, index) => ( */}
+                        {filteredReports.length > 0 ? filteredReports.map((report, index) => (
                             <ListItem button key={report.id} >
                                 <ListItemAvatar>
                                     <Avatar alt={report.breed} src={`dog-icons/${report.breed}.png`} variant="square" sx={{ width: [null, null, 36] }} />
                                 </ListItemAvatar>
-                                <ListItemText primary={report.breed} secondary={report.name} onClick={(e) => handleListItemClick(report.id)}>
+                                <ListItemText primary={report.breed} secondary={report.name} onClick={(e) => handleListItemClick(report.lat, report.lng)}>
 
                                 </ListItemText>
                             </ListItem>
-                        ))}
+                        )) : <ListItem>
+                                <ListItemText primary="No Reports Found Here. Zoom Out or Pan Around to See More!"></ListItemText>
+                            </ListItem>}
                     </List>
                 </Drawer>
             </Box>
@@ -250,13 +270,30 @@ const MapContainer = (props) => {
   
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+    // const inBoundingBox = (sw, ne, rLat, rLng) => {
+    //     debugger
+    //     let isLngInRange
+    //     if (ne.lng < sw.lng) {
+    //         isLngInRange = rLng >= sw.lng || rLng <= ne.lng
+    //     } else {
+    //         isLngInRange = rLng >= sw.lng && rLng <= ne.lng
+    //     }
+    //     return (
+    //         rLat >= sw.lat && rLat <= ne.lat && isLngInRange
+    //     )
+    // }
+    // const filteredReports = state.reports.reports && state.reports.reports.filter(report => inBoundingBox(state.user.bounds.sw, state.user.bounds.ne, report.lat, report.lng))
+
+    return {
+    // filteredReports, 
     reports: state.reports.reports,
     userCenter: state.user.defaultCenter,
     currentCenter: state.user.currentCenter,
     geolocating: state.user.geolocating,
     loading: state.reports.loading,
-    
-})
+    bounds: state.user.bounds
+    }
+}
 
-export default connect(mapStateToProps, { getReports, toggleReportWindow, setGeolocatedCenter, resetCenter })(MapContainer)
+export default connect(mapStateToProps, { getReports, toggleReportWindow, setGeolocatedCenter, setMarkerCenter, resetCenter })(MapContainer)

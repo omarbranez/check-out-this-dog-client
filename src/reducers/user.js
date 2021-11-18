@@ -19,6 +19,16 @@ const initialState = {
     },
     loginForm: initialLoginForm,
     geolocating: false,
+    // bounds: {
+    //     sw: {
+    //         lat: null,
+    //         lng: null,
+    //     },
+    //     ne: {
+    //         lat: null,
+    //         lng: null,
+    //     }
+    // }
 }
 
 const userReducer = (state=initialState, action) => {
@@ -61,6 +71,11 @@ const userReducer = (state=initialState, action) => {
             return {...state, geolocating: false}
         case "LOGOUT":
             return {initialState}
+        // case "SET_BOUNDS":
+        //     // debugger
+        //     return {...state, bounds: {sw: action.payload.bounds[0], ne: action.payload.bounds[1]} }
+        // case "RESET_BOUNDS":
+        //     return {...state, bounds: {sw: null, ne: null}}
         default:
             return {...state}
     }

@@ -22,30 +22,24 @@ const Report = ({ addLiked, undoLiked, setSelectedReport, unsetSelectedReport, i
     photo,
     created,
     reactions,
-    comments, liked}) => {
+    comments,
+    liked,
+    like_id}) => {
     
     const location = useLocation()
     const reportId = location.pathname[9]
-    
-    // const [likeId, setLikeId] = useState(null)
+    // console.log(like_id)
     useEffect(()=> {
         id ? setSelectedReport(id) : setSelectedReport(reportId)
         return unsetSelectedReport
     }, [setSelectedReport, reportId, unsetSelectedReport])
 
-    // useEffect(()=> {
-    //     reactions.find((reaction) => (reaction.user_id == user.id)) && setLikeId
-    // })
-    // const handleClick = () => {
-    //     if (!reactions.find((reaction) => (reaction.user_id == user.id))){
-    //         addLiked(user.id, id) //got rid of parseint
-    //     } else { undoLiked(getOwnLikeId) }
-    // }
     const handleClick = () => {
-        liked ? undoLiked(getOwnLikeId, id) : addLiked(user.id, id) 
+        // liked ? undoLiked(getOwnLikeId, id) : addLiked(user.id, id) 
+        liked ? undoLiked(like_id, id) : addLiked(user.id, id) 
     }
 
-    const getOwnLikeId = reactions.find(reaction => reaction.user_id == user.id) ? reactions.find(reaction => reaction.user_id == user.id).id : null
+    // const getOwnLikeId = reactions.find(reaction => reaction.user_id == user.id) ? reactions.find(reaction => reaction.user_id == user.id).id : null
 
     const [hovered, setHovered] = useState(false)
     const [showModal, setShowModal] = useState(false)
@@ -77,7 +71,6 @@ const mapStateToProps = (state) => ({
     ...state.reports.selectedReport,
     user: state.user,
     reactionsCount: state.reports.reactionsCount,
-    // localLiked: state.reports.liked,
 })
 
 export default connect(mapStateToProps, { setSelectedReport, unsetSelectedReport, addLiked, undoLiked})(Report)

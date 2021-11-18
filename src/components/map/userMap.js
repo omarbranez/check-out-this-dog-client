@@ -26,7 +26,7 @@ const UserMap = (props) => {
                     center={props.mapCoordinates}
                     defaultZoom={14}
                     onClick={handleMapClick}
-                    options={{fullscreenControl: false}}
+                    options={{fullscreenControl: false, gestureHandling: 'none', zoomControl: false}}
                     >
                 {coordinates && <Marker lat={coordinates.lat} lng={coordinates.lng} show={false}/>}
                 </GoogleMapReact>

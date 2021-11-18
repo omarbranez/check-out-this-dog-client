@@ -29,6 +29,7 @@ const nullReport = {
     photo: null,
     created: '',
     liked: false,
+    like_id: null,
     reactions: [],
     comments: []
 }
