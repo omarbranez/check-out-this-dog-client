@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import GoogleMapReact from 'google-map-react/'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { getReports, toggleReportWindow } from '../actions/reports'
 import { setGeolocatedCenter, resetCenter, setMarkerCenter } from '../actions/map'
 // this needs to account for the user changing their location
@@ -115,10 +115,6 @@ const MapContainer = (props) => {
         filterReports(props.reports, bounds)
     }, [bounds])
 
-    console.log(bounds)
-    console.log(zoom)
-    console.log(filteredReports)
-
     const handleOnLoad = ({ map, maps }) => { // this is the only way to add controls to google maps api
         mapRef.current = { map, maps }
         const controlButtonDiv = document.createElement('div')
@@ -189,12 +185,11 @@ const MapContainer = (props) => {
             return false
         }
     }
-    
-    // const filteredReports = () => { props.reports && props.reports.filter(report => inBoundingBox(bounds[0], bounds[1], report.lat, report.lng))}
-    // const filterReports = () => {
-    //     setFilteredReports(props.reports.filter(report => inBoundingBox(props.bounds.sw, props.bounds.ne, report.lat, report.lng)))
-    // }
-    // console.log(filteredReports)
+    function isEmpty(str) {
+        return (!str || str.length === 0 );
+    }
+    // console.log(isEmpty(filteredReports))
+
     const renderMap = () => 
         <div>
             <Box sx={{ display: 'flex' }}>
@@ -248,7 +243,7 @@ const MapContainer = (props) => {
                     <Divider />
                     <List >
                         {/* {props.reports.map((report, index) => ( */}
-                        {filteredReports.length > 0 ? filteredReports.map((report, index) => (
+                        {!isEmpty(filteredReports) ? filteredReports.map((report, index) => (
                             <ListItem button key={report.id} >
                                 <ListItemAvatar>
                                     <Avatar alt={report.breed} src={`dog-icons/${report.breed}.png`} variant="square" sx={{ width: [null, null, 36] }} />
