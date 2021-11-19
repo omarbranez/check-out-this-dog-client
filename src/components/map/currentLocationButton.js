@@ -12,7 +12,7 @@ const CurrentLocationButton = (props) => {
     const handleClick = () => {
         setOpen(false)
     }
-    
+    // changing tooltip options OR back button disables autologin ?
     return (
         <div>
             <Tooltip title='Click here to find your current location!' placement='top-start' open={open} disableHoverListener disableFocusListener>

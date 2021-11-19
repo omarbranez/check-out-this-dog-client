@@ -1,10 +1,3 @@
-const initialLoginForm = {
-    username: '',
-    password: '',
-    passwordConfirmation: '',
-    lat: '',
-    lng: '',
-}
 
 const initialState = {
     id: null,
@@ -17,27 +10,16 @@ const initialState = {
         lat: null,
         lng: null,
     },
-    loginForm: initialLoginForm,
     geolocating: false,
-    // bounds: {
-    //     sw: {
-    //         lat: null,
-    //         lng: null,
-    //     },
-    //     ne: {
-    //         lat: null,
-    //         lng: null,
-    //     }
-    // }
 }
 
 const userReducer = (state=initialState, action) => {
     switch(action.type){
-        case "LOGIN_FORM_CHANGE":
-            return {...state, loginForm: {
-                ...state.loginForm,
-                [action.payload.name]: action.payload.value
-            }}
+        // case "LOGIN_FORM_CHANGE":
+        //     return {...state, loginForm: {
+        //         ...state.loginForm,
+        //         [action.payload.name]: action.payload.value
+        //     }}
         case "LOGIN_FORM_CENTER_CHANGE":
             // debugger
             return {...state, loginForm: {

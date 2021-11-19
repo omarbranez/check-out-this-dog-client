@@ -18,7 +18,7 @@ const SignupForm = ({createUser}) => {
         password === passwordConfirmation ? createUser({ username: username, password: password, lat: latLngOutput.lat, lng: latLngOutput.lng}, navigate) : alert("Passwords do not match")
     }
 
-    useEffect(() => window.Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', { // how to make sure it doesnt error out before it actually loads
+    useEffect(() => window.Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', { // how to make sure it doesnt error out before it actually
         callback: onLoad,
         errorCallback: onError
     }), [])

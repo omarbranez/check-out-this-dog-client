@@ -79,7 +79,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }));
 
 const MapContainer = (props) => {
-
     const dispatch = useDispatch()
     const navigate = useNavigate()
     
@@ -117,10 +116,11 @@ const MapContainer = (props) => {
     // console.log(bounds)
     useEffect(() => {
         bounds && filterReports(props.reports, bounds)
-    }, [bounds])
+    }, [bounds, props.reports ])
 
     const handleOnLoad = ({ map, maps }) => { // this is the only way to add controls to google maps api
         mapRef.current = { map, maps }
+        console.log(mapRef)
 
         const controlButtonDiv = document.createElement('div')
         controlButtonDiv.addEventListener('click', () => { navigate('/reports/new') })
@@ -153,14 +153,6 @@ const MapContainer = (props) => {
         })
         
         new MarkerClusterer({map, markers})
-        // const boundsFilter = (lat, lng) => {
-        //     const filter = new mapRef.current.maps.LatLngBounds(bounds[5], bounds[4])
-        //     if (filter.contains({lat: lat, lng: lng})){
-        //         return true
-        //     } else {
-        //         return false
-        //     }
-        // }
     }
 
     const handleDrawerOpen = () => {
@@ -195,7 +187,7 @@ const MapContainer = (props) => {
         return (!str || str.length === 0 );
     }
     // console.log(isEmpty(filteredReports))
-
+    console.log(props)
     const renderMap = () => 
         <div>
             <Box sx={{ display: 'flex' }}>
@@ -270,30 +262,13 @@ const MapContainer = (props) => {
   
 }
 
-const mapStateToProps = (state) => {
-    // const inBoundingBox = (sw, ne, rLat, rLng) => {
-    //     debugger
-    //     let isLngInRange
-    //     if (ne.lng < sw.lng) {
-    //         isLngInRange = rLng >= sw.lng || rLng <= ne.lng
-    //     } else {
-    //         isLngInRange = rLng >= sw.lng && rLng <= ne.lng
-    //     }
-    //     return (
-    //         rLat >= sw.lat && rLat <= ne.lat && isLngInRange
-    //     )
-    // }
-    // const filteredReports = state.reports.reports && state.reports.reports.filter(report => inBoundingBox(state.user.bounds.sw, state.user.bounds.ne, report.lat, report.lng))
-
-    return {
-    // filteredReports, 
+const mapStateToProps = (state) => ({
     reports: state.reports.reports,
     userCenter: state.user.defaultCenter,
     currentCenter: state.user.currentCenter,
     geolocating: state.user.geolocating,
     loading: state.reports.loading,
-    bounds: state.user.bounds
-    }
-}
+    user: state.user   
+})
 
 export default connect(mapStateToProps, { getReports, toggleReportWindow, setGeolocatedCenter, setMarkerCenter, resetCenter })(MapContainer)

@@ -59,10 +59,10 @@ const Report = ({ addLiked, undoLiked, setSelectedReport, unsetSelectedReport, i
                 < Map lat={lat} lng={lng} />
             </div>
             <div>
-            <CommentForm/>
+            <CommentForm user={user} userId={user.id} reportId={id} commented={commented}/>
             </div>
             <div>
-            <CommentIndex/>
+            <CommentIndex comments={comments}/>
             </div>
         </div>
 

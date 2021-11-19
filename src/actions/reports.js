@@ -141,16 +141,31 @@ export const undoLiked = (likeId, reportId) => {
     }
 }
 
-// export const addComment = (userId, reportId, content) => {
-//     return dispatch => {
-//         fetch(COMMENTS_URL, {
-//             headers: {
-//                 'Authorization': localStorage.token,
-//             },
-//             body: JSON.stringify({
+export const addComment = (userId, reportId, content) => {
+    console.log(userId, reportId, content)
+    return dispatch => {
+        fetch(COMMENTS_URL, {
+            headers: {
+                'Authorization': localStorage.token,
+            },
+            body: JSON.stringify({
+                user_id: userId,
+                report_id: reportId,
+                content: content
+            })
+        })
+        .then(res => res.json())
+        .then(dispatch(setSelectedReport(reportId)))
+    }
+}
 
-//             }
-//         })
-//     }
-// }
+export const deleteComment = (userId, reportId, commentId) => {
+    return dispatch => {
+        fetch(COMMENTS_URL + `/${commentId}`, {
+            method: 'DELETE',
+        })
+        .then(res => console.log(res.status))
+        .then(dispatch(setSelectedReport(reportId)))
+    }
+}
 

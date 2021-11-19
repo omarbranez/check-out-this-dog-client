@@ -24,28 +24,28 @@ const App = ({autoLoginUser, user}) => {
   function isEmpty(str) {
     return (!str || str.length === 0 );
   }
-  useEffect(() => !!isEmpty(user) && autoLoginUser(), [autoLoginUser])  
+  
+  useEffect(() => !isEmpty(user) && autoLoginUser(), [autoLoginUser])  
 
-
-    return (
-     <div className="App">
-          <Navbar />
-          <Routes>
-            <Route path='/' element={<Navigate replace to='/welcome'/>}/>
-            <Route path='/welcome' element={<HomeContainer/>}/>
-            <PrivateRoute path='/profile/:username' element={<ProfileContainer/>}/>
-            <Route path='/reports' exact element={<ReportsContainer/>}/>
-            <PrivateRoute path='/reports/new' exact element={<ReportForm/>}/>
-            <Route path='/reports/:reportId' element={<Report/>}/>
-            <Route path='/breeds' element={<BreedsContainer/>}/>
-            <Route path='/login' element={<LoginForm/>}/>
-            <Route path='/login/success' element={<LoginSuccess/>}/>
-            <Route path='/signup' element={<SignupForm/>}/>
-            <Route path='/logout' element={<LogoutPage/>}/>
-            <Route path='/map' element={<MapWithDrawer/>}/>
-          </Routes>
+  return (
+    <div className="App">
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<Navigate replace to='/welcome' />} />
+        <Route path='/welcome' element={<HomeContainer />} />
+        <PrivateRoute path='/profile/:username' element={<ProfileContainer />} />
+        <Route path='/reports' exact element={<ReportsContainer />} />
+        <PrivateRoute path='/reports/new' exact element={<ReportForm />} />
+        <Route path='/reports/:reportId' element={<Report />} />
+        <Route path='/breeds' element={<BreedsContainer />} />
+        <Route path='/login' element={<LoginForm />} />
+        <Route path='/login/success' element={<LoginSuccess />} />
+        <Route path='/signup' element={<SignupForm />} />
+        <Route path='/logout' element={<LogoutPage />} />
+        <Route path='/map' element={<MapWithDrawer />} />
+      </Routes>
     </div>
-    );
+  )
   }
 
 const mapStateToProps = (state) => {
