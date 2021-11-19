@@ -1,5 +1,6 @@
 const REPORTS_URL = 'http://localhost:3000/reports'
 const REACTIONS_URL = 'http://localhost:3000/reactions'
+const COMMENTS_URL = 'http://localhost:3000/comments'
 export const getReports = () => {
     return dispatch => {
         dispatch({ type: "LOADING_REPORTS"})
@@ -43,12 +44,14 @@ export const getFilteredReports = () => {
 })}}
 
 export const setSelectedReport = (id) => {
+    console.log(id)
     return dispatch => {
         fetch(REPORTS_URL + '/' + id, {
             headers: {
                 'Authorization': localStorage.token,
             }})
         .then(res => res.json())
+        // .then(res => console.log(res.json()))
         .then(report => dispatch({
             type: 'SET_SELECTED_REPORT',
             payload: report
@@ -110,6 +113,7 @@ export const toggleReportWindow = (reportId) => ({
 })
 
 export const addLiked = (userId, reportId) => {
+    console.log(userId, reportId)
     return dispatch => {
         fetch(REACTIONS_URL, {
             method: 'POST',
@@ -136,4 +140,17 @@ export const undoLiked = (likeId, reportId) => {
         .then(dispatch(setSelectedReport(reportId)))
     }
 }
+
+// export const addComment = (userId, reportId, content) => {
+//     return dispatch => {
+//         fetch(COMMENTS_URL, {
+//             headers: {
+//                 'Authorization': localStorage.token,
+//             },
+//             body: JSON.stringify({
+
+//             }
+//         })
+//     }
+// }
 

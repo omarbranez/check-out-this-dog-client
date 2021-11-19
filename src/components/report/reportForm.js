@@ -27,7 +27,6 @@ const ReportForm = (props) => {
         e.preventDefault()
         props.createReport({...props.form, user_id: props.user.id, dog_id: dogId})
         navigate('/map', {replace: true})
-
     }
     function triggerInput(input, enteredValue) { // should be a blog post. REACT HATES THIS
         const lastValue = input.value

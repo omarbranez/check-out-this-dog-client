@@ -98,7 +98,7 @@ const MapContainer = (props) => {
 
     useEffect(() => {
         center.current = props.currentCenter
-        return resetCenter
+        // return resetCenter
     }, [center,resetCenter, props.currentCenter])
 
     useEffect(() => {
@@ -107,16 +107,21 @@ const MapContainer = (props) => {
         }
     }, [mapRef])
 
+    useEffect(()=>{
+        return resetCenter
+    },[resetCenter])
+
     const filterReports = (reports, bounds) => {
         setFilteredReports(reports.filter(report => inBoundingBox(bounds[0], bounds[1], report.lat, report.lng)))
     }
-
+    // console.log(bounds)
     useEffect(() => {
-        filterReports(props.reports, bounds)
+        bounds && filterReports(props.reports, bounds)
     }, [bounds])
 
     const handleOnLoad = ({ map, maps }) => { // this is the only way to add controls to google maps api
         mapRef.current = { map, maps }
+
         const controlButtonDiv = document.createElement('div')
         controlButtonDiv.addEventListener('click', () => { navigate('/reports/new') })
         ReactDOM.render(<ReportButton />, controlButtonDiv)
@@ -148,14 +153,14 @@ const MapContainer = (props) => {
         })
         
         new MarkerClusterer({map, markers})
-        const boundsFilter = (lat, lng) => {
-            const filter = new mapRef.current.maps.LatLngBounds(bounds[5], bounds[4])
-            if (filter.contains({lat: lat, lng: lng})){
-                return true
-            } else {
-                return false
-            }
-        }
+        // const boundsFilter = (lat, lng) => {
+        //     const filter = new mapRef.current.maps.LatLngBounds(bounds[5], bounds[4])
+        //     if (filter.contains({lat: lat, lng: lng})){
+        //         return true
+        //     } else {
+        //         return false
+        //     }
+        // }
     }
 
     const handleDrawerOpen = () => {
@@ -166,8 +171,9 @@ const MapContainer = (props) => {
         setOpen(false);
     };
     const handleListItemClick = (lat, lng) => {
-        console.log(handleOnLoad(lat, lng))
+        // console.log(handleOnLoad(lat, lng))
         props.setMarkerCenter(lat, lng)
+        setZoom(16)
     }
     
     const inBoundingBox = (sw, ne, rLat, rLng) => {
@@ -242,7 +248,6 @@ const MapContainer = (props) => {
                     </DrawerHeader>
                     <Divider />
                     <List >
-                        {/* {props.reports.map((report, index) => ( */}
                         {!isEmpty(filteredReports) ? filteredReports.map((report, index) => (
                             <ListItem button key={report.id} >
                                 <ListItemAvatar>

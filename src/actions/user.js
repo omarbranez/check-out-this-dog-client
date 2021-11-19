@@ -13,6 +13,7 @@ export const getLatLngOutput = (lat, lng) => ({
 })
 
 export const createUser = (formData, navigate) => {
+    console.log(formData)
     return dispatch => {
         (fetch(BASE_URL + "/users", {
             method: 'POST',

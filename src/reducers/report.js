@@ -30,6 +30,8 @@ const nullReport = {
     created: '',
     liked: false,
     like_id: null,
+    commented: false,
+    comment_id: null,
     reactions: [],
     comments: []
 }
@@ -37,6 +39,7 @@ const nullReport = {
 const initialState = {
     reports: [],
     liked: false,
+    commented: false,
     selectedReport: nullReport,
     reportForm: nullReportForm,
     loading: false,
@@ -60,8 +63,7 @@ const reportReducer = (state=initialState, action) => {
                 loading: false,
             }
         case "SET_SELECTED_REPORT": 
-        console.log(action.payload.liked)
-            return {...state, selectedReport: action.payload, liked: action.payload.liked, loading: false}
+            return {...state, selectedReport: action.payload, liked: action.payload.liked, commented: action.payload.commented, loading: false}
         case "UNSET_SELECTED_REPORT":
             return {...state, selectedReport: nullReport}
         case "REPORT_FORM_CHANGE":
