@@ -145,7 +145,10 @@ export const addComment = (userId, reportId, content) => {
     console.log(userId, reportId, content)
     return dispatch => {
         fetch(COMMENTS_URL, {
+            method: 'POST',
             headers: {
+                'Content-Type': "application/json",
+                "Accept": "application/json",
                 'Authorization': localStorage.token,
             },
             body: JSON.stringify({
@@ -155,11 +158,20 @@ export const addComment = (userId, reportId, content) => {
             })
         })
         .then(res => res.json())
+        .then(res => {
+            if (res.error) {
+                alert(res.error)
+            } else {
+            console.log(res)
+            alert("Comment Posted Successfully!")
+            }})
         .then(dispatch(setSelectedReport(reportId)))
     }
 }
+//     }
+// }   
 
-export const deleteComment = (userId, reportId, commentId) => {
+export const deleteComment = (reportId, commentId) => {
     return dispatch => {
         fetch(COMMENTS_URL + `/${commentId}`, {
             method: 'DELETE',
