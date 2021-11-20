@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { styled, useTheme, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Icon from "@mui/material/Icon";
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -172,7 +173,7 @@ const Navbar = (props) => {
         <div>
             <Box sx={{ display: 'flex'}}>
                 <CssBaseline />
-                <AppBar position="static" open={open}>
+                <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -183,7 +184,7 @@ const Navbar = (props) => {
                             edge="start"
                             sx={{ mr: 2, ...(open && { display: 'none' })  }}
                         >
-                            <MenuIcon />
+                            <img src='./muttmap-menu-icon.png' width="40"></img>
                         </IconButton>
                         <Typography
                             variant="h6"
@@ -191,7 +192,7 @@ const Navbar = (props) => {
                             component="div"
                             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                         >
-                            MuttMap
+                            <img src='./muttmap-text.png' height="45"></img> 
                         </Typography>
                         <Search>
                             <SearchIconWrapper>
@@ -216,11 +217,16 @@ const Navbar = (props) => {
         variant="temporary"
         anchor="left"
         open={open}
-        // onClick={handleDrawerClose}
       >
+            {/* this is covered by the app bar */}
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          <IconButton onClick={handleDrawerClose}> 
+            <img src='./muttmap-menu-icon-open.png' width="50"></img>
+          </IconButton>
+        </DrawerHeader>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}> 
+            <img src='./muttmap-menu-icon-open.png' width="50"></img>
           </IconButton>
         </DrawerHeader>
         <Divider />

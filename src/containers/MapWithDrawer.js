@@ -141,7 +141,7 @@ const MapContainer = (props) => {
         openListButtonDiv.addEventListener('click', handleDrawerOpen)
         ReactDOM.render(<IconButton sx={{ ...(open && { display: 'none' }) }}  color="inherit"
         aria-label="open drawer"
-        edge="end">   <MenuIcon /></IconButton>, openListButtonDiv)
+        edge="end">   <img src='./report-list-icon.png' width='60'></img></IconButton>, openListButtonDiv)
         map.controls[maps.ControlPosition.TOP_RIGHT].push(openListButtonDiv)
 
         const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -232,7 +232,14 @@ const MapContainer = (props) => {
                     variant="persistent"
                     anchor="right"
                     open={open}
-                >
+                > 
+                {/* this is covered by the app bar */}
+                    <DrawerHeader> 
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        </IconButton>
+                    </DrawerHeader>
+                {/* this is covered by the app bar */}
                     <DrawerHeader>
                         <IconButton onClick={handleDrawerClose}>
                             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
