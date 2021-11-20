@@ -1,27 +1,12 @@
-import React, {useState, useEffect} from 'react'
-import { useSelector, shallowEqual } from 'react-redux'
+import React, {useState} from 'react'
 import Tooltip from '@mui/material/Tooltip'
-import { addReaction, setSelectedReport } from '../../actions/reports'
 
 const ReactionButton = ({reactions, liked}) => {
 
-    const [bgColor, setBgColor] = useState('white')
+    // const [bgColor, setBgColor] = useState('white')
 
-    // useEffect(()=> {
-    //     likedByCurrentUser() && setBgColor('coral')
-    // },[bgColor])
-    // useEffect(()=> {
-    //     liked && setBgColor('coral')
-    // },[bgColor])
-    
-    // const liked = useSelector((state) => state.reports.selectedReport.liked, shallowEqual)
-    // const likedByCurrentUser = () => {
-    //     reactions.find(reaction=> reaction.userId == user.id)    
-    // }
-
-    // console.log(likedByCurrentUser())
-    console.log(bgColor)
-    console.log(liked)
+    // console.log(bgColor)
+    // console.log(liked)
 
     const usersWhoLiked = () => {
         return reactions.map(reaction => reaction.username)

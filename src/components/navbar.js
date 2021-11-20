@@ -19,10 +19,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import RoomIcon from '@mui/icons-material/Room';
-import MapIcon from '@mui/icons-material/Map';
 import LoginIcon from '@mui/icons-material/Login';
 import MapTwoToneIcon from '@mui/icons-material/MapTwoTone';
 import AnnouncementSharpIcon from '@mui/icons-material/AnnouncementSharp';
@@ -135,11 +131,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const Navbar = (props) => {
-    // {
-        //     path: "/profile/"+`${username}`,
-        //     text: "My Profile",
-        //     icon: <AccountBoxOutlinedIcon/>
-        // }
+
     const linkRoutesAndIcons = [
         {
             path: "/map",
@@ -164,6 +156,7 @@ const Navbar = (props) => {
     ]
     const username = props.user
 
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
   
@@ -175,7 +168,6 @@ const Navbar = (props) => {
       setOpen(false);
     };
   
-//   export default function SearchAppBar() {
     return (
         <div>
             <Box sx={{ display: 'flex'}}>
@@ -221,9 +213,10 @@ const Navbar = (props) => {
             boxSizing: 'border-box',
           },
         }}
-        variant="persistent"
+        variant="temporary"
         anchor="left"
         open={open}
+        // onClick={handleDrawerClose}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -233,13 +226,11 @@ const Navbar = (props) => {
         <Divider />
         {username ? 
         <List>
-          {/* {['Map', 'News Feed', 'Breed Information', 'Create New Report'].map((text, index) => ( */}
             {linkRoutesAndIcons.map((route) => (
             <Link to={route.path}>
-            <ListItem button key={route.text}>
+            <ListItem button key={route.text} onClick={handleDrawerClose}>
               <ListItemIcon>
                   {route.icon}
-                {/* {index == 0 ? <MapTwoToneIcon/> : index == 1 ? <AnnouncementSharpIcon/> : index == 2 ? <PetsSharpIcon/> : <AddBoxOutlinedIcon/>} */}
               </ListItemIcon>
               <ListItemText primary={route.text} />
             </ListItem>
