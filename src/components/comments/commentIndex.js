@@ -1,10 +1,11 @@
 import React from 'react'
 
 const CommentIndex = ({comments, user, handleDelete}) => {
-    console.log(!!comments)
+
     function isEmpty(str) {
         return (!str || str.length === 0 );
     }
+    
     return(
         <div>
         {!isEmpty(comments) ? comments.map(comment => 

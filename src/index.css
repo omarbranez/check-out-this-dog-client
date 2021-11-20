@@ -103,3 +103,9 @@ hr {
   max-width: 30%;
   height: auto;
 }
+
+a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+    color: black
+}
