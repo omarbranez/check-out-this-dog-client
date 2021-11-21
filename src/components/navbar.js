@@ -170,6 +170,19 @@ const Navbar = (props) => {
         },
     ]
 
+    const loggedOutRoutesAndIcons = [
+        {
+            path: '/login',
+            text: "Log In",
+            icon: <LoginIcon/>
+        },
+        {
+            path: '/signup',
+            text: "Create New Account",
+            icon: <FiberNewOutlinedIcon/>
+        }
+    ]
+
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -259,13 +272,15 @@ const Navbar = (props) => {
         </List>
         :
         <List>
-            {['Log In', 'Create New Account'].map((text, index) => (
-                <ListItem button key={text}>
-                    <ListItemIcon>
-              {index == 0 ? <LoginIcon /> : <FiberNewOutlinedIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                </ListItem>
+            {loggedOutRoutesAndIcons.map((route) => (
+             <Link to={route.path}>
+            <ListItem button key={route.text} onClick={handleDrawerClose}>
+              <ListItemIcon>
+                  {route.icon}
+              </ListItemIcon>
+              <ListItemText primary={route.text} />
+            </ListItem>
+            </Link>
             ))}
         </List>
         }
