@@ -192,7 +192,7 @@ const MapContainer = (props) => {
         <div>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
-                <Main open={open} sx={{ height: [null, null, 700], zIndex: 1 }}>
+                <Main open={open} sx={{ height: [null, null, 680], zIndex: 1 }}>
                     <GoogleMapReact
                         bootstrapURLKeys={{ key: `${process.env.REACT_APP_B_API_KEY}` }}
                         center={props.currentCenter}
