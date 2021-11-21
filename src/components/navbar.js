@@ -132,7 +132,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const Navbar = (props) => {
-
+    
+    const username = props.user
     const linkRoutesAndIcons = [
         {
             path: "/map",
@@ -155,7 +156,19 @@ const Navbar = (props) => {
             icon: <AddBoxOutlinedIcon/>
         }
     ]
-    const username = props.user
+
+    const loggedInRoutesAndIcons = [
+        {
+            path: `/profile/${username}`,
+            text: "My Profile",
+            icon: <AccountBoxOutlinedIcon/>
+        },
+        {
+            path: "/logout",
+            text: "Log Out",
+            icon: <ExitToAppOutlinedIcon/>
+        },
+    ]
 
 
     const theme = useTheme();
@@ -224,6 +237,7 @@ const Navbar = (props) => {
             <img src='./muttmap-menu-icon-open.png' width="50"></img>
           </IconButton>
         </DrawerHeader>
+          {/* this is covered by the app bar */}
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}> 
             <img src='./muttmap-menu-icon-open.png' width="50"></img>
@@ -259,13 +273,16 @@ const Navbar = (props) => {
         <Divider />
         {username &&
         <List>
-          {['My Profile', 'Logout'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index == 0 ? <AccountBoxOutlinedIcon /> : <ExitToAppOutlinedIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
+          {/* {['My Profile', 'Logout'].map((text, index) => ( */}
+          {loggedInRoutesAndIcons.map((route) => (
+              <Link to={route.path}>
+              <ListItem button key={route.text} onClick={handleDrawerClose}>
+                <ListItemIcon>
+                    {route.icon}
+                </ListItemIcon>
+                <ListItemText primary={route.text} />
+              </ListItem>
+              </Link>
           ))}
         </List>
         }

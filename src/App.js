@@ -24,8 +24,9 @@ const App = ({autoLoginUser, user}) => {
   function isEmpty(str) {
     return (!str || str.length === 0 );
   }
-  
-  useEffect(() => !isEmpty(user) && autoLoginUser(), [autoLoginUser, user])  
+  console.log(isEmpty(user.username))
+  console.log(user)
+  useEffect(() => !isEmpty(user.username) && autoLoginUser(), [])  
 
   return (
     <div className="App">
