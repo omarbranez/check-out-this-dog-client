@@ -1,8 +1,11 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from 'react-redux'
+import { toggleReportWindow } from '../../actions/reports'
 
 const InfoWindow = (props) => {
     // console.log(props)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     // console.log(props)
     const infoWindowStyle = {
@@ -23,11 +26,11 @@ const InfoWindow = (props) => {
       navigate(`/reports/${props.report.id}`)
     }
     // console.log(props.report.id)
-    
+  
     return (
         <div style={infoWindowStyle} id={props.report.id}>
           <div>
-            <button onClick={handleClick}>X</button>
+            <button onClick={()=> dispatch(toggleReportWindow(props.report.id))}>X</button>
           </div>
           <div style={{ fontSize: 16 }}>
             {props.report.name}
