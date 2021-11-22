@@ -26,6 +26,9 @@ const InfoWindow = (props) => {
     
     return (
         <div style={infoWindowStyle} id={props.report.id}>
+          <div>
+            <button onClick={handleClick}>X</button>
+          </div>
           <div style={{ fontSize: 16 }}>
             {props.report.name}
           </div>

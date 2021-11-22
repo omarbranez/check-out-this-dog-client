@@ -265,7 +265,7 @@ const MapContainer = (props) => {
                     <List >
                         {!isEmpty(filteredReports) ? filteredReports.map((report, index) => (
                             <Tooltip title={report.created} placement='left' open={showReportListDetails} disableHoverListener disableFocusListener>
-                            <ListItem button key={report.id} onMouseEnter={()=>setShowReporListDetails(true)} onMouseLeave={()=>setShowReporListDetails(false)} onClick={()=>setShowReporListDetails(false)}>
+                            <ListItem button key={report.id} >
                                 <ListItemAvatar>
                                     <Avatar alt={report.breed} src={`dog-icons/${report.breed}.png`} variant="square" sx={{ width: [null, null, 36] }} />
                                 </ListItemAvatar>

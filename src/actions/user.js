@@ -63,6 +63,7 @@ export const loginUser = (formData, navigate) => {
 }
 
 export const autoLoginUser = () => {
+    console.log("hello")
     return dispatch => {
         fetch(BASE_URL + "/autologin", {
             method: 'POST', // not needed?

@@ -8,6 +8,7 @@ import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
+import Tooltip from '@mui/material/Tooltip'
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -199,7 +200,7 @@ const Navbar = (props) => {
         <div>
             <Box sx={{ display: 'flex'}}>
                 <CssBaseline />
-                <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}} style={{background: 'linear-gradient(to left, #03018C, #212AA5, #4259C3, #7B9FF2' }}>
                     <Toolbar>
                         <IconButton
                             size="large"

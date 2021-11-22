@@ -115,3 +115,19 @@ a:hover, a:visited, a:link, a:active
   background-size: 'cover';
   background-repeat: 'no-repeat';
 }
+
+.welcomeButton {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  min-width: 200;
+  transition: '0.3s cubic-bezier(.47,1.64,.41,.8)';
+  -webkit-text-stroke:1px black;
+  -webkit-text-fill-color:white;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.welcomeButton:hover {
+  transform: scale(1.1)
+}
