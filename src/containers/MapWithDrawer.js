@@ -90,6 +90,7 @@ const MapContainer = (props) => {
     
     const [open, setOpen] = useState(false);
     const [showReportButtonTooltip, setShowReportButtonTooltip] = useState(false)
+    const [showReportListDetails, setShowReporListDetails] = useState(false)
     const [bounds, setBounds] = useState(null)
     const [zoom, setZoom] = useState(15)
     const [filteredReports, setFilteredReports] = useState(null)
@@ -263,7 +264,8 @@ const MapContainer = (props) => {
                     <Divider />
                     <List >
                         {!isEmpty(filteredReports) ? filteredReports.map((report, index) => (
-                            <ListItem button key={report.id} >
+                            <Tooltip title={report.created} placement='left' open={showReportListDetails} disableHoverListener disableFocusListener>
+                            <ListItem button key={report.id} onMouseEnter={()=>setShowReporListDetails(true)} onMouseLeave={()=>setShowReporListDetails(false)} onClick={()=>setShowReporListDetails(false)}>
                                 <ListItemAvatar>
                                     <Avatar alt={report.breed} src={`dog-icons/${report.breed}.png`} variant="square" sx={{ width: [null, null, 36] }} />
                                 </ListItemAvatar>
@@ -271,6 +273,7 @@ const MapContainer = (props) => {
 
                                 </ListItemText>
                             </ListItem>
+                            </Tooltip>
                         )) : <ListItem>
                                 <ListItemText primary="No Reports Found Here. Zoom Out or Pan Around to See More!"></ListItemText>
                             </ListItem>}
