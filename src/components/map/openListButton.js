@@ -5,9 +5,9 @@ const OpenListButton = (props) => {
 
     
     const [open, setOpen] = useState(false)
-    
+    console.log(open)
     const Button = React.forwardRef(function Button(props, ref){
-        return <div {...props} ref={ref}><img className='currentLocationButton' src='../currentLocationButton.jpg' alt='current location button'></img></div>})
+        return <div {...props} ref={ref}><img className='openListButton' src='../report-list-icon.jpg' alt='open list button'></img></div>})
     
     const handleClick = () => {
         setOpen(false)
@@ -15,7 +15,7 @@ const OpenListButton = (props) => {
     
     return (
         <div>
-            <Tooltip title='Click here to see a list of reports!' placement='top-start' open={open} disableHoverListener disableFocusListener>
+            <Tooltip title='Click here to see a list of reports!' placement='left' open={open} disableHoverListener disableFocusListener>
                 <Button onMouseEnter={()=>setOpen(true)} onMouseLeave={()=>setOpen(false)} onClick={handleClick}/>
             </Tooltip>
         </div>

@@ -9,6 +9,7 @@ import Marker from '../components/map/marker'
 import ReportButton from '../components/map/reportButton'
 import CurrentLocationButton from '../components/map/currentLocationButton'
 import DefaultLocationButton from '../components/map/defaultLocationButton'
+import OpenListButton from '../components/map/openListButton'
 import LoadingSpinner from '../components/map/loadingSpinner'
 import ReactDOM from 'react-dom'
 import { useNavigate } from 'react-router-dom'
@@ -19,6 +20,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 // import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip'
 import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
 // import Typography from '@mui/material/Typography';
@@ -87,6 +89,7 @@ const MapContainer = (props) => {
     const theme = useTheme();
     
     const [open, setOpen] = useState(false);
+    const [showReportButtonTooltip, setShowReportButtonTooltip] = useState(false)
     const [bounds, setBounds] = useState(null)
     const [zoom, setZoom] = useState(15)
     const [filteredReports, setFilteredReports] = useState(null)
@@ -139,9 +142,16 @@ const MapContainer = (props) => {
 
         const openListButtonDiv = document.createElement('div')
         openListButtonDiv.addEventListener('click', handleDrawerOpen)
-        ReactDOM.render(<IconButton sx={{ ...(open && { display: 'none' }) }}  color="inherit"
-        aria-label="open drawer"
-        edge="end">   <img src='./report-list-icon.png' width='60'></img></IconButton>, openListButtonDiv)
+        ReactDOM.render(
+            <IconButton sx={{ ...(open && { display: 'none' }) }}  
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="end"
+                        onMouseEnter={()=>setShowReportButtonTooltip(true)}
+                        onMouseLeave={()=>setShowReportButtonTooltip(false)}
+                        onClick={()=>setShowReportButtonTooltip(false)}> 
+                <img src="./report-list-icon.png" width="60"></img>  
+            </IconButton>, openListButtonDiv)
         map.controls[maps.ControlPosition.TOP_RIGHT].push(openListButtonDiv)
 
         const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -187,7 +197,7 @@ const MapContainer = (props) => {
         return (!str || str.length === 0 );
     }
     // console.log(isEmpty(filteredReports))
-    console.log(props)
+    // console.log(props)
     const renderMap = () => 
         <div>
             <Box sx={{ display: 'flex' }}>
@@ -235,15 +245,20 @@ const MapContainer = (props) => {
                 > 
                 {/* this is covered by the app bar */}
                     <DrawerHeader> 
+                    {/* <Tooltip title='Click here to see a list of reports!' placement='left' open={showReportButtonTooltip} disableHoverListener disableFocusListener> */}
+
                         <IconButton onClick={handleDrawerClose}>
                             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                         </IconButton>
                     </DrawerHeader>
                 {/* this is covered by the app bar */}
                     <DrawerHeader>
+                    <Tooltip title='Click here to see a list of reports!' placement='left' open={showReportButtonTooltip} disableHoverListener disableFocusListener>
+
                         <IconButton onClick={handleDrawerClose}>
                             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                         </IconButton>
+                        </Tooltip>
                     </DrawerHeader>
                     <Divider />
                     <List >

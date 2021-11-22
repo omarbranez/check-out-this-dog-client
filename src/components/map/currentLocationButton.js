@@ -3,9 +3,9 @@ import Tooltip from '@mui/material/Tooltip'
 
 const CurrentLocationButton = (props) => {
 
-    
     const [open, setOpen] = useState(false)
     
+    // console.log(open)
     const Button = React.forwardRef(function Button(props, ref){
         return <div {...props} ref={ref}><img className='currentLocationButton' src='../currentLocationButton.jpg' alt='current location button'></img></div>})
     
