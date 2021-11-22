@@ -126,6 +126,10 @@ a:hover, a:visited, a:link, a:active
   -webkit-text-fill-color:white;
   cursor: pointer;
   border-radius: 16px;
+  color: 'white'; 
+  min-width: 200; 
+  min-height: 50; 
+  background-image: linear-gradient(to right, #03018C, #212AA5, #4259C3, #7B9FF2);
 }
 
 .welcomeButton:hover {

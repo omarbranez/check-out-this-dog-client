@@ -24,9 +24,10 @@ const App = ({autoLoginUser, user}) => {
   function isEmpty(str) {
     return (!str || str.length === 0 );
   }
-  console.log(isEmpty(user.username))
-  console.log(user)
-  useEffect(() => {if (!isEmpty(user.username)) {autoLoginUser()}}, [autoLoginUser])  
+  // console.log(isEmpty(user.username))
+  // console.log(user)
+  // useEffect(() => {if (!isEmpty(user.username)) {autoLoginUser()}}, [autoLoginUser])  
+  useEffect(() => localStorage.token && autoLoginUser(), [autoLoginUser])
 
   return (
     <div className="App">

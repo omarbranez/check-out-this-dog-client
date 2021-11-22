@@ -220,7 +220,7 @@ const MapContainer = (props) => {
                         options={{ fullscreenControl: false }}
                         onChildClick={(e) => { props.toggleReportWindow(e) }}>
                         {props.geolocating ? <LoadingSpinner text={"Locating"} /> : null}
-                        {props.reports.map((report) => <Marker
+                        {props.reports ? props.reports.map((report) => <Marker
                             id={report.id}
                             key={report.id}
                             lat={report.lat}
@@ -229,7 +229,7 @@ const MapContainer = (props) => {
                             show={report.show}
                             breed={report.breed}
                             timeCreated={report.time_created}
-                            name={report.name} />)}
+                            name={report.name} />) : <LoadingSpinner text="Loading"/>}
                     </GoogleMapReact>
                 </Main>
                 <Drawer
@@ -265,7 +265,7 @@ const MapContainer = (props) => {
                     <List >
                         {!isEmpty(filteredReports) ? filteredReports.map((report, index) => (
                             <Tooltip title={report.created} placement='left' open={showReportListDetails} disableHoverListener disableFocusListener>
-                            <ListItem button key={report.id} >
+                            <ListItem button key={report.id} onMouseEnter={()=>setShowReporListDetails(true)} onMouseLeave={()=>setShowReporListDetails(false)} onClick={()=>setShowReporListDetails(false)}>
                                 <ListItemAvatar>
                                     <Avatar alt={report.breed} src={`dog-icons/${report.breed}.png`} variant="square" sx={{ width: [null, null, 36] }} />
                                 </ListItemAvatar>

@@ -34,7 +34,7 @@ const ReportsContainer = (props) => {
     return (
         <div>
             <h2>IS THERE A DOG NEAR YOU? IS IT AMAZING? SHARE IT WITH US!</h2>
-            <Link to="/reports/new" >New Dog Report</Link>
+            <Link to="/reports/new"><button className='welcomeButton'>New Dog Report</button></Link>
             <h2>News Feed</h2>
             {!(props.reports.loading) ? <DataGrid 
                 components={{ Toolbar: GridToolbarFilterButton, }}

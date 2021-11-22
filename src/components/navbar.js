@@ -133,8 +133,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const Navbar = (props) => {
-    
-    const username = props.user
+
+    const user = props.user
+    console.log(props.user)
     const linkRoutesAndIcons = [
         {
             path: "/map",
@@ -160,7 +161,7 @@ const Navbar = (props) => {
 
     const loggedInRoutesAndIcons = [
         {
-            path: `/profile/${username}`,
+            path: `/profile/${user.username}`,
             text: "My Profile",
             icon: <AccountBoxOutlinedIcon/>
         },
@@ -258,7 +259,7 @@ const Navbar = (props) => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        {username ? 
+        {user.username ? 
         <List>
             {linkRoutesAndIcons.map((route) => (
             <Link to={route.path}>
@@ -287,7 +288,7 @@ const Navbar = (props) => {
         }
 
         <Divider />
-        {username &&
+        {user.username &&
         <List>
           {/* {['My Profile', 'Logout'].map((text, index) => ( */}
           {loggedInRoutesAndIcons.map((route) => (
@@ -311,7 +312,7 @@ const Navbar = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    user: state.user.username
+    user: state.user
 })
 
 export default connect(mapStateToProps)(Navbar)
