@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useDispatch } from 'react-redux'
-import {  Link } from 'react-router-dom'
+import {  Link, useNavigate } from 'react-router-dom'
 import { getReports } from '../actions/reports'
 // import ReportForm from '../components/report/reportForm'
 // import Report from '../components/report/report'
-import { DataGrid, GridToolbarFilterButton} from '@mui/x-data-grid'
+import { DataGrid, GridToolbarFilterButton, GridCellParams} from '@mui/x-data-grid'
+import report from '../components/report/report'
 
 const ReportsContainer = (props) => {
-
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const [ sortDate, setSortDate ] = useState([{field: 'date', sort: 'desc'}])
+    const [ sortDate, setSortDate ] = useState([{field: 'created', sort: 'desc'}])
 
     const [ like, setLike ] = useState(false)
 
@@ -26,6 +27,10 @@ const ReportsContainer = (props) => {
         dispatch(getReports())
     }, [dispatch])
 
+    const handleClick = (e) => {
+        console.log(e.id)
+        navigate(`/reports/${e.id}`)
+    }
     return (
         <div>
             <h2>IS THERE A DOG NEAR YOU? IS IT AMAZING? SHARE IT WITH US!</h2>
@@ -36,9 +41,10 @@ const ReportsContainer = (props) => {
                 sortingOrder={['desc', 'asc']}
                 sortModel={sortDate}
                 // filterModel={filteredData}
-                rows={props.reports.map((report) => ({id: report.id, date: report.date_created, time: report.time_created, name: report.name, breed: report.breed, created: report.created,}))}
+                rows={props.reports.map((report) => ({id: report.id, date: report.date_created, time: report.time_created, name: report.name, breed: report.breed, created: report.created}))}
                 columns={columns}
                 onSortModelChange={(report) => setSortDate(report)}
+                onCellClick={(e) => handleClick(e)}
                 // onFilterModelChange={(report) => setFilteredData(report)}
             /> : <h2>Loading</h2>}
             {/* {!(props.reports.loading) ? props.reports.map((report) => <Report key={report.id} {...report} user={props.user}/>) : <h3>Loading Reports</h3> } */}
