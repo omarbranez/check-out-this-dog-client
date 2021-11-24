@@ -10,8 +10,8 @@ import { ApiKeyCredentials } from '@azure/ms-rest-js';
 const key = process.env.REACT_APP_A1_API_KEY;
 const endpoint = process.env.REACT_APP_ENDPOINT;
 
-console.log(`key = ${key}`)
-console.log(`endpoint = ${endpoint}`)
+// console.log(`key = ${key}`)
+// console.log(`endpoint = ${endpoint}`)
 
 // Cognitive service features
 const visualFeatures = [
@@ -28,9 +28,9 @@ const visualFeatures = [
 
 export const isConfigured = () => {
     const result = (key && endpoint && (key.length > 0) && (endpoint.length > 0)) ? true : false;
-    console.log(`key = ${key}`)
-    console.log(`endpoint = ${endpoint}`)
-    console.log(`ComputerVision isConfigured = ${result}`)
+    // console.log(`key = ${key}`)
+    // console.log(`endpoint = ${endpoint}`)
+    // console.log(`ComputerVision isConfigured = ${result}`)
     return result;
 }
 

@@ -122,10 +122,10 @@ const MapContainer = (props) => {
         bounds && filterReports(props.reports, bounds)
     }, [bounds, props.reports ])
 
+    // console.log(mapRef)
     const handleOnLoad = ({ map, maps }) => { // this is the only way to add controls to google maps api
         mapRef.current = { map, maps }
-        console.log(mapRef)
-
+        console.log(map.controls[6].td)
         const controlButtonDiv = document.createElement('div')
         controlButtonDiv.addEventListener('click', () => { navigate('/reports/new') })
         ReactDOM.render(<ReportButton />, controlButtonDiv)

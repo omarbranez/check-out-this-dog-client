@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import '../../azure.css';
 import { computerVision, isConfigured as ComputerVisionIsConfigured } from '../../azure-cognitiveservices-computervision';
 
-const AnalyzeImage = ({ photo }) => {
+const AnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto }) => {
     const [fileSelected, setFileSelected] = useState(null);
     const [analysis, setAnalysis] = useState(null);
     const [processing, setProcessing] = useState(false);
+    const [fileSubmitted, setFileSubmitted] = useState(false)
 
     const handleQuery = (e) => {
         // hold UI
@@ -45,11 +46,19 @@ const AnalyzeImage = ({ photo }) => {
     }
 
     const DisplayResults = () => {
+        // console.log(analysis)
+        // console.log(analysis.adult.isAdultContent)
+        // console.log(analysis.adult.isGoryContent)
+        // console.log(analysis.adult.isRacyContent)
+        // console.log(analysis.objects[0].object )
+        // console.log(!!analysis.tags.find(tag => tag.name == 'dog'))
         return (
             <div>
                 <h2>Computer Vision Analysis</h2>
-                <div><img src={analysis.URL} height="200" border="1" alt={(analysis.description && analysis.description.captions && analysis.description.captions[0].text ? analysis.description.captions[0].text : "can't find caption")} /></div>
+                <div>
+                    <img src={analysis.URL} height="200" border="1" alt={(analysis.description && analysis.description.captions && analysis.description.captions[0].text ? analysis.description.captions[0].text : "can't find caption")} /></div>
                 {PrettyPrintJson(analysis)}
+                <p>This appears to be a </p>
             </div>
         )
     };
@@ -57,11 +66,13 @@ const AnalyzeImage = ({ photo }) => {
 
     const handleChange = (e) => {
         const file = e.target.files[0]
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onloadend = function () {
             setFileSelected(reader.result) // this is the base64 encoded dataurl
         }
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file)
+        setFileSubmitted(true)
+        addPhoto(file)
     }
 
 
@@ -76,7 +87,7 @@ const AnalyzeImage = ({ photo }) => {
                         <input type="file" id="myImage" placeholder="Upload photo" onChange={(e) => handleChange(e)} size="50" />
                         <output id="thumbnail" />
                     </div>
-                    <button onClick={handleQuery}>Analyze</button>
+                    {!fileSubmitted ? <button onClick={(e) => handlePhotoUploaded(true)}>Analyze</button> : <button onClick={handleQuery}>Submit</button>}
                 </div>
                 {fileSelected && <img src={fileSelected} />}
                 {analysis && <DisplayResults />}

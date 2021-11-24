@@ -22,19 +22,9 @@ export const createUser = (formData, navigate) => {
             },
             body: JSON.stringify(formData),
         }))
-        .then(res => res.json())
-        .then(res => {
-            if (res.error) {
-                alert(res.error)
-            } else {
-                localStorage.token = res.token
-                dispatch({
-                    type: "SET_USER",
-                    payload: {user: res.user}
-                })
-                navigate('/login/success', {replace: true})
-                
-        }})
+        .then(res => handleUserResponse(res, dispatch))
+        .then(navigate('/login/success', {replace: true}))
+
     }
 }
 
