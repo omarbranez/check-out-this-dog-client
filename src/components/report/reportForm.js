@@ -15,25 +15,9 @@ const ReportForm = (props) => {
 
     const [ showMap, setShowMap ] = useState(false)
     const [ disableButton, setDisableButton ] = useState(false)
-    const [photoSubmitted, setPhotoSubmitted] = useState(false)
     const [lat, setLat] = useState(null)
     const [lng, setLng] = useState(null)
     const [name, setName] = useState('')
-    // id: null,
-    // user_id: null,
-    // dog_id: null,
-    // name: '',
-    // // breed: '', 
-    // color: '',
-    // gender: '',
-    // lat: null,
-    // lng: null,
-    // age: null,
-    // features: '',
-    // demeanor: '',
-    // photo: null,
-    // created: '',
-    const [breed, setBreed] = useState('')
     const [dogId, setDogId] = useState(null)
     const [color, setColor] = useState('')
     const [gender, setGender] = useState('')
@@ -41,10 +25,7 @@ const ReportForm = (props) => {
     const [features, setFeatures] = useState('')
     const [demeanor, setDemeanor] = useState('')
     const [photo, setPhoto] = useState(null)
-    const [created, setCreated] = useState('')
-
-  
-    // const { age, color, dogId, features, demeanor, gender, lat, lng, name, photo } = props.form
+    const [photoAllowed, setPhotoAllowed] = useState('')
     
     useEffect(()=> {})
     const dispatch = useDispatch()
@@ -82,14 +63,18 @@ const ReportForm = (props) => {
         setShowMap(!showMap)
     }
 
+    const allowPhoto = (verdict) => {
+        if (verdict == "disallow"){
+            setPhoto(null)
+            alert("The selected photo is not allowed. Please select a different one")
+        } else {
+            setPhotoAllowed("allow")
+        }        
+    }
     const isSubmitEnabled = 
-        age && color && features && demeanor && gender && lat && lng && name && dogId && photo// && photo// && userId //dogId
+        age && color && features && demeanor && gender && lat && lng && name && dogId && photo && (photoAllowed == "allow")// && photo// && userId //dogId
     
     const breeds = props.breeds.map(breed => ({value: breed.id, label: breed.breed, attribute: "dogId"}))
-
-    // const handlePhotoUploaded = (x) => [
-    //     setPhotoSubmitted(x)
-    // ]
 
     const addPhoto = (photo) => {
         setPhoto(photo)
@@ -151,14 +136,8 @@ const ReportForm = (props) => {
                     <textarea name="demeanor" onChange={(e)=>setDemeanor(e.target.value)} value={demeanor} />
                 </div>
                 <br />
-                {/* <div>
-                    <label>Upload Photo</label><br />
-                    <input type="file" name="photo" accept="image/*" multiple={false} onChange={props.reportFormImageChange}/>
-                </div>
-                <br /> */}
             <div>
-                {/* <AnalyzeImage image={photo} onChange={(e)=>setPhoto(e.target.files[0])} handlePhotoUploaded={handlePhotoUploaded} breeds={breeds}/> */}
-                <AnalyzeImage addPhoto={addPhoto} breeds={props.breeds}/>
+                <AnalyzeImage addPhoto={addPhoto} breeds={props.breeds} allowPhoto={allowPhoto}/>
             </div>
                 <div>
                     <input type="submit" value="Submit New Report" disabled={!isSubmitEnabled}/>

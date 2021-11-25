@@ -1,67 +1,53 @@
-import React, { useState } from 'react';
-import '../../azure.css';
-import { computerVision, isConfigured as ComputerVisionIsConfigured } from '../../azure-cognitiveservices-computervision';
+import React, { useState } from 'react'
+import '../../azure.css'
+import { computerVision, isConfigured as ComputerVisionIsConfigured } from '../../azure-cognitiveservices-computervision'
 
-const AnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto }) => {
-    const [fileSelected, setFileSelected] = useState(null);
-    const [analysis, setAnalysis] = useState(null);
-    const [processing, setProcessing] = useState(false);
+const AnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto, allowPhoto }) => {
+    const [fileSelected, setFileSelected] = useState(null)
+    const [analysis, setAnalysis] = useState(null)
+    const [processing, setProcessing] = useState(false)
     const [fileSubmitted, setFileSubmitted] = useState(false)
+    const [possibleBreed, setPossibleBreed] = useState('')
 
     const handleQuery = (e) => {
-        // hold UI
-        setProcessing(true);
-        setAnalysis(null);
-
+        setProcessing(true)
+        setAnalysis(null)
+        
         computerVision(fileSelected || null).then((item) => {
-            // reset state/form
-            debugger
-            // !!item.tags.find(tag => tag.name == 'dog')
-            // must include a dog
+            const breedNameArray = breeds.map( breed => breed.breed.toLowerCase() )
+            const breedMatch = item.tags.filter(tag => breedNameArray.includes(tag.name.toLowerCase()))
     
             // item.objects[0].object === "golden retriever", "Yorkshire terrier"
             // item.objects[0].object must match a breed already in database //
             // if "hound", "terrier", etc, they will match with "hound mix", "terrier mix" etc
             // otherwise Unknown Mix
 
-            // item.adult.isAdultContent === false
-            // item.adult.isGoryContent === false
-            // item.adult.isRacyContent === false 
-            // all three must be false
-            // item.adult.adultScore, goreScore, racyScore must be below < 0.20
-            // nude pregnant woman ~ 0.25 adult
-            // bikini model with great danes  ~0.011 adult, but 0.99 racy
-            // blurry dog in shelter, centered gets 0.29 adult and 0.50 racy for some reason
-            // leave up to moderation
-            setAnalysis(item);
-            setFileSelected("");
-            setProcessing(false);
-        });
+            setAnalysis(item)
+            if (!item.tags.find(tag => tag.name == 'dog') || item.adult.isAdultContent || item.adult.isGoryContent || item.adult.isRacyContent ) {
+                allowPhoto("disallow")
+            } else {
+                allowPhoto("allow")
+                if ( breedMatch ) {
+                    setPossibleBreed(breedMatch[0].name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '))
+                }
+            }
 
-    };
+            setFileSelected("")
+            setProcessing(false)
+        })
 
-    // Display JSON data in readable format
-    const PrettyPrintJson = (data) => {
-        return (<div><pre>{JSON.stringify(data, null, 2)}</pre></div>);
     }
 
     const DisplayResults = () => {
-        // console.log(analysis)
-        // console.log(analysis.adult.isAdultContent)
-        // console.log(analysis.adult.isGoryContent)
-        // console.log(analysis.adult.isRacyContent)
-        // console.log(analysis.objects[0].object )
-        // console.log(!!analysis.tags.find(tag => tag.name == 'dog'))
         return (
             <div>
-                <h2>Computer Vision Analysis</h2>
+                <h2>Photo Analysis</h2>
                 <div>
-                    <img src={analysis.URL} height="200" border="1" alt={(analysis.description && analysis.description.captions && analysis.description.captions[0].text ? analysis.description.captions[0].text : "can't find caption")} /></div>
-                {PrettyPrintJson(analysis)}
-                <p>This appears to be a </p>
+                    {possibleBreed ? <p>This appears to be a {possibleBreed}</p> : <p>Could not get an exact breed match</p>}
+                </div>
             </div>
         )
-    };
+    }
 
 
     const handleChange = (e) => {
@@ -80,14 +66,14 @@ const AnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto }) => {
     const Analyze = () => {
         return (
             <div>
-                <h1>Analyze image</h1>
+                {/* <h1>Analyze image</h1> */}
                 <div>
                     <div>
-                        <label>URL</label>
-                        <input type="file" id="myImage" placeholder="Upload photo" onChange={(e) => handleChange(e)} size="50" />
+                        <label>Dog's Photo (.JPG/.PNG only)</label> <br/>
+                        <input type="file" id="myImage" placeholder="Upload photo" onChange={(e) => handleChange(e)} a accept="image/png, image/jpeg" multiple={false} size="50" />
                         <output id="thumbnail" />
                     </div>
-                    {!fileSubmitted ? <button onClick={(e) => handlePhotoUploaded(true)}>Analyze</button> : <button onClick={handleQuery}>Submit</button>}
+                    {!fileSubmitted ? <button onClick={(e) => handlePhotoUploaded(true)}>Select and Analyze Photo</button> : <button onClick={handleQuery}>Select and Analyze Photo</button>}
                 </div>
                 {fileSelected && <img src={fileSelected} />}
                 {analysis && <DisplayResults />}
@@ -109,7 +95,7 @@ const AnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto }) => {
             {ready ? <Analyze /> : <CantAnalyze />}
         </div>
 
-    );
+    )
 }
 
-export default AnalyzeImage;
+export default AnalyzeImage
