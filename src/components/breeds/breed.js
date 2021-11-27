@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, {useState} from 'react'
 import { styled } from '@mui/material/styles'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
@@ -28,12 +28,12 @@ const ExpandMore = styled((props) => {
 }))
 
 const Breed = (props) => {
-  const [expanded, setExpanded] = React.useState(false)
-  console.log(props.reportData)
+  const [expanded, setExpanded] = useState(false)
+  // console.log(props.reportData)
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
-
+  // console.log(props.image)
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -49,12 +49,13 @@ const Breed = (props) => {
         }
         title={props.breed}
       />
-      {/* <CardMedia
+      <CardMedia
         component="img"
         height="194"
         // image="/static/images/cards/paella.jpg"
+        src={props.image}
         alt={props.breed_group + " Group"}
-      /> */}
+      />
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />

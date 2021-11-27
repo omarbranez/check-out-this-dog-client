@@ -9,15 +9,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Tooltip from '@mui/material/Tooltip'
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -30,22 +27,7 @@ import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import FiberNewOutlinedIcon from '@mui/icons-material/FiberNewOutlined';
 
-
-const drawerWidth = 240;
-
-
-{/* <div>
-    < Link to="/"><button>Home</button>  </Link>
-    {isUserLoggedIn() ? < Link to={"/profile/"+`${username}`}><button variant="contained" >{username}'s Profile</button></Link> : null}
-    {isUserLoggedIn() ? < Link to="/reports/new"><button variant="contained" >New Report</button></Link> : null}
-    < Link to="/map"><button variant="contained" >Map</button></Link>
-    < Link to="/reports"><button variant="contained" >News Feed</button></Link>
-    {isUserLoggedIn() ? null : < Link to="/login"><button variant="contained" >Log In </button></Link>}
-    {isUserLoggedIn() ? null : < Link to="/signup"><button variant="contained" >Sign Up</button></Link>}
-    < Link to="/breeds"><button variant="contained" >Breed Guide</button></Link>
-    {isUserLoggedIn() ? < Link to="/logout"><button variant="contained">Log Out</button></Link> : null }
-</div> */}
-
+const drawerWidth = 240
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
