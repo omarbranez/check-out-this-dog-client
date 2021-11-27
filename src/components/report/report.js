@@ -56,7 +56,7 @@ const Report = ({ addLiked, undoLiked, setSelectedReport, unsetSelectedReport, a
         <div>
             <h2>{name}, the {breed}</h2>
             <p>on: {created}</p>
-            <div onClick={handleClick}>
+            <div onClick={handleClick} style={{display: 'inline-block', margin: '0 auto'}}>
                 <ReactionButton user={user} userId={user.id} reportId={id} liked={liked} reactions={reactions}/>
             </div>
             {user.id === user_id ? <p>Reported by: You!</p> : <p>Reported by: {user.username}</p>}

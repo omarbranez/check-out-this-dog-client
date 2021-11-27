@@ -1,13 +1,11 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { styled, useTheme, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Icon from "@mui/material/Icon";
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Tooltip from '@mui/material/Tooltip'
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
@@ -32,22 +30,6 @@ import muttmapIconClosed from '../muttmap-menu-icon.png'
 
 const drawerWidth = 240
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        //    vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-                width: '20ch',
-            },
-        },
-    },
-}));
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
@@ -77,7 +59,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const Navbar = (props) => {
 
     const user = props.user
-    console.log(props.user)
     const linkRoutesAndIcons = [
         {
             path: "/map",
@@ -127,8 +108,6 @@ const Navbar = (props) => {
         }
     ]
 
-
-    const theme = useTheme();
     const [open, setOpen] = useState(false);
   
     const handleDrawerOpen = () => {
@@ -196,25 +175,25 @@ const Navbar = (props) => {
         <List>
             {linkRoutesAndIcons.map((route) => (
             <Link to={route.path}>
-            <ListItem button key={route.text} onClick={handleDrawerClose}>
-              <ListItemIcon>
-                  {route.icon}
-              </ListItemIcon>
-              <ListItemText primary={route.text} />
-            </ListItem>
+                <ListItem button key={route.text} onClick={handleDrawerClose}>
+                    <ListItemIcon>
+                        {route.icon}
+                    </ListItemIcon>
+                <ListItemText primary={route.text} />
+                </ListItem>
             </Link>
           ))}
         </List>
         :
         <List>
             {loggedOutRoutesAndIcons.map((route) => (
-             <Link to={route.path}>
-            <ListItem button key={route.text} onClick={handleDrawerClose}>
-              <ListItemIcon>
-                  {route.icon}
-              </ListItemIcon>
-              <ListItemText primary={route.text} />
-            </ListItem>
+            <Link to={route.path}>
+                <ListItem button key={route.text} onClick={handleDrawerClose}>
+                    <ListItemIcon>
+                        {route.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={route.text} />
+                </ListItem>
             </Link>
             ))}
         </List>
