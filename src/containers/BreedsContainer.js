@@ -8,9 +8,10 @@ import Grid from '@mui/material/Grid'
 
 const BreedsContainer = (props) => {
 
-    const [letterFilter, setLetterFilter] = useState('A')
-    const [groupFilter, setGroupFilter] = useState('Toy')
-
+    const [letterFilter, setLetterFilter] = useState('')
+    const [groupFilter, setGroupFilter] = useState('')
+    const letters = [...Array(26)].map((_, i) => String.fromCharCode('A'.charCodeAt(0) + i))
+    const breedGroups = ['Herding', 'Hound', 'Mixed', 'Non-Sporting', 'Sporting', 'Terrier', 'Toy', 'Working']
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -40,26 +41,35 @@ const BreedsContainer = (props) => {
     const filteredReports = (breed) => {
        return props.reports.filter(report => report.breed === breed.breed)
     }
-    
-    // const letterFilteredBreeds = () => return letterFilter ? props.breeds.filter(breed => breed.breed.startsWith(letterFilter)) : props.breeds
-    // const groupFilteredBreeds = () => return groupFilter ? letterFilteredBreeds.filter(breed => breed.breed_group == groupFilter) : props.breeds
-    // console.log(filteredReports("Pembroke Welsh Corgi"))
-    // console.log(props.reports.filter(report => report.breed === "Pembroke Welsh Corgi"))
-    // debugger
-    // console.log(filteredBreeds)
-    // const groupFilteredBreeds = () => {
-    //     if (groupFilter) {
-    //         return letterFilteredBreeds.filter(breed => breed.breed_group == groupFilter)
-    //     } else {
-    //         return letterFilteredBreeds
-    //     }
-    // }
+    const handleLetterReset = (e) => {
+        setLetterFilter('')
+        document.getElementById('breedLetters').selectedIndex = 0
+    }
 
-    // console.log(letterFilteredBreeds())
+    const handleGroupReset = (e) => {
+        setGroupFilter('')
+        document.getElementById('breedGroups').selectedIndex = 0
+    }
     return(
         
         <div>
             <h2>Current List of Breeds</h2>
+            <div>
+                <label>Filter By First Letter </label>
+                <select id="breedLetters" name="breedLetter" onChange={(e)=>setLetterFilter(e.target.value)}>
+                    <option disabled selected value>Select Letter</option>
+                    {letters.map(letter => <option value={letter}>{letter}</option>)}
+                </select>
+                <button onClick={(e)=>handleLetterReset(e)}> Reset Letter Filter</button>
+            </div>
+            <div>
+                <label>Filter by Breed Group </label>
+                <select id="breedGroups" name="breedGroup" onChange={(e)=>setGroupFilter(e.target.value)}>
+                    <option disabled selected value>Select Breed Group</option>
+                    {breedGroups.map(group => <option value={group}>{group}</option>)}    
+                </select>
+                <button onClick={(e)=>handleGroupReset(e)}> Reset Group Filter</button>  
+            </div><br/>
             <Grid container spacing={3}>
             {groupFilteredBreeds(props.breeds).map((breed) => <Grid item xs={3}><Breed key={props.dog_id} {...breed} reportData={filteredReports(breed)}/> </Grid>)}
             {/* insert reports for statistics (how many of this breed, etc) */}
