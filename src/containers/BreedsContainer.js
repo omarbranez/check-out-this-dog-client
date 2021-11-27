@@ -3,17 +3,19 @@ import { connect, useDispatch} from 'react-redux'
 import { getBreeds } from '../actions/breeds'
 import { getReports } from '../actions/reports'
 import Breed from '../components/breeds/breed'
-import Modal from 'react-modal'
 import Grid from '@mui/material/Grid'
 
 const BreedsContainer = (props) => {
-
+    
+    const dispatch = useDispatch()
+    
     const [letterFilter, setLetterFilter] = useState('')
     const [groupFilter, setGroupFilter] = useState('')
+
     const letters = [...Array(26)].map((_, i) => String.fromCharCode('A'.charCodeAt(0) + i))
     const breedGroups = ['Herding', 'Hound', 'Mixed', 'Non-Sporting', 'Sporting', 'Terrier', 'Toy', 'Working']
-    const dispatch = useDispatch()
 
+    
     useEffect(() => {
         dispatch(getBreeds())
     }, [dispatch])
@@ -22,7 +24,6 @@ const BreedsContainer = (props) => {
         dispatch(getReports())
     }, [dispatch])
 
-    
     const letterFilteredBreeds = (breeds) => {
         if (letterFilter) {
             return breeds.filter(breed => breed.breed.startsWith(letterFilter))
@@ -38,9 +39,11 @@ const BreedsContainer = (props) => {
             return letterFilteredBreeds(props.breeds)
         }
     }
+
     const filteredReports = (breed) => {
        return props.reports.filter(report => report.breed === breed.breed)
     }
+    
     const handleLetterReset = (e) => {
         setLetterFilter('')
         document.getElementById('breedLetters').selectedIndex = 0
@@ -50,6 +53,7 @@ const BreedsContainer = (props) => {
         setGroupFilter('')
         document.getElementById('breedGroups').selectedIndex = 0
     }
+
     return(
         
         <div>
@@ -71,7 +75,7 @@ const BreedsContainer = (props) => {
                 <button onClick={(e)=>handleGroupReset(e)}> Reset Group Filter</button>  
             </div><br/>
             <Grid container spacing={3}>
-            {groupFilteredBreeds(props.breeds).map((breed) => <Grid item xs={3}><Breed key={props.dog_id} {...breed} reportData={filteredReports(breed)}/> </Grid>)}
+                {groupFilteredBreeds(props.breeds).map((breed) => <Grid item xs={3}><Breed key={props.dog_id} {...breed} reportData={filteredReports(breed)}/> </Grid>)}
             {/* insert reports for statistics (how many of this breed, etc) */}
             </Grid>
         </div>

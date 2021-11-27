@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { styled, useTheme, alpha } from '@mui/material/styles';
@@ -9,7 +9,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Tooltip from '@mui/material/Tooltip'
-import SearchIcon from '@mui/icons-material/Search';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import List from '@mui/material/List';
@@ -27,50 +26,11 @@ import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import FiberNewOutlinedIcon from '@mui/icons-material/FiberNewOutlined';
 
+import muttmapText from '../muttmap-text.png'
+import muttmapIconOpen from '../muttmap-menu-icon-open.png'
+import muttmapIconClosed from '../muttmap-menu-icon.png'
+
 const drawerWidth = 240
-
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: `-${drawerWidth}px`,
-      ...(open && {
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-      }),
-    }),
-  );
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        width: 'auto',
-    },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -169,7 +129,7 @@ const Navbar = (props) => {
 
 
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
   
     const handleDrawerOpen = () => {
       setOpen(true);
@@ -194,7 +154,7 @@ const Navbar = (props) => {
                             edge="start"
                             sx={{ mr: 2, ...(open && { display: 'none' })  }}
                         >
-                            <img src='./muttmap-menu-icon.png' width="40"></img>
+                            <img src={muttmapIconClosed} width="40" ></img>
                         </IconButton>
                         <Typography
                             variant="h6"
@@ -202,17 +162,8 @@ const Navbar = (props) => {
                             component="div"
                             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                         >
-                            <img src='./muttmap-text.png' height="45"></img> 
+                            <img src={muttmapText} height="45" ></img> 
                         </Typography>
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </Search>
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -231,13 +182,13 @@ const Navbar = (props) => {
             {/* this is covered by the app bar */}
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}> 
-            <img src='./muttmap-menu-icon-open.png' width="50"></img>
+            <img src={muttmapIconOpen} width="50" ></img>
           </IconButton>
         </DrawerHeader>
           {/* this is covered by the app bar */}
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}> 
-            <img src='./muttmap-menu-icon-open.png' width="50"></img>
+            <img src={muttmapIconOpen} width="50" ></img>
           </IconButton>
         </DrawerHeader>
         <Divider />
