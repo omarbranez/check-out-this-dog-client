@@ -8,7 +8,7 @@ const LoginSuccess = (props) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             navigate('/map', { redirect: true})
-        }, 3000) 
+        }, 1500) 
         return () => clearTimeout(timer)
     })
     

@@ -1,40 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react'
-import GoogleMapReact from 'google-map-react/'
-import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import { connect, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { getReports, toggleReportWindow } from '../actions/reports'
 import { setGeolocatedCenter, resetCenter, setMarkerCenter } from '../actions/map'
-// this needs to account for the user changing their location
+import { styled, useTheme } from '@mui/material/styles';
+import GoogleMapReact from 'google-map-react/'
+import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import Marker from '../components/map/marker'
 import ReportButton from '../components/map/reportButton'
 import CurrentLocationButton from '../components/map/currentLocationButton'
 import DefaultLocationButton from '../components/map/defaultLocationButton'
-import OpenListButton from '../components/map/openListButton'
 import LoadingSpinner from '../components/map/loadingSpinner'
 import ReactDOM from 'react-dom'
-import { useNavigate } from 'react-router-dom'
-
-import { styled, useTheme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-// import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip'
 import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
-// import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import ListItemText from '@mui/material/ListItemText';
 
 const drawerWidth = 240;
+
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
       flexGrow: 1,
@@ -54,31 +47,14 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     }),
   );
   
-//   const AppBar = styled(MuiAppBar, {
-//     shouldForwardProp: (prop) => prop !== 'open',
-//   })(({ theme, open }) => ({
-//     transition: theme.transitions.create(['margin', 'width'], {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.leavingScreen,
-//     }),
-//     ...(open && {
-//       width: `calc(100% - ${drawerWidth}px)`,
-//       transition: theme.transitions.create(['margin', 'width'], {
-//         easing: theme.transitions.easing.easeOut,
-//         duration: theme.transitions.duration.enteringScreen,
-//       }),
-//       marginRight: drawerWidth,
-//     }),
-//   }));
-  
-  const DrawerHeader = styled('div')(({ theme }) => ({
+const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 2),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-start',
-  }));
+}));
 
 const MapContainer = (props) => {
     const dispatch = useDispatch()
@@ -117,15 +93,14 @@ const MapContainer = (props) => {
     const filterReports = (reports, bounds) => {
         setFilteredReports(reports.filter(report => inBoundingBox(bounds[0], bounds[1], report.lat, report.lng)))
     }
-    // console.log(bounds)
+
     useEffect(() => {
         bounds && filterReports(props.reports, bounds)
     }, [bounds, props.reports ])
 
-    // console.log(mapRef)
     const handleOnLoad = ({ map, maps }) => { // this is the only way to add controls to google maps api
         mapRef.current = { map, maps }
-        console.log(map.controls[6].td)
+
         const controlButtonDiv = document.createElement('div')
         controlButtonDiv.addEventListener('click', () => { navigate('/reports/new') })
         ReactDOM.render(<ReportButton />, controlButtonDiv)
@@ -156,13 +131,21 @@ const MapContainer = (props) => {
         map.controls[maps.ControlPosition.TOP_RIGHT].push(openListButtonDiv)
 
         const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         const markers = props.reports && props.reports.map((report, i) => {
             const lat = report.lat
             const lng = report.lng
             const location = { lat, lng }
             return new maps.Marker({position: location, label: labels[i % labels.length]})
         })
-        
+
+        for (const marker of markers) {
+            maps.event.addListener(marker, 'click', function() {
+                map.setZoom(18)
+                map.setCenter(marker.getPosition())
+            })
+        }
+
         new MarkerClusterer({map, markers})
     }
 
@@ -197,8 +180,7 @@ const MapContainer = (props) => {
     function isEmpty(str) {
         return (!str || str.length === 0 );
     }
-    // console.log(isEmpty(filteredReports))
-    // console.log(props)
+
     const renderMap = () => 
         <div>
             <Box sx={{ display: 'flex' }}>
@@ -229,7 +211,9 @@ const MapContainer = (props) => {
                             show={report.show}
                             breed={report.breed}
                             timeCreated={report.time_created}
-                            name={report.name} />) : <LoadingSpinner text="Loading"/>}
+                            name={report.name} 
+                            zIndex={2}
+                            style={{height: 40, width:20}}/>) : <LoadingSpinner text="Loading"/>}
                     </GoogleMapReact>
                 </Main>
                 <Drawer
@@ -246,8 +230,6 @@ const MapContainer = (props) => {
                 > 
                 {/* this is covered by the app bar */}
                     <DrawerHeader> 
-                    {/* <Tooltip title='Click here to see a list of reports!' placement='left' open={showReportButtonTooltip} disableHoverListener disableFocusListener> */}
-
                         <IconButton onClick={handleDrawerClose}>
                             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                         </IconButton>
@@ -255,7 +237,6 @@ const MapContainer = (props) => {
                 {/* this is covered by the app bar */}
                     <DrawerHeader>
                     <Tooltip title='Click here to see a list of reports!' placement='left' open={showReportButtonTooltip} disableHoverListener disableFocusListener>
-
                         <IconButton onClick={handleDrawerClose}>
                             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                         </IconButton>

@@ -4,8 +4,8 @@ import {  Link, useNavigate } from 'react-router-dom'
 import { getReports } from '../actions/reports'
 // import ReportForm from '../components/report/reportForm'
 // import Report from '../components/report/report'
-import { DataGrid, GridToolbarFilterButton, GridCellParams} from '@mui/x-data-grid'
-import report from '../components/report/report'
+import { DataGrid, GridToolbarFilterButton} from '@mui/x-data-grid'
+// import report from '../components/report/report'
 
 const ReportsContainer = (props) => {
     const navigate = useNavigate()
@@ -13,7 +13,7 @@ const ReportsContainer = (props) => {
 
     const [ sortDate, setSortDate ] = useState([{field: 'created', sort: 'desc'}])
 
-    const [ like, setLike ] = useState(false)
+    // const [ like, setLike ] = useState(false)
 
     const columns = [
         { field: 'date', headerName: 'Date Reported', width: 200, filterable: false },

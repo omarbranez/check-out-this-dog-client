@@ -1,19 +1,19 @@
-const nullReportForm = {
-    id: null,
-    user_id: null,
-    dog_id: null,
-    name: '',
-    // breed: '', 
-    color: '',
-    gender: '',
-    lat: null,
-    lng: null,
-    age: null,
-    features: '',
-    demeanor: '',
-    photo: null,
-    created: '',
-}
+// const nullReportForm = {
+//     id: null,
+//     user_id: null,
+//     dog_id: null,
+//     name: '',
+//     // breed: '', 
+//     color: '',
+//     gender: '',
+//     lat: null,
+//     lng: null,
+//     age: null,
+//     features: '',
+//     demeanor: '',
+//     photo: null,
+//     created: '',
+// }
 
 const nullReport = {
     id: null,
@@ -41,7 +41,7 @@ const initialState = {
     liked: false,
     commented: false,
     selectedReport: nullReport,
-    reportForm: nullReportForm,
+    // reportForm: nullReportForm,
     loading: false,
 }
 
@@ -59,7 +59,7 @@ const reportReducer = (state=initialState, action) => {
             return {
                 ...state, 
                 reports: action.payload,
-                reportForm: nullReportForm,
+                // reportForm: nullReportForm,
                 loading: false,
             }
         case "SET_SELECTED_REPORT": 
@@ -75,7 +75,7 @@ const reportReducer = (state=initialState, action) => {
         }
         case "TOGGLE_SHOW_WINDOW":
             // debugger
-            const toggledReport = state.reports.find((report) => report.id == action.payload)
+            const toggledReport = state.reports.find((report) => report.id === action.payload)
             toggledReport.show = !toggledReport.show
             return { ...state,
                     reports: [

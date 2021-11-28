@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { setSelectedReport, unsetSelectedReport, addLiked, undoLiked, deleteComment, addComment } from '../../actions/reports'
-import Map from '../map/map'
+import ReportMap from '../map/reportMap'
 import ReactionButton from '../reactions/reactionButton'
 import CommentForm from '../comments/commentForm'
 import CommentIndex from '../comments/commentIndex'
@@ -68,7 +68,7 @@ const Report = ({ addLiked, undoLiked, setSelectedReport, unsetSelectedReport, a
             <img className="photo" src={photo.url} style={{maxWidth: '30%', height:'auto'}}/>
             <p>Location:</p>
             <div>
-                < Map lat={lat} lng={lng} />
+                < ReportMap lat={lat} lng={lng} />
             </div>
             <div>
             <CommentForm user={user} reportId={id} commented={commented}/>

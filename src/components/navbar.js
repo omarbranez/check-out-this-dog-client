@@ -130,19 +130,19 @@ const Navbar = (props) => {
                             color="inherit"
                             aria-label="open drawer"
                             onClick={handleDrawerOpen}
-                            edge="start"
+                            // edge="start"
                             sx={{ mr: 2, ...(open && { display: 'none' })  }}
                         >
-                            <img src={muttmapIconClosed} width="40" ></img>
+                            <img src={muttmapIconClosed} width="40" alt="muttmapIconClosed" ></img>
                         </IconButton>
-                        <Typography
+                        {/* <Typography
                             variant="h6"
                             noWrap
-                            component="div"
+                            // component="div"
                             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                        >
-                            <img src={muttmapText} height="45" ></img> 
-                        </Typography>
+                        > */}
+                            <img src={muttmapText} height="45" style={{display: 'block', marginLeft: 'auto', marginRight: '500'}}></img> 
+                        {/* </Typography> */}
                     </Toolbar>
                 </AppBar>
                 <Drawer

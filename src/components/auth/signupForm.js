@@ -11,7 +11,7 @@ const SignupForm = ({createUser}) => {
 
     const navigate = useNavigate()
 
-    const url = `https://www.bing.com/api/maps/mapcontrol?key=${process.env.REACT_APP_M_API_KEY}` // does this do anything
+    // const url = `https://www.bing.com/api/maps/mapcontrol?key=${process.env.REACT_APP_M_API_KEY}` // does this do anything
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -49,10 +49,6 @@ const SignupForm = ({createUser}) => {
                 <label>Confirm Password</label><br/>
                 <input type="password" name="passwordConfirmation" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} required/><br/>
                 <label>Set Location</label><br/>
-                {/* <div id='printoutPanel'>
-                    <input type="hidden" value={lat} onChange={(e) => setLat(e.target.value)}/>
-                    <input type="hidden" value={lng} onChange={(e) => setLng(e.target.value)}/>
-                </div> */}
                 <div id='searchBoxContainer'><input type='text' id= 'searchBox'/></div>
                 <input type="submit" value="Sign Up" />
             </form>

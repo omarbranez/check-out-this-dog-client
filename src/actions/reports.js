@@ -97,6 +97,9 @@ export const createReport = (reportData) => {
     return dispatch => {
         fetch(REPORTS_URL, {
             method: 'POST',
+            headers: {
+                'Authorization': localStorage.token,
+            },
             body: fData
         })        
         .then(res => res.json())

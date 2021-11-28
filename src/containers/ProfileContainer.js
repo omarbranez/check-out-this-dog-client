@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useEffect} from 'react'
 import { connect, useDispatch } from 'react-redux'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getReports } from '../actions/reports'
 // import Modal from 'react-modal'
 import ReportModal from '../components/report/modal'
@@ -8,8 +8,8 @@ import ReportModal from '../components/report/modal'
 // import Report from '../components/report/report'
 
 const ProfileContainer = (props) => {
-    const navigate = useNavigate()
-    const [showModal, setShowModal] = useState(false)
+    // const navigate = useNavigate()
+    // const [showModal, setShowModal] = useState(false)
     const params = useParams()
     const { username } = params
     console.log(params)

@@ -8,7 +8,7 @@ const LogoutPage = (props) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             props.logoutUser(navigate)
-        }, 3000) 
+        }, 1500) 
         return () => clearTimeout(timer)
     })
 

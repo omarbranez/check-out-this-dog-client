@@ -10,11 +10,11 @@ import AnalyzeImage from './analyzeImage'
 
 
 const ReportForm = (props) => {
-
+    
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [ showMap, setShowMap ] = useState(false)
-    const [ disableButton, setDisableButton ] = useState(false)
+    const [showMap, setShowMap] = useState(false)
     const [lat, setLat] = useState(null)
     const [lng, setLng] = useState(null)
     const [name, setName] = useState('')
@@ -27,8 +27,6 @@ const ReportForm = (props) => {
     const [photo, setPhoto] = useState(null)
     const [photoAllowed, setPhotoAllowed] = useState('')
     
-    useEffect(()=> {})
-    const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getBreeds())
     }, [dispatch])
@@ -64,7 +62,7 @@ const ReportForm = (props) => {
     }
 
     const allowPhoto = (verdict) => {
-        if (verdict == "disallow"){
+        if (verdict === "disallow"){
             setPhoto(null)
             alert("The selected photo is not allowed. Please select a different one")
         } else {
@@ -72,14 +70,14 @@ const ReportForm = (props) => {
         }        
     }
     const isSubmitEnabled = 
-        age && color && features && demeanor && gender && lat && lng && name && dogId && photo && (photoAllowed == "allow")// && photo// && userId //dogId
+        age && color && features && demeanor && gender && lat && lng && name && dogId && photo && (photoAllowed == "allow")
     
     const breeds = props.breeds.map(breed => ({value: breed.id, label: breed.breed, attribute: "dogId"}))
 
     const addPhoto = (photo) => {
         setPhoto(photo)
     }
-    console.log(!!isSubmitEnabled)
+
     return (
         <div>
             <h1>Report a new dog sighting!</h1>
@@ -151,7 +149,6 @@ const ReportForm = (props) => {
 const mapStateToProps = (state) => ({
     breeds: state.breeds.breeds,
     loading: state.breeds.loading,
-    // form: state.reports.reportForm,
     currentCenter: state.user.currentCenter,
     geolocating: state.user.geolocating,
     user: state.user

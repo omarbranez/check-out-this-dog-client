@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import Map from '../map/map'
+import ReportMap from '../map/reportMap'
 import Modal from 'react-modal'
 
 const ReportModal = (props) => {
@@ -23,7 +23,7 @@ const ReportModal = (props) => {
                 <img className="photo" src={props.photo.url}/>
                 <p>Location:</p>
                 <div>
-                    < Map lat={props.lat} lng={props.lng}/>
+                    < ReportMap lat={props.lat} lng={props.lng}/>
                 </div>
             </Modal>
         </div>
