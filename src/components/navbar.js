@@ -130,7 +130,6 @@ const Navbar = (props) => {
                             color="inherit"
                             aria-label="open drawer"
                             onClick={handleDrawerOpen}
-                            // edge="start"
                             sx={{ mr: 2, ...(open && { display: 'none' })  }}
                         >
                             <img src={muttmapIconClosed} width="40" alt="muttmapIconClosed" ></img>

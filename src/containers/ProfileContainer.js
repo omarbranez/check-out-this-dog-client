@@ -32,7 +32,7 @@ const ProfileContainer = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    reports: state.reports.reports.filter((report) => report.user_id === state.user.id ),
+    reports: state.reports.reports.filter((report) => report.user_id == state.user.id ),
     user: state.user
 })
 export default connect(mapStateToProps, {getReports})(ProfileContainer)

@@ -9,7 +9,6 @@ import Collapse from '@mui/material/Collapse'
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
 import { red } from '@mui/material/colors'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import ShareIcon from '@mui/icons-material/Share'
@@ -42,11 +41,6 @@ const Breed = (props) => {
             {props.breed[0]}
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
         title={props.breed}
       />
       <CardMedia
@@ -57,12 +51,7 @@ const Breed = (props) => {
         alt={props.breed_group + " Group"}
       />
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}

@@ -74,8 +74,8 @@ const reportReducer = (state=initialState, action) => {
             }
         }
         case "TOGGLE_SHOW_WINDOW":
-            // debugger
-            const toggledReport = state.reports.find((report) => report.id === action.payload)
+            // eslint-disable-next-line
+            const toggledReport = state.reports.find((report) => report.id == action.payload)
             toggledReport.show = !toggledReport.show
             return { ...state,
                     reports: [

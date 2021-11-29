@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import GoogleMapReact from 'google-map-react'
-import Marker from '../../components/map/marker'
+// import Marker from '../../components/map/marker'
+import ReportMapMarker from './reportMapMarker'
 
 const UserMap = (props) => {
     const [ coordinates, setCoordinates ] = useState(null)
@@ -8,7 +9,7 @@ const UserMap = (props) => {
 
     const handleMapClick = (e) => {
         setCoordinates({lat: e.lat, lng: e.lng})
-        setShowConfirmButton(!showConfirmButton)
+        setShowConfirmButton(true)
         props.sendMapToForm({lat: e.lat, lng: e.lng})
 
     }
@@ -28,7 +29,7 @@ const UserMap = (props) => {
                     onClick={handleMapClick}
                     options={{fullscreenControl: false}}
                     >
-                {coordinates && <Marker lat={coordinates.lat} lng={coordinates.lng} show={false}/>}
+                {coordinates && <ReportMapMarker lat={coordinates.lat} lng={coordinates.lng}/>}
                 </GoogleMapReact>
             : <h2>Loading</h2>}
             {showConfirmButton ? <input type="button" value="Confirm Location" onClick={handleConfirmClick}/> : null }

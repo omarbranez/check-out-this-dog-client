@@ -16,9 +16,7 @@ const AnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto, allowPhoto
         computerVision(fileSelected || null).then((item) => {
             const breedNameArray = breeds.map( breed => breed.breed.toLowerCase() )
             const breedMatch = item.tags.filter(tag => breedNameArray.includes(tag.name.toLowerCase()))
-    
-            // item.objects[0].object === "golden retriever", "Yorkshire terrier"
-            // item.objects[0].object must match a breed already in database //
+            
             // if "hound", "terrier", etc, they will match with "hound mix", "terrier mix" etc
             // otherwise Unknown Mix
 

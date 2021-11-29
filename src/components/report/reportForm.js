@@ -7,6 +7,7 @@ import { getBreeds } from '../../actions/breeds'
 import { useNavigate } from 'react-router-dom'
 import { colors } from '../../colors'
 import AnalyzeImage from './analyzeImage'
+import { setGeolocatedCenter } from '../../actions/map'
 
 
 const ReportForm = (props) => {
@@ -29,6 +30,10 @@ const ReportForm = (props) => {
     
     useEffect(() => {
         dispatch(getBreeds())
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(setGeolocatedCenter())
     }, [dispatch])
     
     const handleSubmit = (e) => {

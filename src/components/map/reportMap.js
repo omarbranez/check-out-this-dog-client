@@ -1,6 +1,7 @@
 import React from 'react'
 import GoogleMapReact from 'google-map-react'
-import Marker from './marker'
+// import Marker from './marker'
+import ReportMapMarker from './reportMapMarker' 
 
 const ReportMap = (props) => {
     const {lat, lng} = props
@@ -11,7 +12,7 @@ const ReportMap = (props) => {
                 center={[lat, lng]}
                 zoom={15}
                 options={{fullscreenControl: false, gestureHandling: 'none'}}>
-                <Marker lat={lat} lng={lng}/>
+                <ReportMapMarker lat={lat} lng={lng}/>
             </GoogleMapReact>
         </div>
     )
