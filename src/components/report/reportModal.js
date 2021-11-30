@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import ReportMap from '../map/reportMap'
+import ReportMap from './reportMap'
 import Modal from 'react-modal'
 
 const ReportModal = (props) => {

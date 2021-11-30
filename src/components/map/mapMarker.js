@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setMarkerCenter } from '../../actions/map'
-import InfoWindow from './infoWindow'
+import { setMarkerCenter } from '../../actions/mapActions'
+import MapInfoWindow from './mapInfoWindow'
 
 import '../../marker.css'
 
-const Marker = (props) => {
+const MapMarker = (props) => {
   // console.log(props)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -27,8 +27,9 @@ const Marker = (props) => {
 
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleMarkerClick}>
-      {props.show === true ? <InfoWindow key={props.id} report={props} clickable={true}/> : null}
+      {props.show === true ? <MapInfoWindow key={props.id} report={props} clickable={true}/> : null}
     </div>
+
   )
 }
-export default Marker
+export default MapMarker

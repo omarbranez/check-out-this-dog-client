@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import { connect, useDispatch} from 'react-redux'
-import { getBreeds } from '../actions/breeds'
-import { getReports } from '../actions/reports'
-import Breed from '../components/breeds/breed'
+import { getBreeds } from '../actions/breedActions'
+import { getReports } from '../actions/reportActions'
+import BreedShow from '../components/breeds/breedShow'
 import Grid from '@mui/material/Grid'
+import MuttmapBreeds from '../muttmap-breed-list.png'
 
 const BreedsContainer = (props) => {
     
@@ -57,7 +58,7 @@ const BreedsContainer = (props) => {
     return(
         
         <div>
-            <h2>Current List of Breeds</h2>
+            <img src={MuttmapBreeds} width="400"></img>
             <div>
                 <label>Filter By First Letter </label>
                 <select id="breedLetters" name="breedLetter" onChange={(e)=>setLetterFilter(e.target.value)}>
@@ -75,8 +76,7 @@ const BreedsContainer = (props) => {
                 <button onClick={(e)=>handleGroupReset(e)}> Reset Group Filter</button>  
             </div><br/>
             <Grid container spacing={3}>
-                {groupFilteredBreeds(props.breeds).map((breed) => <Grid item xs={3}><Breed key={props.dog_id} {...breed} reportData={filteredReports(breed)}/> </Grid>)}
-            {/* insert reports for statistics (how many of this breed, etc) */}
+                {groupFilteredBreeds(props.breeds).map((breed) => <Grid item xs={3}><BreedShow key={props.dog_id} {...breed} reportData={filteredReports(breed)}/> </Grid>)}
             </Grid>
         </div>
     )

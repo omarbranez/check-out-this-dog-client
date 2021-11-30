@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getReports, toggleReportWindow } from '../actions/reports'
-import { setGeolocatedCenter, resetCenter, setMarkerCenter } from '../actions/map'
+import { getReports, toggleReportWindow } from '../actions/reportActions'
+import { setGeolocatedCenter, resetCenter, setMarkerCenter } from '../actions/mapActions'
 import { styled, useTheme } from '@mui/material/styles';
 import GoogleMapReact from 'google-map-react/'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
-import Marker from '../components/map/marker'
-import ReportButton from '../components/map/reportButton'
-import CurrentLocationButton from '../components/map/currentLocationButton'
-import DefaultLocationButton from '../components/map/defaultLocationButton'
-import LoadingSpinner from '../components/map/loadingSpinner'
+import MapMarker from '../components/map/mapMarker'
+import MapReportButton from '../components/map/mapReportButton'
+import MapCurrentLocationButton from '../components/map/mapCurrentLocationButton'
+import MapDefaultLocationButton from '../components/map/mapDefaultLocationButton'
+import MapLoadingSpinner from '../components/map/mapLoadingSpinner'
 import ReactDOM from 'react-dom'
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -103,17 +103,17 @@ const MapContainer = (props) => {
 
         const controlButtonDiv = document.createElement('div')
         controlButtonDiv.addEventListener('click', () => { navigate('/reports/new') })
-        ReactDOM.render(<ReportButton />, controlButtonDiv)
+        ReactDOM.render(<MapReportButton />, controlButtonDiv)
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(controlButtonDiv)
 
         const currentLocationButtonDiv = document.createElement('div')
         currentLocationButtonDiv.addEventListener('click', () => { props.setGeolocatedCenter() })
-        ReactDOM.render(<CurrentLocationButton />, currentLocationButtonDiv)
+        ReactDOM.render(<MapCurrentLocationButton />, currentLocationButtonDiv)
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(currentLocationButtonDiv)
 
         const defaultLocationButtonDiv = document.createElement('div')
         defaultLocationButtonDiv.addEventListener('click', () => { props.resetCenter() })
-        ReactDOM.render(<DefaultLocationButton />, defaultLocationButtonDiv)
+        ReactDOM.render(<MapDefaultLocationButton />, defaultLocationButtonDiv)
         map.controls[maps.ControlPosition.LEFT_BOTTOM].push(defaultLocationButtonDiv)
 
         const openListButtonDiv = document.createElement('div')
@@ -201,8 +201,8 @@ const MapContainer = (props) => {
                         }}
                         options={{ fullscreenControl: false }}
                         onChildClick={(e) => { props.toggleReportWindow(e) }}>
-                        {props.geolocating ? <LoadingSpinner text={"Locating"} /> : null}
-                        {props.reports ? props.reports.map((report) => <Marker
+                        {props.geolocating ? <MapLoadingSpinner text={"Locating"} /> : null}
+                        {props.reports ? props.reports.map((report) => <MapMarker
                             id={report.id}
                             key={report.id}
                             lat={report.lat}
@@ -213,7 +213,7 @@ const MapContainer = (props) => {
                             timeCreated={report.time_created}
                             name={report.name} 
                             zIndex={2}
-                            style={{height: 40, width:20}}/>) : <LoadingSpinner text="Loading"/>}
+                            style={{height: 40, width:20}}/>) : <MapLoadingSpinner text="Loading"/>}
                     </GoogleMapReact>
                 </Main>
                 <Drawer
@@ -263,7 +263,7 @@ const MapContainer = (props) => {
             </Box>
         </div>
     
-  return props.loading === false && props.currentCenter ? !props.geolocating ? renderMap() : <LoadingSpinner text={"Locating"}/> : <LoadingSpinner text={"Loading"}/>
+  return props.loading === false && props.currentCenter ? !props.geolocating ? renderMap() : <MapLoadingSpinner text={"Locating"}/> : <MapLoadingSpinner text={"Loading"}/>
 
   
 }

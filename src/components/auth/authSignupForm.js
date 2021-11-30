@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useNavigate } from 'react-router'
-import { createUser, getLatLngOutput } from '../../actions/user'
+import { createUser, getLatLngOutput } from '../../actions/userActions'
 
-const SignupForm = ({createUser}) => {
+const AuthSignupForm = ({createUser}) => {
     const [latLngOutput, setLatLngOutput] = useState({lat: null, lng: null})
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -57,4 +57,4 @@ const SignupForm = ({createUser}) => {
     )
 }
 
-export default connect(null, { createUser, getLatLngOutput})(SignupForm)
+export default connect(null, { createUser, getLatLngOutput})(AuthSignupForm)

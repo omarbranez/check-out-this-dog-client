@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { loginUser } from '../../actions/user'
+import { loginUser } from '../../actions/userActions'
 
-const LoginForm = ({loginUser}) => {
+const AuthLoginForm = ({loginUser}) => {
 
     const navigate = useNavigate()
     
@@ -35,4 +35,4 @@ const LoginForm = ({loginUser}) => {
 //     // form: state.user.loginForm
 // })
 
-export default connect(null, { loginUser})(LoginForm)
+export default connect(null, { loginUser})(AuthLoginForm)

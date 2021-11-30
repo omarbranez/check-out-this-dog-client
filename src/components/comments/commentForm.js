@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addComment } from '../../actions/reports'
+import { addComment } from '../../actions/reportActions'
 
 const CommentForm = ({commented, user, reportId}) => {
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../../azure.css'
 import { computerVision, isConfigured as ComputerVisionIsConfigured } from '../../azure-cognitiveservices-computervision'
 
-const AnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto, allowPhoto }) => {
+const ReportAnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto, allowPhoto }) => {
     const [fileSelected, setFileSelected] = useState(null)
     const [analysis, setAnalysis] = useState(null)
     const [processing, setProcessing] = useState(false)
@@ -39,7 +39,7 @@ const AnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto, allowPhoto
     const DisplayResults = () => {
         return (
             <div>
-                <h2>Photo Analysis</h2>
+                {/* <h2>Photo Analysis</h2> */}
                 <div>
                     {possibleBreed ? <p>This appears to be a {possibleBreed}</p> : <p>Could not get an exact breed match</p>}
                 </div>
@@ -96,4 +96,4 @@ const AnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto, allowPhoto
     )
 }
 
-export default AnalyzeImage
+export default ReportAnalyzeImage

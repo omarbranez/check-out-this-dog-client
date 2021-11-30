@@ -5,7 +5,6 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip'
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
@@ -134,14 +133,7 @@ const Navbar = (props) => {
                         >
                             <img src={muttmapIconClosed} width="40" alt="muttmapIconClosed" ></img>
                         </IconButton>
-                        {/* <Typography
-                            variant="h6"
-                            noWrap
-                            // component="div"
-                            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                        > */}
                             <img src={muttmapText} height="45" style={{display: 'block', marginLeft: 'auto', marginRight: '500'}}></img> 
-                        {/* </Typography> */}
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -201,7 +193,6 @@ const Navbar = (props) => {
         <Divider />
         {user.username &&
         <List>
-          {/* {['My Profile', 'Logout'].map((text, index) => ( */}
           {loggedInRoutesAndIcons.map((route) => (
               <Link to={route.path}>
               <ListItem button key={route.text} onClick={handleDrawerClose}>

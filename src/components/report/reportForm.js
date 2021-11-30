@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
-import UserMap from '../map/userMap'
+import ReportFormMap from './reportFormMap'
+import ReportAnalyzeImage from './reportAnalyzeImage'
 import { connect, useDispatch } from 'react-redux'
-import { createReport, reportFormChange, reportFormSelectChange, reportFormImageChange } from '../../actions/reports'
-import { getBreeds } from '../../actions/breeds'
+import { createReport, reportFormChange, reportFormSelectChange, reportFormImageChange } from '../../actions/reportActions'
+import { getBreeds } from '../../actions/breedActions'
 import { useNavigate } from 'react-router-dom'
 import { colors } from '../../colors'
-import AnalyzeImage from './analyzeImage'
-import { setGeolocatedCenter } from '../../actions/map'
-
+import { setGeolocatedCenter } from '../../actions/mapActions'
+import MuttmapNewReport from '../../muttmap-new-dog-report.png'
 
 const ReportForm = (props) => {
     
@@ -85,7 +85,7 @@ const ReportForm = (props) => {
 
     return (
         <div>
-            <h1>Report a new dog sighting!</h1>
+            <img src={MuttmapNewReport} width="500"></img>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Location</label><br />
@@ -96,7 +96,7 @@ const ReportForm = (props) => {
                 </div>
                 <br />
                 <div >
-                    {showMap && !props.geolocating ? <UserMap mapCoordinates={props.currentCenter} mapLoading={props.geolocating} sendMapToForm={sendMapToForm} confirmClicked={confirmClicked}/> : null }
+                    {showMap && !props.geolocating ? <ReportFormMap mapCoordinates={props.currentCenter} mapLoading={props.geolocating} sendMapToForm={sendMapToForm} confirmClicked={confirmClicked}/> : null }
                 </div>
                 <br />
                 <div>
@@ -140,7 +140,7 @@ const ReportForm = (props) => {
                 </div>
                 <br />
             <div>
-                <AnalyzeImage addPhoto={addPhoto} breeds={props.breeds} allowPhoto={allowPhoto}/>
+                <ReportAnalyzeImage addPhoto={addPhoto} breeds={props.breeds} allowPhoto={allowPhoto}/>
             </div>
                 <div>
                     <input type="submit" value="Submit New Report" disabled={!isSubmitEnabled}/>

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import { useNavigate } from 'react-router'
 
-const LoginSuccess = (props) => {
+const AuthLoginSuccess = (props) => {
     
     const navigate = useNavigate()
     
@@ -17,4 +17,4 @@ const LoginSuccess = (props) => {
     )
 }
 
-export default LoginSuccess
+export default AuthLoginSuccess

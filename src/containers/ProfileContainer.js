@@ -1,9 +1,8 @@
 import React, { useEffect} from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getReports } from '../actions/reports'
-// import Modal from 'react-modal'
-import ReportModal from '../components/report/modal'
+import { getReports } from '../actions/reportActions'
+import ReportModal from '../components/report/reportModal'
 
 // import Report from '../components/report/report'
 

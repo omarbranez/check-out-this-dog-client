@@ -1,22 +1,22 @@
 import './marker.css'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { getReports } from './actions/reports'
-import { setGeolocatedCenter } from './actions/map'
-import { autoLoginUser, logoutUser } from './actions/user';
+import { getReports } from './actions/reportActions'
+import { setGeolocatedCenter } from './actions/mapActions'
+import { autoLoginUser, logoutUser } from './actions/userActions';
 import React, { useEffect } from 'react'
 import PrivateRoute from './containers/PrivateRoute'
 import HomeContainer from './containers/HomeContainer'
 import ProfileContainer from './containers/ProfileContainer';
 import ReportsContainer from './containers/ReportsContainer';
 import ReportForm from './components/report/reportForm'
-import Report from './components/report/report'
+import ReportShow from './components/report/reportShow'
 import BreedsContainer from './containers/BreedsContainer';
 import Navbar from './components/navbar'
-import LoginForm from './components/auth/loginForm'
-import LoginSuccess from './components/home/login'
-import SignupForm from './components/auth/signupForm'
-import LogoutPage from './components/home/logout'
+import AuthLoginForm from './components/auth/authLoginForm'
+import AuthLoginSuccess from './components/auth/authLoginSuccess'
+import AuthSignupForm from './components/auth/authSignupForm'
+import AuthLogoutSuccess from './components/auth/authLogoutSuccess'
 import MapWithDrawer from './containers/MapWithDrawer'
 
 const App = ({autoLoginUser, user}) => {
@@ -38,12 +38,12 @@ const App = ({autoLoginUser, user}) => {
         <PrivateRoute path='/profile/:username' element={<ProfileContainer />} />
         <Route path='/reports' exact element={<ReportsContainer />} />
         <PrivateRoute path='/reports/new' exact element={<ReportForm />} />
-        <Route path='/reports/:reportId' element={<Report />} />
+        <Route path='/reports/:reportId' element={<ReportShow />} />
         <Route path='/breeds' element={<BreedsContainer />} />
-        <Route path='/login' element={<LoginForm />} />
-        <Route path='/login/success' element={<LoginSuccess />} />
-        <Route path='/signup' element={<SignupForm />} />
-        <Route path='/logout' element={<LogoutPage />} />
+        <Route path='/login' element={<AuthLoginForm />} />
+        <Route path='/login/success' element={<AuthLoginSuccess />} />
+        <Route path='/signup' element={<AuthSignupForm />} />
+        <Route path='/logout' element={<AuthLogoutSuccess />} />
         <Route path='/map' element={<MapWithDrawer />} />
       </Routes>
     </div>

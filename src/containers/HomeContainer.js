@@ -1,7 +1,6 @@
 import React from 'react'
 import background from '../dog-walking.gif'
 import { Link } from 'react-router-dom'
-import GradientBtn from '../components/home/gradientButton'
 
 const HomeContainer = () => {
 
@@ -21,14 +20,6 @@ return (
             <button className='welcomeButton' text="Sign Up" style={{color: 'white', minWidth: 200, minHeight: 50, background:
                 'linear-gradient(to right, #03018C, #212AA5, #4259C3, #7B9FF2'}}>Sign Up</button>
         </Link>
-        {/* <p>‎</p>
-        <p>‎</p>
-        <p>‎</p>
-        <p>‎</p>
-        <p>‎</p>
-        <p>‎</p> */}
-
-
     </div>
 
 

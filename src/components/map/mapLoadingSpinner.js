@@ -2,7 +2,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const LoadingSpinner = ({text}) => {
+const MapLoadingSpinner = ({text}) => {
     return(
         <Box sx={{ position: 'relative', display: 'inline-flex' }}>
             <CircularProgress size={"100px"} />
@@ -25,4 +25,4 @@ const LoadingSpinner = ({text}) => {
     )
 }
 
-export default LoadingSpinner
+export default MapLoadingSpinner

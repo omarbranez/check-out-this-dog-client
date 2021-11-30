@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Tooltip from '@mui/material/Tooltip'
 
-const OpenListButton = (props) => {
+const MapOpenListButton = (props) => {
 
     
     const [open, setOpen] = useState(false)
@@ -22,4 +22,4 @@ const OpenListButton = (props) => {
     )
 } 
 
-export default OpenListButton
+export default MapOpenListButton

@@ -1,6 +1,5 @@
 import React from 'react'
 import GoogleMapReact from 'google-map-react'
-// import Marker from './marker'
 import ReportMapMarker from './reportMapMarker' 
 
 const ReportMap = (props) => {

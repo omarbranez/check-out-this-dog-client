@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import GoogleMapReact from 'google-map-react'
-// import Marker from '../../components/map/marker'
 import ReportMapMarker from './reportMapMarker'
 
-const UserMap = (props) => {
+const ReportFormMap = (props) => {
     const [ coordinates, setCoordinates ] = useState(null)
     const [ showConfirmButton, setShowConfirmButton] = useState(false)
 
@@ -37,4 +36,4 @@ const UserMap = (props) => {
     )
 }
 
-export default UserMap
+export default ReportFormMap

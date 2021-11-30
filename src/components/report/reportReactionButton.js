@@ -1,12 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Tooltip from '@mui/material/Tooltip'
 
-const ReactionButton = ({reactions, liked}) => {
-
-    // const [bgColor, setBgColor] = useState('white')
-
-    // console.log(bgColor)
-    // console.log(liked)
+const ReportReactionButton = ({reactions, liked}) => {
 
     const usersWhoLiked = () => {
         return reactions.map(reaction => reaction.username)
@@ -25,4 +20,4 @@ const ReactionButton = ({reactions, liked}) => {
     )
 }
 
-export default ReactionButton
+export default ReportReactionButton

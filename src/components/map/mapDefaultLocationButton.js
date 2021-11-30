@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Tooltip from '@mui/material/Tooltip'
 
-const DefaultLocationButton = (props) => {
+const MapDefaultLocationButton = (props) => {
 
     
     const [open, setOpen] = useState(false)
@@ -22,4 +22,4 @@ const DefaultLocationButton = (props) => {
     )
 } 
 
-export default DefaultLocationButton
+export default MapDefaultLocationButton

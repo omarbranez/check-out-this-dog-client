@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { logoutUser } from '../../actions/user'
+import { logoutUser } from '../../actions/userActions'
 
-const LogoutPage = (props) => {
+const AuthLogoutSuccess = (props) => {
     const navigate = useNavigate()
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -17,4 +17,4 @@ const LogoutPage = (props) => {
     )
 }
 
-export default connect(null, {logoutUser})(LogoutPage)
+export default connect(null, {logoutUser})(AuthLogoutSuccess)

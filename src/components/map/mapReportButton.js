@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Tooltip from '@mui/material/Tooltip'
 
-const ReportButton = (props) => {
+const MapReportButton = (props) => {
 
     
     const [open, setOpen] = useState(false)
@@ -22,4 +22,4 @@ const ReportButton = (props) => {
     )
 } 
 
-export default ReportButton
+export default MapReportButton
