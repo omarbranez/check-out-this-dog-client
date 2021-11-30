@@ -6,7 +6,6 @@ import MapInfoWindow from './mapInfoWindow'
 import '../../marker.css'
 
 const MapMarker = (props) => {
-  // console.log(props)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [hovered, setHovered] = useState(false)
@@ -25,4 +24,5 @@ const MapMarker = (props) => {
     </div>
   )
 }
+
 export default MapMarker

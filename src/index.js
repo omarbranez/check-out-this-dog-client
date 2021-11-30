@@ -11,15 +11,15 @@ import thunk from 'redux-thunk'
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
-// const store = createStore(rootReducer, compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25})))
+
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Router>
     <Provider store={store}>
       <App />
     </Provider>
-    </Router>
-  </React.StrictMode>,
+    </Router>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

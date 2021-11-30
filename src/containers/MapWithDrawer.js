@@ -203,6 +203,7 @@ const MapContainer = (props) => {
                         onChildClick={(e) => { props.toggleReportWindow(e) }}>
                         {props.geolocating ? <MapLoadingSpinner text={"Locating"} /> : null}
                         {props.reports ? props.reports.map((report) => <MapMarker
+                            key={report.id}
                             id={report.id}
                             key={report.id}
                             lat={report.lat}
@@ -245,7 +246,7 @@ const MapContainer = (props) => {
                     <Divider />
                     <List >
                         {!isEmpty(filteredReports) ? filteredReports.map((report, index) => (
-                            <Tooltip title={report.created} placement='left' open={showReportListDetails} disableHoverListener disableFocusListener>
+                            <Tooltip key={report.id} title={report.created} placement='left' open={showReportListDetails} disableHoverListener disableFocusListener>
                             <ListItem button key={report.id} onMouseEnter={()=>setShowReporListDetails(true)} onMouseLeave={()=>setShowReporListDetails(false)} onClick={()=>setShowReporListDetails(false)}>
                                 <ListItemAvatar>
                                     <Avatar alt={report.breed} src={`dog-icons/${report.breed}.png`} variant="square" sx={{ width: [null, null, 36] }} />

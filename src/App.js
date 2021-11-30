@@ -21,12 +21,6 @@ import MapWithDrawer from './containers/MapWithDrawer'
 
 const App = ({autoLoginUser, user}) => {
   
-  function isEmpty(str) {
-    return (!str || str.length === 0 );
-  }
-  // console.log(isEmpty(user.username))
-  // console.log(user)
-  // useEffect(() => {if (!isEmpty(user.username)) {autoLoginUser()}}, [autoLoginUser])  
   useEffect(() => localStorage.token && autoLoginUser(), [autoLoginUser])
 
   return (
@@ -35,16 +29,17 @@ const App = ({autoLoginUser, user}) => {
       <Routes>
         <Route path='/' element={<Navigate replace to='/welcome' />} />
         <Route path='/welcome' element={<HomeContainer />} />
-        <PrivateRoute path='/profile/:username' element={<ProfileContainer />} />
-        <Route path='/reports' exact element={<ReportsContainer />} />
-        <PrivateRoute path='/reports/new' exact element={<ReportForm />} />
-        <Route path='/reports/:reportId' element={<ReportShow />} />
-        <Route path='/breeds' element={<BreedsContainer />} />
+        <Route path='/profile/:username' element={<PrivateRoute><ProfileContainer /></PrivateRoute>} />
+        <Route path='/reports' exact element={<PrivateRoute><ReportsContainer /></PrivateRoute>} />
+        <Route path='/reports/new' element={<PrivateRoute><ReportForm /></PrivateRoute>} />
+        <Route path='/reports/:reportId' element={<PrivateRoute><ReportShow/></PrivateRoute>} />
+        <Route path='/breeds' element={<PrivateRoute><BreedsContainer/></PrivateRoute>} />
         <Route path='/login' element={<AuthLoginForm />} />
-        <Route path='/login/success' element={<AuthLoginSuccess />} />
+        <Route path='/login/success' element={<PrivateRoute><AuthLoginSuccess /></PrivateRoute>} />
         <Route path='/signup' element={<AuthSignupForm />} />
         <Route path='/logout' element={<AuthLogoutSuccess />} />
-        <Route path='/map' element={<MapWithDrawer />} />
+        <Route path='/map' element={<PrivateRoute><MapWithDrawer/></PrivateRoute>}/>
+        {/* <PrivateRoute path='/map' element={<MapWithDrawer />} /> */}
       </Routes>
     </div>
   )

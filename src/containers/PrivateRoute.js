@@ -1,9 +1,11 @@
-import { Route, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import isUserLoggedIn from '../util/auth'
 
-const PrivateRoute = ({ element, path }) => {
-    const ele = isUserLoggedIn() === true ? element : <Navigate replace to='/login'/>
-    return <Route path={path} element={ele}/>
+const handleRedirect = () => {
+    alert("You Must Be Logged In to View That Page")
+    return <Navigate to='/login'/>
 }
-
+const PrivateRoute = ({children}) => {
+    return isUserLoggedIn() ? children : handleRedirect()
+}
 export default PrivateRoute
