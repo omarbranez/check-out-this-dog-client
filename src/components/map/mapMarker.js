@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setMarkerCenter } from '../../actions/mapActions'
 import MapInfoWindow from './mapInfoWindow'
 
 import '../../marker.css'
@@ -20,16 +19,10 @@ const MapMarker = (props) => {
     setHovered(false)
   }
 
-  const handleMarkerClick = () => {
-    console.log('marker clicked')
-    dispatch(setMarkerCenter(props.lat, props.lng))
-  }
-
   return (
-    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleMarkerClick}>
+    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}> 
       {props.show === true ? <MapInfoWindow key={props.id} report={props} clickable={true}/> : null}
     </div>
-
   )
 }
 export default MapMarker

@@ -6,7 +6,7 @@ const initialState = {
         lat: null,
         lng: null
     },
-    currentCenter: { // able to keep this logic in the reducer instead of a local state in map container
+    currentCenter: { 
         lat: null,
         lng: null,
     },
@@ -15,13 +15,7 @@ const initialState = {
 
 const userReducer = (state=initialState, action) => {
     switch(action.type){
-        // case "LOGIN_FORM_CHANGE":
-        //     return {...state, loginForm: {
-        //         ...state.loginForm,
-        //         [action.payload.name]: action.payload.value
-        //     }}
         case "LOGIN_FORM_CENTER_CHANGE":
-            // debugger
             return {...state, loginForm: {
                 ...state.loginForm,
                 lat: action.payload.lat,
@@ -54,11 +48,6 @@ const userReducer = (state=initialState, action) => {
             return {...state, geolocating: false}
         case "LOGOUT":
             return {initialState}
-        // case "SET_BOUNDS":
-        //     // debugger
-        //     return {...state, bounds: {sw: action.payload.bounds[0], ne: action.payload.bounds[1]} }
-        // case "RESET_BOUNDS":
-        //     return {...state, bounds: {sw: null, ne: null}}
         default:
             return {...state}
     }

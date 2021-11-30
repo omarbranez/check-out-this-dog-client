@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom"
+import { resetCenter } from '../../actions/mapActions'
 import { useDispatch } from 'react-redux'
 import { toggleReportWindow } from '../../actions/reportActions'
 
@@ -35,7 +36,7 @@ const MapInfoWindow = (props) => {
             {timeCreated}
           </div>
           <Link to={`/reports/${id}`}>
-            <button>Click to see Report Details</button>
+            <button onClick={()=>dispatch(resetCenter())}>Click to see Report Details</button>
           </Link>
         </div>
       )

@@ -78,7 +78,7 @@ const MapContainer = (props) => {
     useEffect(() => {
         center.current = props.currentCenter
         // return resetCenter
-    }, [center,resetCenter, props.currentCenter])
+    }, [center, resetCenter, props.currentCenter])
 
     useEffect(() => {
         if (mapRef.current) {
@@ -87,7 +87,7 @@ const MapContainer = (props) => {
     }, [mapRef])
 
     useEffect(()=>{
-        return resetCenter
+        return resetCenter()
     },[resetCenter])
 
     const filterReports = (reports, bounds) => {
