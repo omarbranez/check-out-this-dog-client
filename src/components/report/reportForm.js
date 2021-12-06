@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { connect, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import ReportFormMap from './reportFormMap'
 import ReportAnalyzeImage from './reportAnalyzeImage'
-import { connect, useDispatch } from 'react-redux'
 import { createReport, reportFormChange, reportFormSelectChange, reportFormImageChange } from '../../actions/reportActions'
 import { getBreeds } from '../../actions/breedActions'
-import { useNavigate } from 'react-router-dom'
-import { colors } from '../../colors'
 import { setGeolocatedCenter } from '../../actions/mapActions'
+import { colors } from '../../colors'
 import MuttmapNewReport from '../../muttmap-new-dog-report.png'
 
 const ReportForm = (props) => {
@@ -41,6 +41,7 @@ const ReportForm = (props) => {
         props.createReport({name, color, gender, lat, lng, age, features, demeanor, photo, user_id: props.user.id, dog_id: dogId})
         navigate('/map', {replace: true})
     }
+
     function triggerInput(input, enteredValue) { // should be a blog post. REACT HATES THIS
         const lastValue = input.value
         input.value = enteredValue
@@ -86,6 +87,7 @@ const ReportForm = (props) => {
     return (
         <div>
             <img src={MuttmapNewReport} width="500"></img>
+                <h2 style={{color: 'red'}}>All Fields Are Required</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Location</label><br />

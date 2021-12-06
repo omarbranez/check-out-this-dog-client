@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+// import Button from
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
@@ -25,6 +26,7 @@ const ExpandMore = styled((props) => {
 
 const BreedShow = (props) => {
   const [expanded, setExpanded] = useState(false)
+  const [count, setCount] = useState(0)
   // console.log(props.reportData)
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -46,7 +48,13 @@ const BreedShow = (props) => {
         src={props.image}
         alt={props.breed_group + " Group"}
       />
+       <div>
+          <button onClick={()=>setCount(count+1)}>{count}</button>
+          </div>
       <CardActions disableSpacing>
+        {/* <div>
+
+        </div> */}
 
         <ExpandMore
           expand={expanded}

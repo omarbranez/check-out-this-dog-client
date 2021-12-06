@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useDispatch } from 'react-redux'
-import {  Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getReports } from '../actions/reportActions'
 import { DataGrid, GridToolbarFilterButton} from '@mui/x-data-grid'
 

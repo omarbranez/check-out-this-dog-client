@@ -24,7 +24,6 @@ export const createUser = (formData, navigate) => {
         }))
         .then(res => handleUserResponse(res, dispatch))
         .then(navigate('/login/success', {replace: true}))
-
     }
 }
 
@@ -39,41 +38,6 @@ export const loginUser = (formData, navigate) => {
       .then(res => handleUserResponse(res, dispatch))
       .then(navigate('/login/success', {replace: true}))
     }
-//         .then(res => res.json())
-//         .then(res => {
-//             if (res.error) {
-//                 alert(res.error)
-//             } else {
-//                 localStorage.token = res.token
-//                 dispatch({
-//                     type: "SET_USER",
-//                     payload: {user: res.user}
-//                 })
-//                 navigate('/login/success', {replace: true})
-//         }})
-//     }
-// }
-//OLD 
-// export const autoLoginUser = () => {
-//     console.log("hello")
-//     return dispatch => {
-//         fetch(BASE_URL + "/autologin", {
-//             method: 'POST', // not needed?
-//             headers: {
-//                 'Authorization': localStorage.token,
-//                 // 'Access-Control-Allow-Origin': 
-//             },
-//         })
-//         .then(res => res.json())
-//         // .then(console.log(res))
-//         .then(res => {
-//             dispatch({
-//                 type: "SET_USER",
-//                 payload: {user: res.user}
-//             })
-//         })
-//     }
-// }
 
 export const autoLoginUser = () => {
     return dispatch => fetch(BASE_URL + "/autologin", {
@@ -90,7 +54,6 @@ export const logoutUser = (navigate) => {
         dispatch({type: "LOGOUT"})
         navigate('/welcome', {replace: true})
     }
-    
 }
 
 const handleUserResponse = (res, dispatch) => {

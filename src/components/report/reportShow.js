@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { setSelectedReport, unsetSelectedReport, addLiked, undoLiked, deleteComment, addComment } from '../../actions/reportActions'
 import ReportMap from './reportMap'
 import ReportReactionButton from './reportReactionButton'
@@ -33,8 +33,13 @@ const ReportShow = ({
     like_id, 
     commented}) => {
     
-    const location = useLocation()
-    const reportId = location.pathname[9]
+    // const location = useLocation()
+    const {reportId} = useParams()
+    // console.log(paramId)
+
+    // console.log(location)
+    // const reportId = location.pathname[9]
+    //two digit bug
 
     useEffect(()=> {
         id ? setSelectedReport(id) : setSelectedReport(reportId)

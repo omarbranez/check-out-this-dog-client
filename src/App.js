@@ -19,7 +19,7 @@ import AuthSignupForm from './components/auth/authSignupForm'
 import AuthLogoutSuccess from './components/auth/authLogoutSuccess'
 import MapWithDrawer from './containers/MapWithDrawer'
 
-const App = ({autoLoginUser, user}) => {
+const App = ({autoLoginUser}) => {
   
   useEffect(() => localStorage.token && autoLoginUser(), [autoLoginUser])
 
@@ -35,11 +35,10 @@ const App = ({autoLoginUser, user}) => {
         <Route path='/reports/:reportId' element={<PrivateRoute><ReportShow/></PrivateRoute>} />
         <Route path='/breeds' element={<PrivateRoute><BreedsContainer/></PrivateRoute>} />
         <Route path='/login' element={<AuthLoginForm />} />
-        <Route path='/login/success' element={<PrivateRoute><AuthLoginSuccess /></PrivateRoute>} />
+        <Route path='/login/success' element={<AuthLoginSuccess />} />
         <Route path='/signup' element={<AuthSignupForm />} />
         <Route path='/logout' element={<AuthLogoutSuccess />} />
         <Route path='/map' element={<PrivateRoute><MapWithDrawer/></PrivateRoute>}/>
-        {/* <PrivateRoute path='/map' element={<MapWithDrawer />} /> */}
       </Routes>
     </div>
   )

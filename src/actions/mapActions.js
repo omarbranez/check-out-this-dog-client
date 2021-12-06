@@ -28,19 +28,3 @@ export const setMarkerCenter = (markerLat, markerLng) => ({
 export const resetCenter = () => ({
   type: "SET_DEFAULT_CENTER"
 })
-
-// export const setBoundBox = (bounds) => {
-  
-//   return dispatch => {
-//     dispatch({
-//       type: "SET_BOUNDS",
-//       payload: bounds
-//     })
-//   }
-// }
-//   // console.log(bounds)
-
-
-// export const resetBoundBox = () => ({
-//   type: "RESET_BOUNDS"
-// })

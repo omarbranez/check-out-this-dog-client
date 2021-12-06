@@ -93,7 +93,6 @@ export const createReport = (reportData) => {
     fData.append('photo', reportData.photo)
     fData.append('show', false)
 
-    // debugger
     return dispatch => {
         fetch(REPORTS_URL, {
             method: 'POST',

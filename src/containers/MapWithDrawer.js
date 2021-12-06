@@ -136,6 +136,8 @@ const MapContainer = (props) => {
             const lat = report.lat
             const lng = report.lng
             const location = { lat, lng }
+            // console.log(report)console.log
+            console.log(location)
             return new maps.Marker({position: location, label: labels[i % labels.length]})
         })
 
@@ -146,7 +148,7 @@ const MapContainer = (props) => {
             })
         }
 
-        new MarkerClusterer({map, markers})
+        // new MarkerClusterer({map, markers})
     }
 
     const handleDrawerOpen = () => {
