@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { loginUser } from '../../actions/userActions'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
@@ -15,30 +15,22 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Tooltip from '@mui/material/Tooltip'
 
-
-
-
-
 const AuthLoginForm = ({loginUser}) => {
 
     const navigate = useNavigate()
     
     const [username, setUsername] = useState('')
-    // const [password, setPassword] = useState('')
     const [values, setValues] = useState({
         password: '',
         showPassword: false
     })
-    // const [passwordConfirmation, setPasswordConfirmation] = useState('')
-    const [showPassword, setShowPassword] = useState(false)
-    
+    const [open, setOpen] = useState(false)
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        // password === passwordConfirmation ? loginUser({username: username, password: password}, navigate) : alert("Passwords do not match")
         username !== '' && values.password !== '' ? loginUser({username: username, password: values.password}, navigate) : alert("All fields must be filled")
         setUsername('')
         setValues({password: '', showPassword: false})
-        // setPasswordConfirmation('')
     }
 
     const handleClickShowPassword = (e) => {
@@ -52,17 +44,6 @@ const AuthLoginForm = ({loginUser}) => {
         e.preventDefault()
     }
     return (
-        // <div>
-        //     <form onSubmit={handleSubmit}>
-        //         <label>Username:</label><br/>
-        //         <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} /><br/>
-        //         <label>Password</label><br/>
-        //         <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} /><br/>
-        //         <label>Confirm Password</label><br/>
-        //         <input type="password" name="passwordConfirmation" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} /><br/>
-        //         <input type="submit" value="Log In" />
-        //     </form>
-        // </div>
         <Box
             component="form"
             sx={{'& > :not(style)': { m: 1, width: '25ch' },}}
@@ -77,15 +58,7 @@ const AuthLoginForm = ({loginUser}) => {
                 onChange={(e) => setUsername(e.target.value)}
             />
             <br/>
-            {/* <TextField
-                id="outlined-password-input"
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            /> */}
             <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel> */}
                 <InputLabel>Password</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
@@ -95,27 +68,30 @@ const AuthLoginForm = ({loginUser}) => {
                     onChange={(e) => setValues({password: e.target.value})}
                     endAdornment={
                 <InputAdornment position="end">
+                <Tooltip title={values.showPassword ? 'Hide Password' : 'Show Password'} placement='top-start' open={open} disableHoverListener disableFocusListener>
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
+                  onMouseEnter={()=>setOpen(true)}
+                  onMouseLeave={()=>setOpen(false)}
                   edge="end"
                 >
                   {values.showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
-              </InputAdornment>
+                </Tooltip>
+                </InputAdornment>
             }
             label="Password"
           />
         </FormControl>
             <br/>
             <Button variant="contained" onClick={handleSubmit}>Log In</Button>
+            <Link to={'/signup'}>
+                <p>Need to Register? <Button variant="contained">Sign Up</Button></p>
+            </Link>
         </Box>
     )
 }
-
-// const mapStateToProps = (state) => ({
-//     // form: state.user.loginForm
-// })
 
 export default connect(null, { loginUser})(AuthLoginForm)
