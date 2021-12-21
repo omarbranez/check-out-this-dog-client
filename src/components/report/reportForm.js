@@ -167,8 +167,9 @@ const ReportForm = (props) => {
                 
                 {selectedTab === 2 && (
                 <div>
-                    <InputLabel>Dog's Name</InputLabel>
-                    <TextField value={name} onChange={(e)=>setName(e.target.value)}/>
+                    <FormControl margin='dense' sx={{ m: 1, minWidth: 100 }}>
+                    <TextField value={name} onChange={(e)=>setName(e.target.value)} label="Dog's Name"/>
+                    </FormControl>
                 </div>
                 )}
                 
@@ -214,15 +215,17 @@ const ReportForm = (props) => {
                 
                 {selectedTab === 6 && (
                 <div>
-                    <label>Dog's Features</label><br />
-                    <textarea name="features" onChange={(e)=>setFeatures(e.target.value)} value={features} />
+                    <FormControl  margin='dense' sx={{ m: 1, minWidth: 400 }}>
+                    <TextField placeholder="Does Anything Stand Out About This Dog's Appearance?" label="Dog's Features" multiline rows={4} value={features} onChange={(e)=>setFeatures(e.target.value)}/>
+                    </FormControl>
                 </div>
                 )}
                 
                 {selectedTab === 7 && (
                 <div>
-                    <label>Dog's Demeanor</label><br />
-                    <textarea name="demeanor" onChange={(e)=>setDemeanor(e.target.value)} value={demeanor} />
+                    <FormControl  margin='dense' sx={{ m: 1, minWidth: 400 }}>
+                    <TextField placeholder="How Does This Dog Behave?" label="Dog's Demeanor" multiline rows={4} value={demeanor} onChange={(e)=>setDemeanor(e.target.value)}/>
+                    </FormControl>
                 </div>
                 )}
                
