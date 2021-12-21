@@ -9,29 +9,31 @@ import { getBreeds } from '../../actions/breedActions'
 import { setGeolocatedCenter } from '../../actions/mapActions'
 import { colors } from '../../colors'
 import MuttmapNewReport from '../../muttmap-new-dog-report.png'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
+import Stepper from '@mui/material/Stepper'
+import Step from '@mui/material/Step'
+import StepLabel from '@mui/material/StepLabel'
 import Box from '@mui/material/Box'
-import {Select as MuiSelect} from '@mui/material'
+import { Select as MuiSelect } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Autocomplete from '@mui/material/Autocomplete'
-import Slider from '@mui/material/Slider'
+import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import PropTypes from 'prop-types'
-import { basePlacements } from '@popperjs/core'
+import FormControlLabel from '@mui/material/FormControlLabel'
 
 
 const ReportForm = (props) => {
-    
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [selectedTab, setSelectedTab] = useState(0)
-    const [checked, setChecked] = useState([true, false])
+    const [activeStep, setActiveStep] = useState(0)
+    const [skipped, setSkipped] = useState(new Set())
+    const [checked, setChecked] = useState([false])
 
     const [showMap, setShowMap] = useState(false)
     const [lat, setLat] = useState(null)
@@ -47,7 +49,9 @@ const ReportForm = (props) => {
     const [demeanor, setDemeanor] = useState('')
     const [photo, setPhoto] = useState(null)
     const [photoAllowed, setPhotoAllowed] = useState('')
-    
+
+    const steps = ['Location', 'Breed', 'Name', "Age", "Color/Markings", "Gender", "Features", "Demeanor", "Photo", "Submit Report"]
+    const stateArray = [[lat, lng], dogId, name, age, colorInput, gender, features, demeanor, photoAllowed]
     useEffect(() => {
         dispatch(getBreeds())
     }, [dispatch])
@@ -55,14 +59,14 @@ const ReportForm = (props) => {
     useEffect(() => {
         dispatch(setGeolocatedCenter())
     }, [dispatch])
-    
+
     const handleChecked = (e) => {
-        setCheked
+        setChecked
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        props.createReport({name, color, colorInput, gender, lat, lng, age, features, demeanor, photo, user_id: props.user.id, dog_id: dogId})
-        navigate('/map', {replace: true})
+        props.createReport({ name, color, colorInput, gender, lat, lng, age, features, demeanor, photo, user_id: props.user.id, dog_id: dogId })
+        navigate('/map', { replace: true })
     }
 
     function triggerInput(input, enteredValue) { // should be a blog post. REACT HATES THIS
@@ -76,12 +80,12 @@ const ReportForm = (props) => {
         input.dispatchEvent(event)
     }
 
-    const handleCurrentLocationClick = () => { 
+    const handleCurrentLocationClick = () => {
         triggerInput(document.getElementById("lat-field"), props.currentCenter.lat)
         triggerInput(document.getElementById("lng-field"), props.currentCenter.lng)
     }
 
-    const sendMapToForm = ({lat, lng}) => {
+    const sendMapToForm = ({ lat, lng }) => {
         triggerInput(document.getElementById("lat-field"), lat)
         triggerInput(document.getElementById("lng-field"), lng)
     }
@@ -91,160 +95,203 @@ const ReportForm = (props) => {
     }
 
     const allowPhoto = (verdict) => {
-        if (verdict === "disallow"){
+        if (verdict === "disallow") {
             setPhoto(null)
             alert("The selected photo is not allowed. Please select a different one")
         } else {
             setPhotoAllowed("allow")
-        }        
+        }
     }
 
     const handleBreedSelect = (option) => {
         setDogId(option.value)
         setBreed(option.label)
-    }
-    const handleValueChange = (e, newValue) => {
-        setSelectedTab(newValue)
+        setChecked[1]
     }
 
-    const ageOptions = Array.from({length: 20}, (v,k) => k + 1)
+    const isStepOptional = (step) => {
+        return step === 1
+    }
 
-    const isSubmitEnabled = 
+    const isStepSkipped = (step) => {
+        return skipped.has(step)
+    }
+
+    const handleNext = () => {
+        let newSkipped = skipped
+        if (isStepSkipped(activeStep)) {
+            newSkipped = new Set(newSkipped.values())
+            newSkipped.delete(activeStep)
+        }
+
+        setActiveStep((prevActiveStep) => prevActiveStep + 1)
+        setSkipped(newSkipped)
+    }
+
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1)
+    }
+
+    const ageOptions = Array.from({ length: 20 }, (v, k) => k + 1)
+
+    const isSubmitEnabled =
         age && colorInput && features && demeanor && gender && lat && lng && name && dogId && photo && (photoAllowed == "allow")
-    
-    const breeds = props.breeds.map(breed => ({value: breed.id, label: breed.breed, attribute: "dogId"}))
+
+    const breeds = props.breeds.map(breed => ({ value: breed.id, label: breed.breed, attribute: "dogId" }))
 
     const addPhoto = (photo) => {
         setPhoto(photo)
     }
 
     return (
-        <Box sx={{width: '100%'}}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ width: '100%' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 
-            <img src={MuttmapNewReport} width="500"></img>
-                <h2 style={{color: 'red'}}>All Fields Are Required</h2>
-            <form onSubmit={handleSubmit}>
-            <Tabs value={selectedTab} onChange={handleValueChange}>
-                        <Tab label="Location" />
-                        <Tab label="Breed"/>
-                        <Tab label="Name"/>
-                        <Tab label="Age"/>
-                        <Tab label="Color/Markings"/>
-                        <Tab label="Gender"/>
-                        <Tab label="Features"/>
-                        <Tab label="Demeanor"/>
-                        <Tab label="Photo"/>
-                        <Tab label="Submit Report"/>
-                    </Tabs>
-                    {selectedTab === 0 && (
-                <div>
-                    <label>Location</label>
-                    <br />
-                    <TextField
-                    id="lat-field" disabled type="text" name="lat" onChange={(e)=>setLat(e.target.value)} value={lat}/>
-                    <TextField
-                    id="lng-field" disabled type="text" name="lng" onChange={(e)=>setLng(e.target.value)} value={lng}/>
-                    <br />
-                    <input type="button" disabled={showMap} onClick={handleCurrentLocationClick} value="Use Current Location"/>
-                    <br />
-                    <input type="button" onClick={()=>setShowMap(!showMap)} value="Find Location on Map"/>
-                    
-                </div>
+                <img src={MuttmapNewReport} width="500"></img>
+                <h2 style={{ color: 'red' }}>All Fields Are Required</h2>
+                <form onSubmit={handleSubmit}>
+
+                    <Stepper activeStep={activeStep}>
+                        {steps.map((label, index) => {
+                            const stepProps = {}
+                            const labelProps = {}
+                            if (isStepSkipped(index)) {
+                                stepProps.completed = false
+                            }
+                            return (
+                                <Step key={label} {...stepProps}>
+                                    <StepLabel {...labelProps}>{label}</StepLabel>
+                                </Step>
+                            )
+                        })}
+                    </Stepper>
+                    {activeStep === 0 && (
+                        <div>
+                            <label>Location</label>
+                            <br />
+                            <TextField
+                                id="lat-field" disabled type="text" name="lat" onChange={(e) => setLat(e.target.value)} value={lat} />
+                            <TextField
+                                id="lng-field" disabled type="text" name="lng" onChange={(e) => setLng(e.target.value)} value={lng} />
+                            <br />
+                            <input type="button" disabled={showMap} onClick={handleCurrentLocationClick} value="Use Current Location" />
+                            <br />
+                            <input type="button" onClick={() => setShowMap(!showMap)} value="Find Location on Map" />
+
+                        </div>
                     )}
-                
-                <div >
-                    {showMap && !props.geolocating ? <ReportFormMap mapCoordinates={props.currentCenter} mapLoading={props.geolocating} sendMapToForm={sendMapToForm} confirmClicked={confirmClicked}/> : null }
-                </div>
 
-                {/* // <br /> */}
-                {selectedTab === 1 && (
-                <div>
-                    <label>Breed</label><br />
-                    <Select placeholder="Select Breed" onChange={(option)=>handleBreedSelect(option)} options={breeds}  /> 
-                </div>
-                )}
-                
-                {selectedTab === 2 && (
-                <div>
-                    <FormControl margin='dense' sx={{ m: 1, minWidth: 100 }}>
-                    <TextField value={name} onChange={(e)=>setName(e.target.value)} label="Dog's Name"/>
-                    </FormControl>
-                </div>
-                )}
-                
-                {selectedTab === 3 && (
-                <div>
-                    <FormControl margin='dense' sx={{ m: 1, minWidth: 100 }}>
-                    <InputLabel>Dog's Age</InputLabel>
-                    <MuiSelect value={age} onChange={(e)=>setAge(e.target.value)} label="Dog's Age">
-                        {ageOptions.map(ageOption => <MenuItem value={ageOption}>{ageOption}</MenuItem>)}
-                    </MuiSelect>
-                    </FormControl>
-                </div>
-                )}
-                
-                {selectedTab === 4 && (
-                <div>
-                    <FormControl margin='dense'>
-                    <Autocomplete 
-                        disablePortal 
-                        sx={{ width: 300 }} 
-                        value={color} 
-                        onChange={(e, newValue)=>setColor(newValue)} 
-                        inputValue={colorInput}
-                        onInputChange={(e, newInputValue)=>setColorInput(newInputValue)}
-                        options={colors} 
-                        renderInput={(params)=> <TextField {...params} label="Dog's Color/Markings"/>}/>
-                    </FormControl>
-                </div>
-                )}
-                
-                {selectedTab === 5 && (
-                <div>
-                    <FormControl margin='dense' sx={{ m: 1, minWidth: 150 }}>
-                    <InputLabel>Dog's Gender</InputLabel>
-                    <MuiSelect value={gender} onChange={(e)=>setAge(e.target.value)} label="Dog's Gender">
-                        <MenuItem value="Male">Male</MenuItem>
-                        <MenuItem value="Female">Female</MenuItem>
-                        <MenuItem value="Unknown">Unknown</MenuItem>
-                    </MuiSelect>
-                    </FormControl>
-                </div>
-                )}
-                
-                {selectedTab === 6 && (
-                <div>
-                    <FormControl  margin='dense' sx={{ m: 1, minWidth: 400 }}>
-                    <TextField placeholder="Does Anything Stand Out About This Dog's Appearance?" label="Dog's Features" multiline rows={4} value={features} onChange={(e)=>setFeatures(e.target.value)}/>
-                    </FormControl>
-                </div>
-                )}
-                
-                {selectedTab === 7 && (
-                <div>
-                    <FormControl  margin='dense' sx={{ m: 1, minWidth: 400 }}>
-                    <TextField placeholder="How Does This Dog Behave?" label="Dog's Demeanor" multiline rows={4} value={demeanor} onChange={(e)=>setDemeanor(e.target.value)}/>
-                    </FormControl>
-                </div>
-                )}
-               
-             {selectedTab === 8 && (
-            <div>
-                <ReportAnalyzeImage addPhoto={addPhoto} breeds={props.breeds} allowPhoto={allowPhoto}/>
-            </div>
-             )}
-             {selectedTab === 9 && (
-                <div>
-                    {!isSubmitEnabled && <p style={{color:"red"}}>Please complete all fields</p>}
-                    <p>Location: {lat}, {lng}</p>
-                    <p>Breed: {breed}</p>
-                    <p>Name: {name ? name : "No Name Provided"}</p>
-                    <p></p>
-                    <input type="submit" value="Submit New Report" disabled={!isSubmitEnabled}/>
-                </div>
-             )}
-            </form>
+                    <div >
+                        {showMap && !props.geolocating ? <ReportFormMap mapCoordinates={props.currentCenter} mapLoading={props.geolocating} sendMapToForm={sendMapToForm} confirmClicked={confirmClicked} /> : null}
+                    </div>
+                    {activeStep === 1 && (
+                        <div>
+                            <label>Breed</label><br />
+                            <Select placeholder="Select Breed" onChange={(option) => handleBreedSelect(option)} options={breeds} />
+                        </div>
+                    )}
+
+                    {activeStep === 2 && (
+                        <div>
+                            <FormControl margin='dense' sx={{ m: 1, minWidth: 100 }}>
+                                <TextField value={name} onChange={(e) => setName(e.target.value)} label="Dog's Name" />
+                            </FormControl>
+                        </div>
+                    )}
+
+                    {activeStep === 3 && (
+                        <div>
+                            <FormControl margin='dense' sx={{ m: 1, minWidth: 100 }}>
+                                <InputLabel>Dog's Age</InputLabel>
+                                <MuiSelect value={age} onChange={(e) => setAge(e.target.value)} label="Dog's Age">
+                                    {ageOptions.map(ageOption => <MenuItem value={ageOption}>{ageOption}</MenuItem>)}
+                                </MuiSelect>
+                            </FormControl>
+                        </div>
+                    )}
+
+                    {activeStep === 4 && (
+                        <div>
+                            <FormControl margin='dense'>
+                                <Autocomplete
+                                    disablePortal
+                                    sx={{ width: 300 }}
+                                    value={color}
+                                    onChange={(e, newValue) => setColor(newValue)}
+                                    inputValue={colorInput}
+                                    onInputChange={(e, newInputValue) => setColorInput(newInputValue)}
+                                    options={colors}
+                                    renderInput={(params) => <TextField {...params} label="Dog's Color/Markings" />} />
+                            </FormControl>
+                        </div>
+                    )}
+
+                    {activeStep === 5 && (
+                        <div>
+                            <FormControl margin='dense' sx={{ m: 1, minWidth: 150 }}>
+                                <InputLabel>Dog's Gender</InputLabel>
+                                <MuiSelect value={gender} onChange={(e) => setGender(e.target.value)} label="Dog's Gender">
+                                    <MenuItem value="Male">Male</MenuItem>
+                                    <MenuItem value="Female">Female</MenuItem>
+                                    <MenuItem value="Unknown">Unknown</MenuItem>
+                                </MuiSelect>
+                            </FormControl>
+                        </div>
+                    )}
+
+                    {activeStep === 6 && (
+                        <div>
+                            <FormControl margin='dense' sx={{ m: 1, minWidth: 400 }}>
+                                <TextField placeholder="Does Anything Stand Out About This Dog's Appearance?" label="Dog's Features" multiline rows={4} value={features} onChange={(e) => setFeatures(e.target.value)} />
+                            </FormControl>
+                        </div>
+                    )}
+
+                    {activeStep === 7 && (
+                        <div>
+                            <FormControl margin='dense' sx={{ m: 1, minWidth: 400 }}>
+                                <TextField placeholder="How Does This Dog Behave?" label="Dog's Demeanor" multiline rows={4} value={demeanor} onChange={(e) => setDemeanor(e.target.value)} />
+                            </FormControl>
+                        </div>
+                    )}
+
+                    {activeStep === 8 && (
+                        <div>
+                            <ReportAnalyzeImage addPhoto={addPhoto} breeds={props.breeds} allowPhoto={allowPhoto} />
+                        </div>
+                    )}
+                    {activeStep === 9 && (
+                        <div>
+                            {!isSubmitEnabled && <strong style={{ color: "red" }}>Please complete all fields</strong>}
+                            <br />
+                            <FormControlLabel
+                                label="Location"
+                                control={<Checkbox checked={checked[0]} />}
+                            />
+                            <br />
+                            <FormControlLabel
+                                label="Breed"
+                                control={<Checkbox checked={checked[1]} />}
+                            />
+                            <FormControlLabel
+                                label="Name"
+                                control={<Checkbox checked={checked[2]} />}
+                            />
+                            <p></p>
+                            <input type="submit" value="Submit New Report" disabled={!isSubmitEnabled} />
+                        </div>
+                    )}
+                    <Button
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        sx={{ mr: 1 }}
+                    >Back
+                    </Button>
+                    <Button onClick={handleNext}
+                        disabled={!stateArray[activeStep] || !lat}>
+                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    </Button>
+                </form>
             </Box>
         </Box>
     )
