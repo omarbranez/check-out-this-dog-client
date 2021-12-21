@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
 import '../../azure.css'
 import { computerVision, isConfigured as ComputerVisionIsConfigured } from '../../azure-cognitiveservices-computervision'
+import { styled } from '@mui/material/styles'
+
+import Button from '@mui/material/Button'
+
 
 const ReportAnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto, allowPhoto }) => {
+    const [imagePreview, setImagePreview] = useState(null)
     const [fileSelected, setFileSelected] = useState(null)
     const [analysis, setAnalysis] = useState(null)
     const [processing, setProcessing] = useState(false)
     const [fileSubmitted, setFileSubmitted] = useState(false)
     const [possibleBreed, setPossibleBreed] = useState('')
+    console.log(imagePreview)
 
     const handleQuery = (e) => {
         setProcessing(true)
@@ -42,6 +48,7 @@ const ReportAnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto, allo
                 {/* <h2>Photo Analysis</h2> */}
                 <div>
                     {possibleBreed ? <p>This appears to be a {possibleBreed}</p> : <p>Could not get an exact breed match</p>}
+                    {imagePreview && <img style={{maxWidth: '150px'}} src={imagePreview}></img>}
                 </div>
             </div>
         )
@@ -57,23 +64,31 @@ const ReportAnalyzeImage = ({ photo, handlePhotoUploaded, breeds, addPhoto, allo
         reader.readAsDataURL(file)
         setFileSubmitted(true)
         addPhoto(file)
+        setImagePreview(fileSelected)
+        console.log(imagePreview)
     }
 
-
+    const Input = styled('input')({
+        display: 'none',
+      })
 
     const Analyze = () => {
         return (
             <div>
-                {/* <h1>Analyze image</h1> */}
                 <div>
-                    <div>
+                    {/* <div>
                         <label>Dog's Photo (.JPG/.PNG only)</label> <br/>
                         <input type="file" id="myImage" placeholder="Upload photo" onChange={(e) => handleChange(e)} a accept="image/png, image/jpeg" multiple={false} size="50" />
                         <output id="thumbnail" />
-                    </div>
-                    {!fileSubmitted ? <button onClick={(e) => handlePhotoUploaded(true)}>Select and Analyze Photo</button> : <button onClick={handleQuery}>Select and Analyze Photo</button>}
+                    </div> */}
+                          <label htmlFor="contained-button-file">
+
+                    <Input accept="image/png, image/jpeg" id="contained-button-file"  type="file" onChange={(e) => handleChange(e)}/>
+                    <Button variant="contained" component="span">{!fileSubmitted ? "Upload Image" : "Upload Different Photo"}</Button>
+                    </label>
+                    {!fileSubmitted ? <Button variant="contained" disabled>Confirm and Analyze Photo</Button> : <Button variant="contained" onClick={handleQuery}>Select and Analyze Photo</Button>}
                 </div>
-                {fileSelected && <img src={fileSelected} />}
+                {fileSelected && <img style={{maxWidth: '150px'}} src={fileSelected} />}
                 {analysis && <DisplayResults />}
             </div>
 
