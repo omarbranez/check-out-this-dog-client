@@ -12,9 +12,17 @@ import MuttmapNewReport from '../../muttmap-new-dog-report.png'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
+import {Select as MuiSelect} from '@mui/material'
 import TextField from '@mui/material/TextField'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Autocomplete from '@mui/material/Autocomplete'
+import Slider from '@mui/material/Slider'
+import Checkbox from '@mui/material/Checkbox'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import PropTypes from 'prop-types'
+import { basePlacements } from '@popperjs/core'
 
 
 const ReportForm = (props) => {
@@ -23,6 +31,7 @@ const ReportForm = (props) => {
     const navigate = useNavigate()
 
     const [selectedTab, setSelectedTab] = useState(0)
+    const [checked, setChecked] = useState([true, false])
 
     const [showMap, setShowMap] = useState(false)
     const [lat, setLat] = useState(null)
@@ -31,6 +40,7 @@ const ReportForm = (props) => {
     const [dogId, setDogId] = useState(null)
     const [breed, setBreed] = useState('')
     const [color, setColor] = useState('')
+    const [colorInput, setColorInput] = useState('')
     const [gender, setGender] = useState('')
     const [age, setAge] = useState(null)
     const [features, setFeatures] = useState('')
@@ -46,9 +56,12 @@ const ReportForm = (props) => {
         dispatch(setGeolocatedCenter())
     }, [dispatch])
     
+    const handleChecked = (e) => {
+        setCheked
+    }
     const handleSubmit = (e) => {
         e.preventDefault()
-        props.createReport({name, color, gender, lat, lng, age, features, demeanor, photo, user_id: props.user.id, dog_id: dogId})
+        props.createReport({name, color, colorInput, gender, lat, lng, age, features, demeanor, photo, user_id: props.user.id, dog_id: dogId})
         navigate('/map', {replace: true})
     }
 
@@ -94,8 +107,10 @@ const ReportForm = (props) => {
         setSelectedTab(newValue)
     }
 
+    const ageOptions = Array.from({length: 20}, (v,k) => k + 1)
+
     const isSubmitEnabled = 
-        age && color && features && demeanor && gender && lat && lng && name && dogId && photo && (photoAllowed == "allow")
+        age && colorInput && features && demeanor && gender && lat && lng && name && dogId && photo && (photoAllowed == "allow")
     
     const breeds = props.breeds.map(breed => ({value: breed.id, label: breed.breed, attribute: "dogId"}))
 
@@ -146,40 +161,54 @@ const ReportForm = (props) => {
                 {selectedTab === 1 && (
                 <div>
                     <label>Breed</label><br />
-                    <Select placeholder="Select Breed" onChange={(option)=>handleBreedSelect(option)} options={breeds} /> 
+                    <Select placeholder="Select Breed" onChange={(option)=>handleBreedSelect(option)} options={breeds}  /> 
                 </div>
                 )}
                 
                 {selectedTab === 2 && (
                 <div>
-                    <label>Dog's Name</label><br />
-                    <input type="text" name="name" onChange={(e)=>setName(e.target.value)} value={name} pattern="[A-Za-z]{1,16}"/>
+                    <InputLabel>Dog's Name</InputLabel>
+                    <TextField value={name} onChange={(e)=>setName(e.target.value)}/>
                 </div>
                 )}
                 
                 {selectedTab === 3 && (
                 <div>
-                    <label>Dog's Age</label><br />
-                    <input type="number" name="age" onChange={(e)=>setAge(e.target.value)} value={age} min="0" max="30"/>
+                    <FormControl margin='dense' sx={{ m: 1, minWidth: 100 }}>
+                    <InputLabel>Dog's Age</InputLabel>
+                    <MuiSelect value={age} onChange={(e)=>setAge(e.target.value)} label="Dog's Age">
+                        {ageOptions.map(ageOption => <MenuItem value={ageOption}>{ageOption}</MenuItem>)}
+                    </MuiSelect>
+                    </FormControl>
                 </div>
                 )}
                 
                 {selectedTab === 4 && (
                 <div>
-                    <label>Dog's Color/Markings</label><br />
-                    <Select placeholder="Select Color/Markings" onChange={(option)=>setColor(option.value)} options={colors}/>
+                    <FormControl margin='dense'>
+                    <Autocomplete 
+                        disablePortal 
+                        sx={{ width: 300 }} 
+                        value={color} 
+                        onChange={(e, newValue)=>setColor(newValue)} 
+                        inputValue={colorInput}
+                        onInputChange={(e, newInputValue)=>setColorInput(newInputValue)}
+                        options={colors} 
+                        renderInput={(params)=> <TextField {...params} label="Dog's Color/Markings"/>}/>
+                    </FormControl>
                 </div>
                 )}
                 
                 {selectedTab === 5 && (
                 <div>
-                    <label>Dog's Gender</label><br />
-                    <select name="gender" selected={gender} onChange={(e)=>setGender(e.target.value)}>
-                        <option value="" selected disabled hidden>Pick One</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Unknown">Unknown</option>
-                    </select>
+                    <FormControl margin='dense' sx={{ m: 1, minWidth: 150 }}>
+                    <InputLabel>Dog's Gender</InputLabel>
+                    <MuiSelect value={gender} onChange={(e)=>setAge(e.target.value)} label="Dog's Gender">
+                        <MenuItem value="Male">Male</MenuItem>
+                        <MenuItem value="Female">Female</MenuItem>
+                        <MenuItem value="Unknown">Unknown</MenuItem>
+                    </MuiSelect>
+                    </FormControl>
                 </div>
                 )}
                 
